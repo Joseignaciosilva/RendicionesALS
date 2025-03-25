@@ -1,0 +1,29 @@
+$colors: (
+  #3974b8,
+  #f14ea0,
+  #309e30,
+  #7676d4,
+  #fa7318,
+  #1988ad,
+  #8c13c4,
+  #b8cac2
+);
+
+.initials-background {
+  $random-color: nth($colors, random(length($colors)));
+  background-color: $random-color;
+  color: #ffffff;
+  display: flex;
+  justify-content: center; /* Centra horizontalmente */
+  align-items: center; /* Centra verticalmente */
+  font-size: 20px;
+  width: 70px; /* Ajusta el ancho según sea necesario */
+  height: 70px; /* Ajusta la altura según sea necesario */
+  border-radius: 50%; /* Para hacerlo circular */
+}
+  
+  .icon-35 {
+    width: 35px !important;
+    height: 35px !important;
+    border-radius: 50% !important;
+}

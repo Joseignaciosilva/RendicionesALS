@@ -1,0 +1,155 @@
+.btn-limpiar:hover {
+  transform: scale(1.05);
+}
+
+
+////////tabla//////////////////
+/* Header de las filas */
+.custom-header-row th {
+  border-bottom: 2px solid #0b092e;
+}
+/* General: Transición y escala al hacer hover */
+.custom-table-listar .action-link a {
+  margin-right: 10px; /* los botones */
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+
+/* Hover genérico para asegurar la escala */
+.custom-table-listar .action-link a:hover i-tabler {
+  transform: scale(1.3); 
+}
+
+/* Hover específico para editar (azul) */
+.custom-table-listar .action-link .accion-editar:hover i-tabler {
+  color: #007bff !important; /* Azul */
+}
+
+/* Hover específico para eliminar (rojo) */
+.custom-table-listar .action-link .accion-eliminar:hover i-tabler {
+  color: #dc3545 !important; /* Rojo */
+}
+
+/* Hover específico para exportar Excel (verde) */
+.custom-table-listar .action-link .accion-excel:hover i-tabler {
+  color: #28a745 !important; /* Verde */
+}
+
+
+
+/* Aplicar hover solo a las filas del cuerpo (excluir encabezado) */
+.custom-table-listar tr.custom-row:hover {
+  background-color: #f1f1f1;  
+  cursor: pointer;  
+  transform: scale(1.01); 
+  transition: background-color 0.3s ease, transform 0.2s ease; 
+}
+
+.disabled {
+  pointer-events: none; /* Desactiva el clic */
+  opacity: 0.5;        /* Reduce la opacidad */
+  cursor: not-allowed; /* Cambia el cursor */
+}
+
+////////tabla2//////////////////
+/* Contenedor de la tabla */
+.table-responsive {
+  overflow-x: auto; /* Permitir scroll horizontal solo si es necesario */
+  overflow-y: hidden; /* Eliminar el scrollbar vertical */
+}
+
+/* Ajustar las celdas */
+.custom-table-listar td {
+    padding-top: 8px;
+    padding-bottom: 8px;
+  overflow: hidden; /* Prevenir cualquier desbordamiento interno */
+}
+
+/* Contenedor general del card */
+.cardWithShadow {
+  overflow: hidden; /* Prevenir cualquier tipo de scroll innecesario */
+}
+
+/* Contenedor del paginador */
+.paginator-container {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 10px;
+}
+
+// ALERTAS
+.alert-row {
+  background-color: #f8d7da; /* Color de fondo rojo claro */
+  color: #721c24; /* Color del texto */
+  padding: 10px; /* Espaciado para mejor legibilidad */
+  border: 2px solid rgba(255, 99, 71, 1); /* Rojo fuerte para el borde */
+  border-radius: 5px; /* Bordes redondeados */
+  font-weight: bold; /* Texto en negrita */
+  box-sizing: border-box; /* Asegura que el padding no afecte el tamaño total */
+  animation: blinkBorder 1s infinite; /* Animación de parpadeo del borde */
+}
+/* Evitar que el hover afecte a las filas con error */
+.alert-row:hover {
+  background-color: #f8d7da !important; /* Mantener el rojo claro */
+  cursor: not-allowed; 
+  transform: none; 
+}
+
+@keyframes blinkBorder {
+  0%, 100% {
+    border-color: rgba(255, 99, 71, 1); /* Rojo fuerte */
+  }
+  50% {
+    border-color: rgba(255, 99, 71, 0.5); /* Rojo con opacidad para el parpadeo */
+  }
+}
+
+//////////espacio entre filas --- ///////////
+.custom-table-listar td {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+
+
+.button {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: rgb(20, 20, 20);
+  border: none;
+  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.164);
+  cursor: pointer;
+  transition-duration: 0.3s;
+  overflow: hidden;
+  position: relative;
+  gap: 2px;
+}
+
+.svgIcon {
+  width: 12px;
+  transition-duration: 0.3s;
+}
+
+.svgIcon path {
+  fill: white;
+}
+
+.button:hover {
+  transition-duration: 0.3s;
+  background-color: #dc191b;
+  align-items: center;
+  gap: 0;
+}
+
+.bin-top {
+  transform-origin: bottom right;
+}
+.button:hover .bin-top {
+  transition-duration: 0.5s;
+  transform: rotate(160deg);
+}

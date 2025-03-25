@@ -1,0 +1,65 @@
+<div class="blank-layout-container justify-content-center">
+  <div class="position-relative row w-100 h-100">
+    <div class="col-lg-7 col-xl-8 bg-gredient p-0">
+      <div class="p-24 h-100">
+        <div class="align-items-center justify-content-center img-height d-none d-lg-flex">
+          <img src="/assets/images/backgrounds/login-bg.svg" alt="login" style="max-width: 500px" />
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-5 col-xl-4 p-0  justify-content-center">
+      <div class="p-32  d-flex align-items-start align-items-lg-center justify-content-center h-100">
+        <div class="row justify-content-center w-100">
+          <div class="col-lg-12">
+            <div class="text-center mb-5">
+              <img src="assets/images/logos/logo.png" alt="Logo ALS">
+              <h4 class="f-w-700 f-s-24 m-b-20 m-t-0">ALS Inspection</h4>
+            </div>
+
+            
+            <h4 class="text-center f-w-700 f-s-15 m-0">Restablecer contraseña</h4>     
+  
+            <form class="m-t-15" (ngSubmit)="enviar()" [formGroup]="form" >
+              <mat-card-content class="p-y-24">
+          
+
+                <!-- Nueva Contraseña -->
+                <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">Nueva Contraseña</mat-label>
+                <mat-form-field appearance="outline" class="w-100" color="primary">
+                  <input matInput [type]="hide1 ? 'password' : 'text'" formControlName="new_password_1" />
+                  <button mat-icon-button matSuffix (click)="toggleShowPassword1()" type="button">
+                    <mat-icon>{{hide1 ? 'visibility' : 'visibility_off'}}</mat-icon>
+                  </button>
+                  <mat-error *ngIf="f['new_password_1'].touched && f['new_password_1'].errors?.['required']">
+                    La nueva contraseña es obligatoria.
+                  </mat-error>
+                </mat-form-field>
+
+                <!-- Confirmar Contraseña -->
+                <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">Confirmar Contraseña</mat-label>
+                <mat-form-field appearance="outline" class="w-100" color="primary">
+                  <input matInput [type]="hide2 ? 'password' : 'text'" formControlName="new_password" />
+                  <button mat-icon-button matSuffix (click)="toggleShowPassword2()" type="button">
+                    <mat-icon>{{hide2 ? 'visibility' : 'visibility_off'}}</mat-icon>
+                  </button>
+                  <mat-error *ngIf="f['new_password'].touched ">
+                    <span *ngIf="!form.errors?.['passwordMismatch'&& f['new_password'].errors?.['required'] ]">
+                      Confirmar la nueva contraseña es obligatorio.
+                    </span>
+                  </mat-error>
+                </mat-form-field>
+                <mat-error *ngIf="form.errors?.['passwordMismatch']">
+                  <small>Las contraseñas no coinciden.</small>
+                </mat-error>
+
+                <div class="text-right p-24 p-t-0 m-t-10">
+                  <button mat-flat-button color="primary" class="m-r-8" [disabled]="!form.valid">Confirmar</button>
+                </div>
+              </mat-card-content>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

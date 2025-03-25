@@ -1,0 +1,30 @@
+.paginator-center {
+    display: flex;
+    justify-content: center; 
+  }
+    
+  .mat-list-item {
+      pointer-events: none; /* Desactiva interactividad para el ítem completo */
+  }
+    
+  .mat-list-item a, /* Habilita interactividad solo para los botones */
+  .mat-list-item button {
+    pointer-events: auto;
+  }
+  
+  .notification-item {
+    background: none; 
+  }
+  
+  .notification-item:hover {
+    background: none; 
+  }
+  
+  .notification-content:hover {
+    background: rgba(0, 0, 0, 0.05); /* Fondo gris claro */
+    cursor: pointer; /* Icono de puntero */
+    transition: background 0.3s ease; /* Transición suave */
+  }
+  
+  
+  

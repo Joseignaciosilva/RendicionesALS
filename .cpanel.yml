@@ -1,0 +1,9 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/alsinspection/rendiciones2.als-inspection.cl/ 
+    - export DEPLOYPATH_API=/home/alsinspection/control.als-inspection.cl/api_rendiciones/
+    - /bin/rsync -av --exclude='.git/' --exclude='.vscode/' dist/Modernize/ $DEPLOYPATH
+    - /bin/rsync -av --exclude='.git/' --exclude='.vscode/' --exclude='drf/settings.py' api/ $DEPLOYPATH_API
+    - /bin/chmod -R 777 $DEPLOYPATH
+    - /bin/chmod -R 777 $DEPLOYPATH_API

@@ -1,0 +1,194 @@
+<mat-card class="cardWithShadow text-align-center">
+  <mat-card-header>
+    <mat-card-title>Editar una Solicitud de Viaje</mat-card-title>
+    <mat-card-subtitle
+      >Verificar que los datos ingresados sean correctos</mat-card-subtitle
+    >
+  </mat-card-header>
+  <mat-card-content>
+    <mat-dialog-content style="max-width: 500px" class="mat-typography m-t-24">
+      <form [formGroup]="editFormGroup">
+        <div class="row">
+          <div class="col-sm-6 col-lg-12">
+            <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">
+              Nombre solicitante
+            </mat-label>
+            <mat-form-field appearance="outline" class="w-100">
+              <input
+                matInput
+                formControlName="nombreUsuario"
+                required
+                [placeholder]="element.nombreUsuario"
+                [disabled]="true"
+              />
+            </mat-form-field>
+          </div>
+          <div class="col-sm-6 col-lg-12">
+            <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">
+              Departamento
+            </mat-label>
+            <mat-form-field appearance="outline" class="w-100">
+              <input
+                matInput
+                formControlName="departamento"
+                required
+                [placeholder]="element.departamento"
+                [disabled]="true"
+                
+              />
+            </mat-form-field>
+          </div>
+          <div class="col-sm-6 col-lg-12">
+            <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">
+              Fecha Departo
+            </mat-label>
+            <mat-form-field appearance="outline" class="w-100">
+              <input
+                matInput
+                formControlName="fechaDeparto"
+                required
+                [placeholder]="element.fechaDeparto"
+              />
+            </mat-form-field>
+          </div>
+          <div class="col-sm-6 col-lg-12">
+            <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">
+              Fecha Retorno
+            </mat-label>
+            <mat-form-field appearance="outline" class="w-100">
+              <input
+                matInput
+                formControlName="fechaRetorno"
+                required
+                [placeholder]="element.fechaRetorno"
+              />
+            </mat-form-field>
+          </div>
+          <div class="col-sm-6 col-lg-12">
+            <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">
+              Hora Salida
+            </mat-label>
+            <mat-form-field appearance="outline" class="w-100">
+              <input
+                matInput
+                formControlName="horaIda"
+                required
+                [placeholder]="element.horaIda"
+                />
+            </mat-form-field>
+          </div>
+          <div class="col-sm-6 col-lg-12">
+            <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">
+              Hora Regreso
+            </mat-label>
+            <mat-form-field appearance="outline" class="w-100">
+              <input
+                matInput
+                formControlName="horaVuelta"
+                required
+                [placeholder]="element.horaVuelta"
+              />
+            </mat-form-field>
+          </div>
+          <div class="col-sm-6 col-lg-12">
+            <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">
+              Costo Transporte
+            </mat-label>
+            <mat-form-field appearance="outline" class="w-100">
+              <input
+                matInput
+                formControlName="costoTransporte"
+                required
+                [placeholder]="element.costoTransporte"
+              />
+            </mat-form-field>
+          </div>
+          <div class="col-sm-6 col-lg-12">
+            <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">
+              Costo Alimento
+            </mat-label>
+            <mat-form-field appearance="outline" class="w-100">
+              <input
+                matInput
+                formControlName="costoAlimento"
+                required
+                [placeholder]="element.costoAlimento"
+              />
+            </mat-form-field>
+          </div>
+          <div class="col-sm-6 col-lg-12">
+            <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">
+              Coste Hospedaje
+            </mat-label>
+            <mat-form-field appearance="outline" class="w-100">
+              <input
+                matInput
+                formControlName="costoHospedaje"
+                required
+                [placeholder]="element.costoHospedaje"
+              />
+            </mat-form-field>
+          </div>
+          <div class="col-sm-6 col-lg-12">
+            <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">
+              Coste Total
+            </mat-label>
+            <mat-form-field appearance="outline" class="w-100">
+              <input
+                matInput
+                formControlName="costoTotal"
+                required
+                [placeholder]="element.costoTotal"
+              />
+            </mat-form-field>
+          </div>
+          <div class="col-sm-6 col-lg-12">
+            <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">
+              Popuesta Agenda
+            </mat-label>
+            <mat-form-field appearance="outline" class="w-100">
+              <input
+                matInput
+                formControlName="propuestaAgenda"
+                required
+                [placeholder]="element.propuestaAgenda"
+              />
+            </mat-form-field>
+          </div>
+          <div class="col-sm-6 col-lg-12">
+            <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">
+              Notas Extras
+            </mat-label>
+            <mat-form-field appearance="outline" class="w-100">
+              <input
+                matInput
+                formControlName="notasExtras"
+                required
+                [placeholder]="element.notasExtras"
+              />
+            </mat-form-field>
+          </div>
+        </div>
+      </form>
+    </mat-dialog-content>
+  </mat-card-content>
+  <mat-card-actions class="justify-content-between">
+    <div class="row">
+      <div class="col">
+        <button mat-button color="primary" class="btn btn-primary" (click)="actualizarSolicitud()">
+          Editar
+        </button>
+      </div>
+      <div class="col">
+        <button
+          mat-button
+          color="warn"
+          class="btn btn-primary"
+          (click)="closeDialog()"
+        >
+          Cancelar
+        </button>
+      </div>
+    </div>
+  </mat-card-actions>
+</mat-card>

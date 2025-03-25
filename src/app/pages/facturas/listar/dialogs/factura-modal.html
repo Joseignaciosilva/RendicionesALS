@@ -1,0 +1,64 @@
+<h2 mat-dialog-title class="dialog-title">
+    Visualizar Factura
+    <button mat-icon-button class="close-button" (click)="close()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </h2>
+  
+  <mat-dialog-content>
+    <iframe [src]="data.pdfUrl | safeUrl" class="pdf-viewer"></iframe>
+  </mat-dialog-content>
+  
+  
+  <style>
+
+    .custom-dialog-container .mat-dialog-content {
+      padding: 0; /* Elimina el padding para maximizar el espacio */
+      height: 100%;
+      max-height: 100vh; /* Permite que el contenido ocupe toda la altura de la ventana */
+    }
+    
+    .pdf-viewer {
+      width: 100%;
+      height: 100vh; /* Ocupa toda la altura de la ventana */
+      border: none;
+    }
+    
+    .modal-body {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+  
+    iframe {
+        flex-grow: 1;
+        width: 100%;
+        height: 100vh; /* O prueba con 'calc(100vh - altura del header del modal)' */
+        border: none;
+    }
+  
+    .custom-dialog-container {
+      margin-top: 32px; /* Baja el modal desde la parte superior */
+      border-radius: 8px; /* Bordes redondeados */
+      overflow: hidden; /* Evita que los elementos se desborden */
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sombra para darle énfasis */
+    }
+  
+    /* Estilo del título */
+    .dialog-title {
+      position: relative;
+      width: 100%;
+      text-align: center;
+      margin-bottom: 16px;
+    }
+  
+    /* Botón de cierre */
+    .close-button {
+      position: absolute;
+      top: 16px; /* Ajusta la separación del borde superior */
+      right: 16px;
+      font-size: 24px;
+    } 
+    
+  </style>
+  

@@ -1,0 +1,268 @@
+<!-- forma horizontal -->
+<div class="d-flex justify-content-between w-100">
+    <div class="col-12 mb-3">
+        <form [formGroup]="formSolicitud">
+            <mat-card class="cardWithShadow theme-card">
+                <mat-card-header>
+                    <mat-card-title class="m-b-0">Datos de la solicitud</mat-card-title>
+                </mat-card-header>
+                <mat-card-content class="b-t-1">
+                    <div class="row m-t-5">
+
+                        <!-- Correlativo -->
+                        <div class="col-lg-6">
+                            <mat-label class="mat-subtitle-2 f-w-600">Correlativo</mat-label>
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-icon matPrefix>
+                                    <i-tabler name="pencil" class="icon-20 d-flex"></i-tabler>
+                                </mat-icon>
+                                <input matInput placeholder="Ingrese correlativo de factura"
+                                    formControlName="correlativo" />
+                                <!-- Mensaje error -->
+                                <mat-error *ngIf="f['correlativo'].hasError('maxlength')">
+                                    El correlativo no puede contener más de 100 caracteres.
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <!-- Unidad Negocio -->
+                        <div class="col-lg-2  col-md-4  col-sm-4">
+                            <mat-label class="mat-subtitle-2 f-w-600">Unidad Negocio</mat-label>
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-select placeholder="Seleccione" formControlName="unidadNegocio">
+                                    <mat-option value="0" disabled>-seleccionar-</mat-option>
+                                    <mat-option value="Finanzas">Finanzas</mat-option>
+                                    <mat-option value="Comercial">Comercial</mat-option>
+                                    <mat-option value="Maritimo">Maritimo</mat-option>
+                                    <mat-option value="Industriales">Industriales</mat-option>
+                                    <mat-option value="Laboratorio">Laboratorio</mat-option>
+                                    <mat-option value="Minerales">Minerales</mat-option>
+                                    <mat-option value="TI">TI</mat-option>
+                                    <mat-option value="HSE">HSE</mat-option>
+                                    <mat-option value="Internacional">Internacional</mat-option>
+                                    <mat-option value="Gruas">Grúas</mat-option>
+                                    <mat-option value="RR, HH">RR, HH</mat-option>
+                                    <mat-option value="Proyectos">Proyectos</mat-option>
+                                    <mat-option value="Calidad">Calidad</mat-option>
+                                    <mat-option value="Otro">Otro</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <!-- Mes Contable -->
+                        <div class="col-lg-2 col-md-4 col-sm-4">
+                            <mat-label class="mat-subtitle-2 f-w-600">Mes Contable</mat-label>
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-select placeholder="-MES-" formControlName="mesContable">
+                                    <mat-option value="ENE">ENE</mat-option>
+                                    <mat-option value="FEB">FEB</mat-option>
+                                    <mat-option value="MAR">MAR</mat-option>
+                                    <mat-option value="ABR">ABR</mat-option>
+                                    <mat-option value="MAY">MAY</mat-option>
+                                    <mat-option value="JUN">JUN</mat-option>
+                                    <mat-option value="JUL">JUL</mat-option>
+                                    <mat-option value="AGO">AGO</mat-option>
+                                    <mat-option value="SEPT">SEPT</mat-option>
+                                    <mat-option value="OCT">OCT</mat-option>
+                                    <mat-option value="NOV">NOV</mat-option>
+                                    <mat-option value="DIC">DIC</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <!-- AÑO del Mes contable -->
+                        <div class="col-lg-2  col-md-4  col-sm-4">
+                            <mat-label class="mat-subtitle-2 f-w-600">Año contable</mat-label>
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-select placeholder="-AÑO-" formControlName="anioMesContable">
+                                    <mat-option value="2025">2025</mat-option>
+                                    <mat-option value="2026">2026</mat-option>
+                                    <mat-option value="2027">2027</mat-option>
+                                    <mat-option value="2028">2028</mat-option>
+                                    <mat-option value="2029">2029</mat-option>
+                                    <mat-option value="2030">2030</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <mat-divider></mat-divider>
+
+                    <!-- Contenedor de aprobadores -->
+                    <div class="aprobadores-container">
+                        <!-- Bloque Aprobador 1 -->
+                        <div class="aprobador-card">
+                            <div class="row">
+                                <div class="col-lg-8 col-sm-12">
+                                    <mat-label class="mat-subtitle-2 f-w-600">Aprobador (JEFE UNIDAD)</mat-label>
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-icon matPrefix>
+                                          <i-tabler name="user" class="icon-20 d-flex"></i-tabler>
+                                        </mat-icon>
+                                        <input matInput [matAutocomplete]="auto" placeholder="Nombre o Apellido" formControlName="aprobador" />
+                                        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                                          <mat-option *ngFor="let usuario of usuariosFiltrados | async; trackBy: trackUsuarioById"
+                                            [value]="usuario.email"
+                                            (onSelectionChange)="usuarioSeleccionado(usuario)">
+                                            {{ usuario.nombre }} {{ usuario.apellidoPaterno }}
+                                          </mat-option>
+                                        </mat-autocomplete>
+                                      </mat-form-field>                                      
+                                </div>
+                                <div class="col-lg-4 col-sm-12">
+                                    <mat-label class="mat-subtitle-2 f-w-600">Rut</mat-label>
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <input matInput type="text" placeholder="12.345.678-9"
+                                            formControlName="aprobadorRut" readonly />
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Bloque Aprobador 2 -->
+                        <div class="aprobador-card">
+                            <div class="row">
+                                <div class="col-lg-8 col-sm-12">
+                                    <mat-label class="mat-subtitle-2 f-w-600">Aprobador 2 (ADMINISTRACION)</mat-label>
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-icon matPrefix>
+                                            <i-tabler name="user" class="icon-20 d-flex"></i-tabler>
+                                        </mat-icon>
+                                        <input matInput [matAutocomplete]="autoJefeAdmin" 
+                                            placeholder="Nombre o Apellido" formControlName="aprobadorDos" readonly>
+                                        <mat-autocomplete autoActiveFirstOption #autoJefeAdmin="matAutocomplete">
+                                            <mat-option *ngFor="let admin of jefeAdministracionFiltrados | async"
+                                                [value]="admin" (onSelectionChange)="onJefeAdministracionSelect(admin)">
+                                                {{ admin }}
+                                            </mat-option>
+                                        </mat-autocomplete>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-lg-4 col-sm-12">
+                                    <mat-label class="mat-subtitle-2 f-w-600">Rut 2</mat-label>
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <input matInput type="text" placeholder="12.345.678-9"
+                                            formControlName="aprobadorRutDos" readonly />
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <!-- SlideToggle Aprobador 3 -->
+                    <div class="row mt-10">
+                        <div class="col-lg-6 col-sm-12 d-flex align-items-center">
+                            <mat-slide-toggle class="mat-subtitle-2 f-w-600" class="custom-toggle"
+                                (change)="toggleTercerAprobador($event.checked)">
+                                ¿Desea ingresar un tercer aprobador? (opcional)
+                            </mat-slide-toggle>
+                        </div>
+
+                        <!-- Aprobador 3 y Rut 3  -->
+                        <div class="col-lg-6 col-sm-12" *ngIf="mostrarTercerAprobador">
+                            <div class="row">
+                                <!-- Aprobador 3 -->
+                                <div class="col-lg-8 col-sm-12">
+                                    <mat-label class="mat-subtitle-2 f-w-600">Aprobador 3 (GERENCIA)</mat-label>
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-icon matPrefix>
+                                            <i-tabler name="user" class="icon-20 d-flex"></i-tabler>
+                                        </mat-icon>
+                                        <input matInput placeholder="Nombre o Apellido" readonly
+                                            formControlName="aprobadorTres">
+                                    </mat-form-field>
+                                </div>
+
+                                <!-- Rut 3 -->
+                                <div class="col-lg-4 col-sm-12">
+                                    <mat-label class="mat-subtitle-2 f-w-600">Rut 3</mat-label>
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <input matInput type="text" placeholder="12.345.678-9"
+                                            formControlName="aprobadorRutTres" readonly />
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <mat-divider class="mt-3" style="margin-top: 16px;"></mat-divider>
+
+                    <div class="row m-t-10">
+                        <!-- Factura PDF -->
+                        <div class="col-lg-5">
+                            <mat-label class="mat-subtitle-2 f-w-600">Factura (PDF)</mat-label>
+                            <div class="upload-container">
+                                <!-- Contenedor del botón completo, ahora es clickeable -->
+                                <label for="factura-upload" class="upload-label d-flex align-items-center">
+                                    <div class="upload-icon">
+                                        <i-tabler name="file-text" class="icon-32"></i-tabler>
+                                    </div>
+                                    <div class="upload-text ms-3">
+                                        <span *ngIf="!fileName">Selecciona tu archivo</span>
+                                        <span *ngIf="fileName">{{ fileName }}</span>
+                                    </div>
+                                </label>
+                                <input id="factura-upload" type="file" formControlName="factura" accept=".pdf"
+                                    (change)="onFileChange($event)" class="d-none" />
+                            </div>
+                        </div>
+
+                        <!-- Fecha Generada -->
+                        <div class="col-lg-2  col-sm-4">
+                            <mat-label class="mat-subtitle-2 f-w-600">Fecha Generada</mat-label>
+                            <mat-form-field appearance="outline" class="w-100">
+                                <input matInput [matDatepicker]="pGenerada" placeholder="DD/MM/YY"
+                                    formControlName="fechaGenerado" [readonly]="true" (focus)="pGenerada.open()"
+                                    (click)="pGenerada.open()" />
+                                <mat-datepicker-toggle matIconSuffix [for]="pGenerada"></mat-datepicker-toggle>
+                                <mat-datepicker #pGenerada></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                        <!-- Fecha Vencimiento -->
+                        <div class="col-lg-2  col-sm-4">
+                            <mat-label class="mat-subtitle-2 f-w-600">Fecha Vencimiento</mat-label>
+                            <mat-form-field appearance="outline" class="w-100">
+                                <input matInput [matDatepicker]="pVencimiento" placeholder="DD/MM/YY"
+                                    formControlName="fechaVencimiento" [readonly]="true" (focus)="pVencimiento.open()"
+                                    (click)="pVencimiento.open()" />
+                                <mat-datepicker-toggle matIconSuffix [for]="pVencimiento"></mat-datepicker-toggle>
+                                <mat-datepicker #pVencimiento></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+
+                        <!-- Monto -->
+                        <div class="col-lg-3 col-sm-4">
+                            <mat-label class="mat-subtitle-2 f-w-600">Monto</mat-label>
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-icon matPrefix>
+                                    <i-tabler name="cash" class="icon-20 d-flex"></i-tabler>
+                                </mat-icon>
+                                <input matInput type="number" placeholder="$10000" formControlName="monto" />
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-lg-3 col-sm-4">
+                        </div>
+
+                        <!-- Botón Enviar -->
+                        <div class="botoon col-lg-6 d-flex align-items-center justify-content-center">
+                            <button [disabled]="formSolicitud.invalid" (click)="crearSolicitud()">
+                                <div class="svg-wrapper-1">
+                                    <div class="svg-wrapper">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24"
+                                            height="24">
+                                            <path fill="none" d="M0 0h24v24H0z"></path>
+                                            <path fill="currentColor"
+                                                d="M1.946 9.315c-.522-.174-.527-.455.01-.634l19.087-6.362c.529-.176.832.12.684.638l-5.454 19.086c-.15.529-.455.547-.679.045L12 14l6-8-8 6-8.054-2.685z">
+                                            </path>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <span>Crear Solicitud</span>
+                            </button>
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </form>
+    </div>
+</div>

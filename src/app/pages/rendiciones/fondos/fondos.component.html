@@ -1,0 +1,217 @@
+<div class="row">
+  <form [formGroup]="formFondo">
+
+    <!-- Asignar Rendidor -->
+    <div class="d-flex flex-wrap justify-content-between">
+      <div class="col-12 col-lg-6 mb-3">
+        <mat-card class="cardWithShadow theme-card">
+          <mat-card-header>
+            <mat-card-title class="m-b-0">Asignar Rendidor</mat-card-title>
+          </mat-card-header>
+          <mat-card-content class="b-t-1">
+
+            <!-- Campo de correo -->
+            <div class="row">
+              <div class="col-12 col-sm-3 d-flex align-items-center">
+                <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Correo</mat-label>
+              </div>
+              <div class="col-12 col-sm-9">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Escriba los nombres del rendidor</mat-label>
+                  <input matInput [matAutocomplete]="auto" formControlName="rendidor" />
+                  <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                    <mat-option *ngFor="let usuario of usuariosFiltrados | async; trackBy: trackUsuarioById"
+                      [value]="usuario.email" (onSelectionChange)="usuarioSeleccionado(usuario)">
+                      {{ usuario.nombre }} {{ usuario.apellidoPaterno }}
+                    </mat-option>
+                  </mat-autocomplete>
+                  <mat-icon matPrefix>
+                    <i-tabler name="mail" class="icon-20 d-flex"></i-tabler>
+                  </mat-icon>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <!-- Campos de Nombre y Rut -->
+            <div class="row mt-3">
+              <div class="col-12 col-sm-2 d-flex align-items-center">
+                <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Nombre</mat-label>
+              </div>
+              <div class="col-12 col-sm-5">
+                <mat-form-field appearance="outline" class="w-100">
+                  <input matInput type="text" placeholder="Nombre Apellido" formControlName="nombre"
+                    [readonly]="true" />
+                </mat-form-field>
+              </div>
+              <div class="col-12 col-sm-1 d-flex align-items-center">
+                <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Rut</mat-label>
+              </div>
+              <div class="col-12 col-sm-4">
+                <mat-form-field appearance="outline" class="w-100" color="primary">
+                  <input matInput type="text" placeholder="12.345.678-9" formControlName="rut" [readonly]="true" />
+                </mat-form-field>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <!-- Asignar Aprobadores -->
+      <div class="col-12 col-lg-6 mb-3">
+        <mat-card class="cardWithShadow theme-card">
+          <mat-card-header>
+            <mat-card-title class="m-b-0">Aprobadores</mat-card-title>
+          </mat-card-header>
+          <mat-card-content class="b-t-1">
+            <!-- Aprobador Jefe Directo -->
+            <div class="row">
+              <div class="col-12 col-sm-4 d-flex align-items-center">
+                <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-24">Aprobador Jefe Directo</mat-label>
+              </div>
+              <div class="col-12 col-sm-8">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Aprobador Jefatura</mat-label>
+                  <input type="text" matInput [matAutocomplete]="autoJefes"formControlName="aprobadorJefatura"/>
+                  <mat-autocomplete #autoJefes="matAutocomplete">
+                      <mat-option *ngFor="let jefe of jefeFiltrados | async" [value]="jefe.usuarioJefe">
+                        {{ jefe.usuarioJefe }}
+                      </mat-option>
+                  </mat-autocomplete> 
+                  <mat-icon matPrefix>
+                    <i-tabler name="mail" class="icon-20 d-flex"></i-tabler>
+                  </mat-icon>
+                </mat-form-field>
+              </div>
+            </div>
+            <!-- Aprobador Administrativo -->
+            <div class="row">
+              <div class="col-12 col-sm-4 d-flex align-items-center">
+                <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-24">Aprobador Administrativo</mat-label>
+              </div>
+              <div class="col-12 col-sm-8">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Seleccionar Aprobador ADM</mat-label>
+                  <input matInput [matAutocomplete]="autoAdmin" formControlName="aprobadorAdmin">
+                  <mat-autocomplete autoActiveFirstOption #autoAdmin="matAutocomplete">
+                    <mat-option *ngFor="let admin of adminFiltrados | async" [value]="admin.usuario.email"
+                      (onSelectionChange)="onAdminSelect(admin)">
+                      {{ admin.usuario.nombre }} {{ admin.usuario.apellidoPaterno }}
+                    </mat-option>
+                  </mat-autocomplete>
+                  <mat-icon matPrefix>
+                    <i-tabler name="mail" class="icon-20 d-flex"></i-tabler>
+                  </mat-icon>
+                </mat-form-field>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+
+    <!-- Datos del fondo -->
+<div class="d-flex justify-content-between">
+  <div class="col-12  mb-3">
+    <mat-card class="cardWithShadow theme-card ">
+      <mat-card-header>
+        <mat-card-title class="m-b-0">Datos del fondo</mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="b-t-1">
+        <div class="row m-t-10">
+          <div class="col-lg-5">
+
+            <!-- input N ° referencia -->
+            <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">Número de servicio / Referencia</mat-label>
+            <mat-form-field appearance="outline" class="w-100" color="primary">
+              <mat-icon matPrefix>
+                <i-tabler name="number" class="icon-20 d-flex"></i-tabler>
+              </mat-icon>
+              <input matInput type="text" placeholder="Ingresa el número de servicio o referencia"
+                formControlName="referencia" />
+                <!-- Mensaje error -->
+                <mat-error *ngIf="f['referencia'].hasError('maxlength')">
+                  La referencia no puede contener más de 200 caracteres.
+                </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-lg-4">
+            <!-- input montoAsignado -->
+            <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">Monto</mat-label>
+            <mat-form-field appearance="outline" class="w-100" color="primary">
+              <mat-icon matPrefix>
+                <i-tabler name="cash" class="icon-20 d-flex"></i-tabler>
+              </mat-icon>
+              <input matInput type="number" placeholder="Ingresa el monto"  formControlName="montoAsignado" />
+            </mat-form-field>
+          </div>
+
+          <div class="col-lg-3">
+            <!-- input fechaAsignado -->
+            <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">Fecha de asignación</mat-label>
+            <mat-form-field appearance="outline" class="w-100">
+              <input matInput [matDatepicker]="picker" placeholder="DD/MM/YYYY" formControlName="fechaAsignado"
+              [readonly]="true" 
+              (focus)="picker.open()"
+              (click)="picker.open()"
+              />
+              <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </div>
+
+        </div>
+        <div class="row m-t-20">
+          <div class="col-lg-4">
+            <!-- input centroCosto -->
+            <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">Centro de Costo (opcional)</mat-label>
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Escriba y seleccione su centro costo</mat-label>
+              <mat-icon matPrefix>
+                <i-tabler name="building" class="icon-20 d-flex"></i-tabler>
+              </mat-icon>
+              <input type="text" aria-label="string" matInput [matAutocomplete]="autoCentro"
+              formControlName="centroCosto" />
+              <mat-autocomplete autoActiveFirstOption #autoCentro="matAutocomplete">
+                <mat-option *ngFor="let centro of centroFiltrados | async; trackBy: trackCentroById"
+                  [value]="centro.nombre">
+                  {{ centro.nombre }}
+                </mat-option>
+              </mat-autocomplete>
+
+            </mat-form-field>
+          </div>
+          <div class="col-lg-2">
+            <!-- M/N -->
+            <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">M / N</mat-label>
+            <mat-radio-group aria-label="Select an option" formControlName="motoNave" class="d-flex align-items-center">
+              <mat-radio-button value="0" color="primary" selected>NO</mat-radio-button>
+              <mat-radio-button value="1" color="primary">SI</mat-radio-button>
+            </mat-radio-group>
+          </div>
+
+          <!-- ASIGNAR FONDO -->
+          <div class="col-lg-6 d-flex align-items-center justify-content-center">
+            <button [disabled]="formFondo.invalid" (click)="crearFondo()">
+              <div class="svg-wrapper-1">
+                <div class="svg-wrapper">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                    <path fill="none" d="M0 0h24v24H0z"></path>
+                    <path
+                      fill="currentColor"
+                      d="M1.946 9.315c-.522-.174-.527-.455.01-.634l19.087-6.362c.529-.176.832.12.684.638l-5.454 19.086c-.15.529-.455.547-.679.045L12 14l6-8-8 6-8.054-2.685z">
+                    </path>
+                  </svg>
+                </div>
+              </div>
+              <span>Asignar Fondo</span>
+            </button>
+          </div>          
+          
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+  </form>
+</div>

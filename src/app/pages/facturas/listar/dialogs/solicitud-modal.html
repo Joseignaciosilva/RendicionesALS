@@ -1,0 +1,249 @@
+<mat-dialog-content style="max-width: 1200px; max-height: 95vh; overflow-y: auto; width: 100%;">
+    <!--Titulo del modal-->
+    <mat-card-header class="p-t-0">
+        <mat-card-title class="m-b-10 ">Editar Solicitud</mat-card-title>
+    </mat-card-header>
+    <mat-divider></mat-divider>
+    <mat-card-content>
+        <form class="m-t-8"   [formGroup]="soliForm" enctype="multipart/form-data">
+
+            <div class="row">
+
+                <!-- factura -->
+                <div class="col-sm-12 col-md-12 col-lg-12" style="padding-bottom: 10px;">
+                    <div class="row">
+                      <div class="col-12 col-sm-3 d-flex align-items-center">
+                        <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Factura</mat-label>
+                      </div>
+                      <div class="col-12 col-sm-9">
+                        <div class="upload-container">
+                          <label class="upload-label" for="factura-input">
+                            <i-tabler name="file-text" class="icon-32"></i-tabler>
+                            <span class="upload-text">{{ facturaFile ? facturaFile.name : 'Seleccionar archivo PDF' }}</span>
+                          </label>
+                          <input id="factura-input" type="file" accept=".pdf" (change)="onFileSelected($event)" style="display:none;" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+
+                <!-- aprobadorJefatura -->
+                <div class="col-sm-6">
+                    <div class="row">
+                        <div class="col-12 col-sm-3 d-flex align-items-center">
+                            <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Aprobador Jefe Unidad</mat-label>
+                        </div>
+                        <div class="col-12 col-sm-9">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Jefe Unidad</mat-label>
+                                <mat-icon matPrefix>
+                                    <i-tabler name="mail" class="icon-20 d-flex"></i-tabler>
+                                </mat-icon>
+                                <input matInput [matAutocomplete]="auto" placeholder="Nombre o Apellido"
+                                    formControlName="aprobador" />
+                                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                                    <mat-option
+                                        *ngFor="let usuario of usuariosFiltrados | async; trackBy: trackUsuarioById"
+                                        [value]="usuario.email"
+                                        (onSelectionChange)="usuarioSeleccionado(usuario)">
+                                        {{ usuario.nombre }} {{ usuario.apellidoPaterno }}
+                                    </mat-option>
+                                </mat-autocomplete>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- correlativo -->
+                <div class="col-sm-6">
+                    <div class="row">
+                        <div class="col-12 col-sm-3 d-flex align-items-center">
+                            <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Correlativo</mat-label>
+                        </div>
+                        <div class="col-12 col-sm-9">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Correlativo</mat-label>
+                                <mat-icon matPrefix>
+                                    <i-tabler name="pencil" class="icon-20 d-flex"></i-tabler>
+                                </mat-icon>
+                                <input type="text" matInput formControlName="correlativo"/>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- unidadNegocio -->
+                <div class="col-sm-6">
+                    <div class="row">
+                        <div class="col-12 col-sm-3 d-flex align-items-center">
+                            <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Unidad Negocio</mat-label>
+                        </div>
+                        <div class="col-12 col-sm-9">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-icon matPrefix>
+                                    <i-tabler name="clipboard" class="icon-20 d-flex"></i-tabler>
+                                </mat-icon>
+                                <mat-select formControlName="unidadNegocio">
+                                    <mat-option value="0">-seleccionar-</mat-option>
+                                    <mat-option value="Finanzas">Finanzas</mat-option>
+                                    <mat-option value="Comercial">Comercial</mat-option>
+                                    <mat-option value="Maritimo">Maritimo</mat-option>
+                                    <mat-option value="Industriales">Industriales</mat-option>
+                                    <mat-option value="Minerales">Minerales</mat-option>
+                                    <mat-option value="TI">TI</mat-option>
+                                    <mat-option value="HSE">HSE</mat-option>
+                                    <mat-option value="Internacional">Internacional</mat-option>
+                                    <mat-option value="RR, HH">RR, HH</mat-option>
+                                    <mat-option value="Proyectos">Proyectos</mat-option>
+                                    <mat-option value="Calidad">Calidad</mat-option>
+                                    <mat-option value="Otro">Otro</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- fechaGenerado -->
+                <div class="col-sm-6">
+                    <div class="row">
+                        <div class="col-12 col-sm-3 d-flex align-items-center">
+                            <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Fecha Generado</mat-label>
+                        </div>
+                        <div class="col-12 col-sm-9">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <input matInput [matDatepicker]="pickerGEN" placeholder="DD/MM/YYYY" formControlName="fechaGenerado"
+                                    [readonly]="true" 
+                                    (focus)="pickerGEN.open()"
+                                    (click)="pickerGEN.open()"/>
+                                <mat-datepicker-toggle matIconSuffix [for]="pickerGEN"></mat-datepicker-toggle>
+                                <mat-datepicker #pickerGEN></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- fechaVencimiento -->
+                <div class="col-sm-4">
+                    <div class="row">
+                        <div class="col-12 col-sm-3 d-flex align-items-center">
+                            <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Fecha Vencimiento</mat-label>
+                        </div>
+                        <div class="col-12 col-sm-9">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <input matInput [matDatepicker]="pickerVEN" placeholder="DD/MM/YYYY" formControlName="fechaVencimiento"
+                                    [readonly]="true" 
+                                    (focus)="pickerVEN.open()"
+                                    (click)="pickerVEN.open()"/>
+                                <mat-datepicker-toggle matIconSuffix [for]="pickerVEN"></mat-datepicker-toggle>
+                                <mat-datepicker #pickerVEN></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mes Contable -->
+                <div class="col-sm-4">
+                    <div class="row">
+                        <div class="col-12 col-sm-3 d-flex align-items-center">
+                            <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Mes Contable</mat-label>
+                        </div>
+                        <div class="col-12 col-sm-9">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Mes</mat-label>
+                                <mat-select placeholder="Seleccionar" formControlName="mesContable">
+                                    <mat-option value="ENE">ENERO</mat-option>
+                                    <mat-option value="FEB">FEBRERO</mat-option>
+                                    <mat-option value="MAR">MARZO</mat-option>
+                                    <mat-option value="ABR">ABRIL</mat-option>
+                                    <mat-option value="MAY">MAYO</mat-option>
+                                    <mat-option value="JUN">JUNIO</mat-option>
+                                    <mat-option value="JUL">JULIO</mat-option>
+                                    <mat-option value="AGO">AGOSTO</mat-option>
+                                    <mat-option value="SEPT">SEPTIEMBRE</mat-option>
+                                    <mat-option value="OCT">OCTUBRE</mat-option>
+                                    <mat-option value="NOV">NOVIEMBRE</mat-option>
+                                    <mat-option value="DIC">DICIEMBRE</mat-option>
+                            </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Año del Mes Contable -->
+                <div class="col-sm-4">
+                    <div class="row">
+                        <div class="col-12 col-sm-3 d-flex align-items-center">
+                            <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Año del Mes Contable</mat-label>
+                        </div>
+                        <div class="col-12 col-sm-9">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Año</mat-label>
+                                <mat-select placeholder="Seleccionar" formControlName="anioMesContable">
+                                        <mat-option value="2025">2025</mat-option>
+                                        <mat-option value="2026">2026</mat-option>
+                                        <mat-option value="2027">2027</mat-option>
+                                        <mat-option value="2028">2028</mat-option>
+                                        <mat-option value="2029">2029</mat-option>
+                                        <mat-option value="2030">2030</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-right">
+                <button mat-flat-button color="primary" (click)="doAction()">{{action}}</button>
+                <button mat-flat-button color="warn" class="m-l-8" (click)="closeDialog()">Cerrar</button>
+            </div>
+        </form>
+    </mat-card-content>
+</mat-dialog-content>
+
+
+<style>
+
+
+  .upload-container {
+    position: relative;
+    border: 2px dashed #a3a3a3;
+    border-radius: 10px;
+    padding: 0.5rem 1rem;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    transition: border-color 0.2s ease-in-out, background-color 0.2s ease-in-out;
+  }
+  
+  .upload-container:hover {
+    border-color: #0d6efd;
+    background-color: #e9f4ff;
+  }
+  
+  .upload-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+    cursor: pointer; /* Hace que todo el área sea clickeable */
+  }
+  
+  .upload-icon {
+    color: #0d6efd;
+    font-size: 2rem;
+  }
+  
+  .upload-text {
+    font-size: 0.875rem;
+    color: #495057;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  
+  .d-none {
+    display: none; /* Oculta el input */
+  }
+  
+
+</style>

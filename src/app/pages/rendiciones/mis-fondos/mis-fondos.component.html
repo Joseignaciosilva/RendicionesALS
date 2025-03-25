@@ -1,0 +1,120 @@
+<!-- Filtrado por estado -->
+<div class="row">
+    <div class="col-sm-6 col-lg-3">
+      <mat-card class="shadow-none">
+        <div class="p-30 bg-light-primary text-center cursor-pointer rounded" (click)="filtrarPorGrupoDeEstados(0)">
+          <h3 class="f-s-24 text-primary f-w-600 m-0 m-b-4">{{ totalCount }}</h3>
+          <h6 class="text-primary f-w-600 m-0 f-s-16">Todos los Fondos</h6>
+        </div>
+      </mat-card>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+      <mat-card class="shadow-none">
+        <div class="p-30 bg-light-success text-center cursor-pointer rounded" (click)="filtrarPorGrupoDeEstados(1)">
+          <h3 class="f-s-24 text-success f-w-600 m-0 m-b-4">{{ countFondosByGrupo(1) }}</h3>
+          <h6 class="text-success f-w-600 m-0 f-s-16">Proceso Visado</h6>
+        </div>
+      </mat-card>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+      <mat-card class="shadow-none">
+        <div class="p-30 bg-light-warning text-center cursor-pointer rounded" (click)="filtrarPorGrupoDeEstados(2)">
+          <h3 class="f-s-24 text-warning m-0 m-b-4">{{ countFondosByGrupo(2) }}</h3>
+          <h6 class="text-warning f-w-600 m-0 f-s-16">Proceso Cierre</h6>
+        </div>
+      </mat-card>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+      <mat-card class="shadow-none">
+        <div class="p-30 bg-light-error text-center cursor-pointer rounded" (click)="filtrarPorGrupoDeEstados(3)">
+          <h3 class="f-s-24 text-error m-0 m-b-4">{{ countFondosByGrupo(3) }}</h3>
+          <h6 class="text-error f-w-600 m-0 f-s-16">Finalizados</h6>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+  
+  
+<!-- Tabla de Fondos -->
+<mat-card class="cardWithShadow">
+    <mat-card-header class="d-flex">
+        <mat-card-title>Listado de <strong>MIS FONDOS</strong></mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <!-- Si no hay fondos asignados -->
+      <div *ngIf="dataSource.data.length === 0">
+        <p>Aun no cuentas con fondos asignados</p>
+      </div>
+        <div class="table-responsive m-t-30">
+            <!-- La tabla mat-table con paginador -->
+            <table mat-table [dataSource]="dataSource" class="w-100 custom-table-misfondos"
+                *ngIf="dataSource.data.length > 0">
+
+                <!-- Referencia Fondo -->
+                <ng-container matColumnDef="referencia">
+                    <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">Referencia</th>
+                    <td mat-cell *matCellDef="let fondo">{{ fondo.referencia }}</td>
+                </ng-container>
+
+                <!-- Monto Asignado -->
+                <ng-container matColumnDef="montoAsignado">
+                    <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">M. Asignado</th>
+                    <td mat-cell *matCellDef="let fondo">{{ fondo.montoAsignado | monedaChilena }}</td>
+                </ng-container>
+
+                <!-- total Rendido -->
+                <ng-container matColumnDef="totalRendido">
+                    <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">T. Rendido</th>
+                    <td mat-cell *matCellDef="let fondo">{{ fondo.totalRendido | monedaChilena }}</td>
+                </ng-container>
+
+                <!-- Fecha Asignada -->
+                <ng-container matColumnDef="fechaAsignado">
+                    <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">Fecha Asig</th>
+                    <td mat-cell *matCellDef="let fondo">{{ fondo.fechaAsignado | date }}</td>
+                </ng-container>
+
+                <!-- Estado -->
+                <ng-container matColumnDef="estado">
+                    <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">Estado</th>
+                    <td mat-cell *matCellDef="let fondo">
+                        <span class="bg-light mat-body-2 f-w-500 p-x-8 p-y-4 rounded-pill f-s-12" [ngClass]="{
+                        'bg-light-primary': fondo.estado === 'pendiente' || fondo.estado === 'en_rendicion',
+                        'bg-light-success': fondo.estado === 'en_jefatura' || fondo.estado === 'en_administracion',
+                        'bg-light-warning': fondo.estado === 'en_cierre',
+                        'bg-light-error': fondo.estado === 'finalizado',
+                        }">
+                            {{ fondo.estado }}
+                        </span>
+                    </td>
+                </ng-container>
+
+                <!-- Asignacion -->
+                <ng-container matColumnDef="asignacion">
+                    <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">Asignacion</th>
+                    <td mat-cell *matCellDef="let fondo">{{ fondo.asignacion}}</td>
+                </ng-container>
+
+                <!-- Ver gastos asociados al fondo -->
+                <ng-container matColumnDef="gastos">
+                  <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">Gastos</th>
+                  <td mat-cell *matCellDef="let fondo">
+                    <button mat-icon-button class="btn-icon" matTooltip="Ver Gastos" (click)="verGastos(fondo.id)" >
+                         <i-tabler name="eye-share" class="icon-eye"></i-tabler>
+                     </button>
+                  </td>
+                </ng-container>
+                
+
+
+                <!-- Fila de encabezado y de datos -->
+                <tr mat-header-row *matHeaderRowDef="displayedColumns" class="custom-header-row"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns" class="custom-row"></tr>
+            </table>
+
+            <!-- Paginador debajo de la tabla -->
+            <mat-paginator #paginator [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons></mat-paginator>
+        </div>
+    </mat-card-content>
+</mat-card>
+

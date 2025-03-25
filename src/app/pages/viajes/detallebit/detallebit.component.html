@@ -1,0 +1,96 @@
+<div class="d-flex align-items-center bg-{{ fondo }}">
+  <a (click)="cerrarDetalle()" mat-icon-button class="text-white d-flex justify-content-center m-r-10">
+    <i-tabler name="chevron-left" class="icon-18 d-flex"></i-tabler>
+  </a>
+  <h4>Bitácora de {{ nombreBitacora }}</h4>
+</div>
+<mat-card>
+  <mat-card-content>
+    <mat-vertical-stepper #stepper>
+      <mat-step *ngFor="let dia of diasDeViaje; let i = index">
+        <ng-template matStepLabel>{{ sumarDias(viaje.fechaDeparto, i + 1) | date : "dd/MM/yyyy" }} (Día
+          {{ i + 1 }})
+        </ng-template>
+        <mat-card class="cardWithShadow">
+          <mat-card-header>
+            <mat-card-title>Lista diaria de actividades</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="table-responsive m-t-30">
+              <table class="w-100 text-align-center" *ngIf="filterByDay(actividades, i + 1).length">
+                <tr>
+                  <th>Hora de inicio</th>
+                  <th>Hora de termino</th>
+                  <th>Cliente</th>
+                  <th>Lugar</th>
+                  <th>Participantes</th>
+                  <th>Acciones</th>
+                </tr>
+                <tr *ngFor="let actividad of filterByDay(actividades, i + 1)">
+                  <td>{{ actividad.horaActividadI }}</td>
+                  <td>{{ actividad.horaActividadT }}</td>
+                  <td>{{ actividad.cliente }}</td>
+                  <td>{{ actividad.lugar }}</td>
+                  <td>{{ actividad.participantes }}</td>
+                  <td>
+                    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                      <mat-icon>
+                        <i-tabler name="dots" class="icon-20"></i-tabler>
+                      </mat-icon>
+                    </button>
+                    <mat-menu #menu="matMenu" style="width:fit-content"  class="cardWithShadow">
+                      <button mat-menu-item matTooltip="Ver" (click)="
+                          editarActividad(
+                            i + 1,
+                            sumarDias(viaje.fechaDeparto, i + 1),
+                            actividad,
+                            'Ver'
+                          )
+                        ">
+                        <mat-icon matPrefix class="op-5">
+                          <i-tabler name="eye" class="icon-20 d-flex"></i-tabler>
+                        </mat-icon>
+                      </button>
+                      <button *ngIf="modo==='Editar'"  matTooltip="Editar"mat-menu-item (click)="
+                          editarActividad(
+                            i + 1,
+                            sumarDias(viaje.fechaDeparto, i + 1),
+                            actividad,
+                            'Editar'
+                          )
+                        ">
+                        <mat-icon matPrefix class="op-5">
+                          <i-tabler name="edit" class="icon-20 d-flex"></i-tabler>
+                        </mat-icon>
+                      </button>
+                      <button *ngIf="modo==='Editar'" matTooltip="Eliminar" mat-menu-item (click)="eliminarActividad(actividad.id)">
+                        <mat-icon matPrefix class="op-5">
+                          <i-tabler name="trash-x" class="icon-20 d-flex"></i-tabler>
+                        </mat-icon>
+                      </button>
+                    </mat-menu>
+                  </td>
+                </tr>
+              </table>
+              <h4 *ngIf="!filterByDay(actividades, i + 1).length">
+                No hay actividades registradas hoy
+              </h4>
+            </div>
+          </mat-card-content>
+        </mat-card>
+        <div class="row justify-content-end">
+          <div class="col-sm-8" *ngIf="modo === 'Editar'">
+            <button mat-flat-button color="primary" (click)="
+                nuevaActividad(i + 1, sumarDias(viaje.fechaDeparto, i + 1))
+              ">
+              <mat-icon matPrefix class="op-5">
+                <i-tabler name="clipboard-plus" class="icon-20 d-flex"></i-tabler>
+              </mat-icon>
+              Agregar actividad
+            </button>
+          </div>
+        </div>
+      </mat-step>
+    </mat-vertical-stepper>
+  </mat-card-content>
+</mat-card>

@@ -1,0 +1,92 @@
+<!-- Tabla de Gastos -->
+<mat-card class="cardWithShadow" style="padding-top: 16px;">
+    <div
+        style="display: flex; align-items: center; justify-content: space-between; padding: 8px 16px; flex-wrap: wrap;">
+        <button mat-icon-button class="btn-volver" matTooltip="Volver" matTooltipPosition="above" (click)="volver()"
+            style="margin-right: 8px;">
+            <i-tabler name="arrow-back-up" class="icon-volver"></i-tabler>
+        </button>
+
+        <span style="font-size: 1.2rem; flex-grow: 1; align-items: center; text-align: center; margin-top: 4px;">
+            <strong>MIS GASTOS</strong>
+        </span>
+    </div>
+
+    <mat-card-content>
+        <div class="table-responsive">
+            <table mat-table [dataSource]="dataSource" class="w-100 custom-table-misgastos">
+                <!-- Número Comprobante -->
+                <ng-container matColumnDef="numeroComprobante">
+                    <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600 ">N° Comp.</th>
+                    <td mat-cell *matCellDef="let gasto">{{ gasto?.numeroComprobante }}</td>
+                </ng-container>
+
+                <!-- Nombre Comprobante -->
+                <ng-container matColumnDef="nombreComprobante">
+                    <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">Comp.</th>
+                    <td mat-cell *matCellDef="let gasto" class="icon">
+                        <button mat-icon-button class="btn-icon" matTooltip="Ver comprobante"
+                            *ngIf="gasto.nombreComprobante" (click)="verComprobante(gasto)" target="_blank"
+                            rel="noopener noreferrer">
+                            <i-tabler name="eye-share" class="icon-eye"></i-tabler>
+                        </button>
+                    </td>
+                </ng-container>
+
+                <!-- numeroServicio -->
+                <ng-container matColumnDef="numeroServicio">
+                    <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600 text-center">N° Servicio</th>
+                    <td mat-cell *matCellDef="let gasto" class="text-center">{{ gasto?.numeroServicio || 'N/A' }}</td>
+                </ng-container>
+
+                <!-- Tipo Comprobante -->
+                <ng-container matColumnDef="tipoComprobante">
+                    <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">T. Comp.</th>
+                    <td mat-cell *matCellDef="let gasto">{{ gasto?.tipoComprobante }}</td>
+                </ng-container>
+
+                <!-- Proveedor -->
+                <ng-container matColumnDef="proveedor">
+                    <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600 text-center">Proveedor</th>
+                    <td mat-cell *matCellDef="let gasto" class="truncate-text" #textElement
+                    [matTooltip]="isTextTruncated(textElement) ? gasto?.proveedor : ''"
+                    [matTooltipDisabled]="!isTextTruncated(textElement)">
+                        {{ gasto?.proveedor }}</td>
+                </ng-container>
+
+                <!-- Tipo Gasto -->
+                <ng-container matColumnDef="tipoGasto">
+                    <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600 text-center">T. Gasto</th>
+                    <td mat-cell *matCellDef="let gasto" class="text-center">{{ gasto?.tipoGasto }}</td>
+                </ng-container>
+
+                <!-- Descripción -->
+                <ng-container matColumnDef="descripcion">
+                    <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600 text-center">Descripción</th>
+                    <td mat-cell *matCellDef="let gasto">{{ gasto?.descripcion }}</td>
+                </ng-container>
+
+                <!-- Fecha de Gasto -->
+                <ng-container matColumnDef="fechaGasto">
+                    <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600 text-center">Fecha</th>
+                    <td mat-cell *matCellDef="let gasto">{{ gasto?.fechaGasto | date: 'dd MMM yyyy' }}</td>
+                </ng-container>
+
+                <!-- Monto Gasto -->
+                <ng-container matColumnDef="montoGasto">
+                    <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">Monto</th>
+                    <td mat-cell *matCellDef="let gasto">{{ gasto?.montoGasto | monedaChilena }}</td>
+                </ng-container>
+
+                <!-- Filas de la tabla -->
+                <tr mat-header-row *matHeaderRowDef="displayedColumns" class="custom-header-row"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns" class="custom-row"></tr>
+
+            </table>
+        </div>
+
+        <div class="paginator-container">
+            <mat-paginator #paginator1 [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons></mat-paginator>
+        </div>
+    </mat-card-content>
+</mat-card>

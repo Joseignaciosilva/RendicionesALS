@@ -1,0 +1,28 @@
+@if(pageInfo?.['view'] != 'false'){
+<div class="bg-light-primary rounded p-y-30 p-x-24 m-b-30 overflow-hidden">
+  <div class="row">
+    <div class="col-sm-8">
+      <h4 class="page-title m-0 f-s-20 f-w-600 m-b-16">
+        {{ pageInfo?.['title'] }}
+      </h4>
+      <div class="d-flex align-items-center overflow-hidden">
+        <ng-template ngFor let-url let-last="last">
+          @if(!last){
+          <li class="breadcrumb-item" [routerLink]="url.url">
+            <a [routerLink]="url.url">{{ url.title }}</a>
+          </li>
+          }
+          @if(last){
+          <li class="breadcrumb-item active">{{ url.title }}</li>
+          }
+        </ng-template>
+      </div>
+    </div>
+    <div class="col-sm-4 text-right position-relative d-none d-lg-flex">
+      <div class="breadcrumb-icon">
+        <img src="/assets/images/logos/logo_light_2.png" alt="breadcrumb" width="85" />
+      </div>
+    </div>
+  </div>
+</div>
+}

@@ -1,0 +1,89 @@
+<div class="row justify-content-between align-items-center" *ngIf="gasto">
+    <!-- Contenedor del título y botón volver -->
+    <div class="col-sm-4 d-flex align-items-center" style="padding-bottom: 8px;">
+        <!-- Botón para volver -->
+        <button mat-icon-button class="btn-volver me-2" matTooltip="Volver" matTooltipPosition="above"
+            (click)="volver()" style="padding: 0; color: black;">
+            <i-tabler name="arrow-back-up" class="icon-volver"></i-tabler>
+        </button>
+        <h2>Vista del Comprobante</h2>
+    </div>
+
+    <div class="col-sm-4 d-flex align-items-center justify-content-end" style="padding-bottom: 8px;">
+        <button class="button" (click)="descargarComprobante()">
+            <span class="button__text">Descargar</span>
+            <span class="button__icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 35 35" id="bdd05811-e15d-428c-bb53-8661459f9307"
+                    data-name="Layer 2" class="svg">
+                    <path
+                        d="M17.5,22.131a1.249,1.249,0,0,1-1.25-1.25V2.187a1.25,1.25,0,0,1,2.5,0V20.881A1.25,1.25,0,0,1,17.5,22.131Z">
+                    </path>
+                    <path
+                        d="M17.5,22.693a3.189,3.189,0,0,1-2.262-.936L8.487,15.006a1.249,1.249,0,0,1,1.767-1.767l6.751,6.751a.7.7,0,0,0,.99,0l6.751-6.751a1.25,1.25,0,0,1,1.768,1.767l-6.752,6.751A3.191,3.191,0,0,1,17.5,22.693Z">
+                    </path>
+                    <path
+                        d="M31.436,34.063H3.564A3.318,3.318,0,0,1,.25,30.749V22.011a1.25,1.25,0,0,1,2.5,0v8.738a.815.815,0,0,0,.814.814H31.436a.815.815,0,0,0,.814-.814V22.011a1.25,1.25,0,1,1,2.5,0v8.738A3.318,3.318,0,0,1,31.436,34.063Z">
+                    </path>
+                </svg>
+            </span>
+        </button>
+    </div>
+</div>
+
+
+<div class="row" *ngIf="gasto">
+    <!-- Imagen con contorno y sombra -->
+    <div class="col-md-9 d-flex align-items-center justify-content-center"
+        style="background-color: #f9f9f9; border-radius: 10px; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);">
+        <lib-ngx-image-zoom class="ngxImageZoomContainer" [thumbImage]="thumbImage" [fullImage]="fullImage"
+            [magnification]="1.0" [enableScrollZoom]="true" [enableLens]="false">
+        </lib-ngx-image-zoom>
+    </div>
+
+    <!-- Información del comprobante -->
+    <div class="col-md-3 d-flex flex-column align-items-center p-10"
+        style="background-color: #f9f9f9; border-radius: 10px; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);">
+        <h3 class="comprobante-title" style="margin-bottom: 20px; text-align: center; font-size: 1.5rem;">Detalle</h3>
+
+        <div class="info" style="margin-bottom: 15px; width: 100%;">
+            <label class="label" style="font-weight: bold; margin-bottom: 5px; display: block; text-align: center;">N°
+                Servicio</label>
+            <div class="value" style="text-align: center; font-size: 1.2rem; color: #555;">
+                {{ gasto.numeroServicio || 'N/A'}}
+            </div>
+        </div>
+
+        <div class="info" style="margin-bottom: 15px; width: 100%;">
+            <label class="label" style="font-weight: bold; margin-bottom: 5px; display: block; text-align: center;">N°
+                Comprobante</label>
+            <div class="value" style="text-align: center; font-size: 1.2rem; color: #555;">
+                {{ gasto.numeroComprobante }}
+            </div>
+        </div>
+
+        <div class="info" style="margin-bottom: 15px; width: 100%;">
+            <label class="label"
+                style="font-weight: bold; margin-bottom: 5px; display: block; text-align: center;">Fecha del
+                Gasto</label>
+            <div class="value" style="text-align: center; font-size: 1.2rem; color: #555;">
+                {{ gasto.fechaGasto | date: 'dd MMM yyyy'}}
+            </div>
+        </div>
+
+        <div class="info" style="margin-bottom: 15px; width: 100%;">
+            <label class="label"
+                style="font-weight: bold; margin-bottom: 5px; display: block; text-align: center;">Proveedor</label>
+            <div class="value" style="text-align: center; font-size: 1.2rem; color: #555;">
+                {{ gasto.proveedor }}
+            </div>
+        </div>
+
+        <div class="info" style="margin-bottom: 15px; width: 100%;">
+            <label class="label"
+                style="font-weight: bold; margin-bottom: 5px; display: block; text-align: center;">Monto Gasto</label>
+            <div class="value" style="text-align: center; font-size: 1.2rem; color: #555;">
+                {{ gasto.montoGasto | monedaChilena }}
+            </div>
+        </div>
+    </div>
+</div>

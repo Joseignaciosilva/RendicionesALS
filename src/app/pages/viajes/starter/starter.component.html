@@ -1,0 +1,40 @@
+<!-- ============================================================== -->
+<!-- Simple four boxes Row -->
+<!-- ============================================================== -->
+<mat-card class="cardWithShadow">
+  <mat-card-content>
+    <h4 class="text-center">Plataforma de viajes</h4>
+    <mat-card-subtitle class="mat-body-1 text-center">En esta plataforma, podrás gestionar tus solicitud de viaje, como tambien completar la bitacora correspondiente</mat-card-subtitle>
+  </mat-card-content>
+</mat-card>
+<mat-card class="cardWithShadow">
+  <mat-card-content>
+    <mat-nav-list class="p-x-20">
+      @if(notes.length > 0) { @for(note of notes; track note.title) {
+      <mat-list-item
+        class="notes-item rounded m-b-8 bg-light-{{ note.color }}"
+        (click)="onSelect(note)"
+        [class.selected]="note === selectedNote"
+        lines="3"
+        
+      >
+        <span
+          class="note-title mat-subtitle-1 f-w-500 text-{{ note.color }}"
+          matListItemTitle
+          >{{ note.title }}</span
+        >
+        <div class="d-flex justify-content-between">
+          <span class="note-time f-s-12 f-w-500">{{
+            note.datef
+          }}</span>
+        </div>
+      </mat-list-item>
+      } } @else {
+      <p class="m-b-0 text-center font-18 font-bold m-t-40">
+        No Notes Found
+      </p>
+      }
+    </mat-nav-list>
+  </mat-card-content>
+</mat-card>
+

@@ -1,0 +1,105 @@
+<div class="row">
+    <div class="col-12">
+        <mat-card class="mat-card-top cardWithShadow position-relative">
+            <mat-sidenav-container [ngClass]="{
+                'side-panel-opened': sidePanelOpened(),
+                'side-panel-closed': !sidePanelOpened()
+              }" style="min-height: 80vh">
+                <!-- --------------------------------------------------------------------------- -->
+                <!-- Sidebar -->
+                <!-- --------------------------------------------------------------------------- -->
+                <mat-sidenav #notifNav mode="side" opened="true" class="app-left-sidebar">
+                    <mat-toolbar class="bg-white">
+                        <p class="f-w-500 f-s-18 m-0">Mis notificaciones</p>
+                    </mat-toolbar>
+                    <mat-nav-list>
+                        <!-- VISTAS -->
+                        <mat-list-item (click)="filtrarNotis('visualizada')" class="leidas"
+                            [class.bg-light-primary]="selectedCategory() === 'read'">
+
+                            <div class="d-flex align-items-center">
+                                <span class="mat-subtitle-2">Visualizadas</span>
+                                <div class="m-l-auto">
+                                    <span
+                                        class="icon-27 bg-success text-white rounded d-flex align-items-center justify-content-center">{{
+                                        visualizadasCount() }}</span>
+                                </div>
+                            </div>
+                        </mat-list-item>
+                        <!-- NO VISTAS -->
+                        <mat-list-item (click)="filtrarNotis('noVisualizada')" class="no-leidas"
+                            [class.bg-light-primary]="selectedCategory() === 'unread'">
+                            <div class="d-flex align-items-center">
+                                <span class="mat-subtitle-2">No Visualizadas</span>
+                                <div class="m-l-auto">
+                                    <span
+                                        class="icon-27 bg-primary text-white rounded d-flex align-items-center justify-content-center">{{
+                                        noVisualizadasCount() }}</span>
+                                </div>
+                            </div>
+                        </mat-list-item>
+
+                    </mat-nav-list>
+                </mat-sidenav>
+                <!-- --------------------------------------------------------------------------- -->
+                <!-- Detail View -->
+                <!-- --------------------------------------------------------------------------- -->
+                <mat-toolbar class="bg-white">
+                    <div class="d-flex align-items-center w-100">
+                        <div class="d-flex align-items-center">
+                            <button mat-icon-button (click)="notifNav.toggle()" class="ml-1 shadow-none">
+                                <i-tabler name="align-left" class="icon-20"></i-tabler>
+                            </button>
+                            <p class="f-w-500 f-s-18 m-0 mat-subtitle-1 ml-2">Notificaciones</p>
+                        </div>
+                        <div class="m-l-auto">
+                            <span [ngClass]="getStatusInfo().colorClass" class="text-white p-8 rounded f-s-14">
+                                {{ getStatusInfo().text }}: {{ getStatusInfo().count }}
+                            </span>
+                        </div>
+                    </div>
+                </mat-toolbar>
+                <mat-divider></mat-divider>
+                <mat-card-content  class="p-x-0" style="min-height: 70vh">
+                    
+                    <div *ngIf="filteredNotifications().length === 0" class="empty-notifications">
+                        <div class="text-center p-20">
+                          <p class="f-s-18 f-w-500 m-0">¡Estás al día con las notificaciones!</p>
+                          <i-tabler name="thumb-up" class="icon-40 text-success mt-2"></i-tabler>
+                        </div>
+                    </div>
+
+                    <div class="notification-content  p-y-12 p-x-8 b-b-1" *ngFor="let notification of filteredNotifications()">
+                        <div class="notification-item p-y-12 p-x-8">
+                            <div class="d-flex align-items-center justify-content-between w-100">
+                                <a (click)="visualizarNotiClick(notification)"> <!--  style="cursor: pointer;" -->
+
+                                    <div class="d-flex flex-column">
+                                        <p class="f-s-16 f-w-500 m-0">{{ notification.titulo }}</p>
+                                        <p class="f-s-14 text-muted m-0">{{ notification.subtitulo }}</p>
+                                    </div>
+                                </a>
+                                <div class="d-flex ml-auto">
+                                    <a mat-icon-button class="d-flex justify-content-center"
+                                        (click)="visualizarNoti(notification)"
+                                        *ngIf="!notification.visualizado">
+                                        <i-tabler name="eye" class="icon-18 d-flex"></i-tabler>
+                                    </a>
+                                    <a mat-icon-button class="d-flex justify-content-center"
+                                        (click)="eliminarNoti(notification.id)">
+                                        <i-tabler name="trash" class="icon-18 d-flex"></i-tabler>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </mat-card-content>
+
+                <mat-paginator #paginator [length]="notifications().length" [pageSize]="10"
+                    [pageSizeOptions]="[5, 10, 25, 50]" (page)="cambioPagina($event)" class="paginator-center">
+                </mat-paginator>
+            </mat-sidenav-container>
+        </mat-card>
+    </div>
+</div>

@@ -1,0 +1,281 @@
+<mat-card class="cardWithShadow">
+    <mat-card-content>
+        <div class="row justify-content-center">
+            <div class="col-12">
+                <div class="d-flex justify-content-between flex-wrap">
+
+                    <!-- Filtro: Fecha Desde -->
+                    <div class="col-12 col-sm-6 col-md-3 mb-3">
+                        <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-8">Fecha Desde</mat-label>
+                        <mat-form-field class="w-100" appearance="outline">
+                            <input matInput [matDatepicker]="pickerDesde" placeholder="DD/MM/YYYY"
+                                [(ngModel)]="inputFiltros.fechaDesde" (dateChange)="updateFechaDesde($event)" 
+                                [readonly]="true"
+                                (focus)="pickerDesde.open()" 
+                                (click)="pickerDesde.open()"
+                            />
+                            <mat-datepicker-toggle matIconSuffix [for]="pickerDesde"></mat-datepicker-toggle>
+                            <mat-datepicker #pickerDesde></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Filtro: Fecha Hasta -->
+                    <div class="col-12 col-sm-6 col-md-3 mb-3">
+                        <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-8">Fecha Hasta</mat-label>
+                        <mat-form-field class="w-100" appearance="outline">
+                            <input matInput [matDatepicker]="pickerHasta" placeholder="DD/MM/YYYY"
+                                [(ngModel)]="inputFiltros.fechaHasta" (dateChange)="updateFechaHasta($event)" 
+                                [readonly]="true"
+                                (focus)="pickerHasta.open()" 
+                                (click)="pickerHasta.open()"
+                            />
+                            <mat-datepicker-toggle matIconSuffix [for]="pickerHasta"></mat-datepicker-toggle>
+                            <mat-datepicker #pickerHasta></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Filtro: Estado-->
+                    <div class="col-12 col-sm-6 col-md-3 mb-3">
+                        <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-8">Estado</mat-label>
+                        <mat-form-field appearance="outline" class="w-100">
+                            <mat-icon matPrefix>
+                                <i-tabler name="check" class="icon-20 d-flex"></i-tabler>
+                            </mat-icon>
+                            <mat-select placeholder="Seleccionar" [(ngModel)]="inputFiltros.estado"
+                                (selectionChange)="updateEstado($event.value)">
+                                <mat-option value="PENDIENTE">PENDIENTE</mat-option>
+                                <mat-option value="EN_RENDICION">EN_RENDICION</mat-option>
+                                <mat-option value="EN_JEFATURA">EN_JEFATURA</mat-option>
+                                <mat-option value="EN_ADMINISTRACION">EN_ADMINISTRACION</mat-option>
+                                <mat-option value="EN_CIERRE">EN_CIERRE</mat-option>
+                                <mat-option value="FINALIZADO">FINALIZADO</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Filtro: Asignacion-->
+                    <div class="col-12 col-sm-6 col-md-3 mb-3">
+                        <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-8">Asignacion</mat-label>
+                        <mat-form-field appearance="outline" class="w-100">
+                            <mat-icon matPrefix>
+                                <i-tabler name="check" class="icon-20 d-flex"></i-tabler>
+                            </mat-icon>
+                            <mat-select placeholder="Seleccionar" [(ngModel)]="inputFiltros.asignacion"
+                                (selectionChange)="updateAsignacion($event.value)">
+                                <mat-option value="ASIGNADO">ASIGNADO</mat-option>
+                                <mat-option value="REEMBOLSO">REEMBOLSO</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Filtro: Rendidor -->
+                    <div class="col-12 col-sm-6 col-md-4 mb-3">
+                        <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-8">Rendidor</mat-label>
+                        <mat-form-field class="w-100" appearance="outline">
+                            <mat-icon matPrefix>
+                                <i-tabler name="user" class="icon-20 d-flex"></i-tabler>
+                            </mat-icon>
+                            <input matInput placeholder="Escriba el nombre del rendidor" [matAutocomplete]="auto"
+                                [(ngModel)]="inputFiltros.rendidor" (input)="filtrarUsuarios($event)" />
+                            <mat-autocomplete #auto="matAutocomplete" autoActiveFirstOption>
+                                <mat-option *ngFor="let usuario of usuariosFiltrados" [value]="usuario.email"
+                                    (onSelectionChange)="updateRendidor(usuario.email)">
+                                    {{ usuario.nombre }} {{ usuario.apellidoPaterno}}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Filtro: Centro Costo-->
+                    <div class="col-12 col-sm-6 col-md-3 mb-3">
+                        <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-8">Centro Costo</mat-label>
+                        <mat-form-field appearance="outline" class="w-100">
+                            <mat-icon matPrefix>
+                                <i-tabler name="building" class="icon-20 d-flex"></i-tabler>
+                            </mat-icon>
+                            <input matInput placeholder="Escriba centro costo" [matAutocomplete]="autoCentroCosto"
+                                [(ngModel)]="inputFiltros.centroCosto" (input)="filtrarCentroCosto($event)" />
+                            <mat-autocomplete #autoCentroCosto="matAutocomplete" autoActiveFirstOption>
+                                <mat-option *ngFor="let centro of centroFiltrados" [value]="centro.nombre"
+                                    (onSelectionChange)="updateCentroCosto(centro.nombre)">
+                                    {{ centro.nombre }}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Filtro: Referencia -->
+                    <div class="col-12 col-sm-6 col-md-3 mb-3">
+                        <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-8">Referencia</mat-label>
+                        <mat-form-field class="w-100" appearance="outline">
+                            <mat-icon matPrefix>
+                                <i-tabler name="pencil" class="icon-20 d-flex"></i-tabler>
+                            </mat-icon>
+                            <mat-label>Escriba una referencia</mat-label>
+                            <input matInput type="input" [(ngModel)]="inputFiltros.referencia"
+                                (input)="updateReferencia($event)" />
+                        </mat-form-field>
+                    </div>
+
+                    <div>
+                        <button class="button" (click)="limpiarFiltros()" style="margin-top: 25px; margin-right: 25px;"
+                            matTooltip="Limpiar filtros">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 69 14"
+                                class="svgIcon bin-top">
+                                <g clip-path="url(#clip0_35_24)">
+                                    <path fill="black"
+                                        d="M20.8232 2.62734L19.9948 4.21304C19.8224 4.54309 19.4808 4.75 19.1085 4.75H4.92857C2.20246 4.75 0 6.87266 0 9.5C0 12.1273 2.20246 14.25 4.92857 14.25H64.0714C66.7975 14.25 69 12.1273 69 9.5C69 6.87266 66.7975 4.75 64.0714 4.75H49.8915C49.5192 4.75 49.1776 4.54309 49.0052 4.21305L48.1768 2.62734C47.3451 1.00938 45.6355 0 43.7719 0H25.2281C23.3645 0 21.6549 1.00938 20.8232 2.62734ZM64.0023 20.0648C64.0397 19.4882 63.5822 19 63.0044 19H5.99556C5.4178 19 4.96025 19.4882 4.99766 20.0648L8.19375 69.3203C8.44018 73.0758 11.6746 76 15.5712 76H53.4288C57.3254 76 60.5598 73.0758 60.8062 69.3203L64.0023 20.0648Z">
+                                    </path>
+                                </g>
+                                <defs>
+                                    <clipPath id="clip0_35_24">
+                                        <rect fill="white" height="14" width="69"></rect>
+                                    </clipPath>
+                                </defs>
+                            </svg>
+
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 69 57"
+                                class="svgIcon bin-bottom">
+                                <g clip-path="url(#clip0_35_22)">
+                                    <path fill="black"
+                                        d="M20.8232 -16.3727L19.9948 -14.787C19.8224 -14.4569 19.4808 -14.25 19.1085 -14.25H4.92857C2.20246 -14.25 0 -12.1273 0 -9.5C0 -6.8727 2.20246 -4.75 4.92857 -4.75H64.0714C66.7975 -4.75 69 -6.8727 69 -9.5C69 -12.1273 66.7975 -14.25 64.0714 -14.25H49.8915C49.5192 -14.25 49.1776 -14.4569 49.0052 -14.787L48.1768 -16.3727C47.3451 -17.9906 45.6355 -19 43.7719 -19H25.2281C23.3645 -19 21.6549 -17.9906 20.8232 -16.3727ZM64.0023 1.0648C64.0397 0.4882 63.5822 0 63.0044 0H5.99556C5.4178 0 4.96025 0.4882 4.99766 1.0648L8.19375 50.3203C8.44018 54.0758 11.6746 57 15.5712 57H53.4288C57.3254 57 60.5598 54.0758 60.8062 50.3203L64.0023 1.0648Z">
+                                    </path>
+                                </g>
+                                <defs>
+                                    <clipPath id="clip0_35_22">
+                                        <rect fill="white" height="57" width="69"></rect>
+                                    </clipPath>
+                                </defs>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </mat-card-content>
+</mat-card>
+<!-- Tabla de Fondos -->
+<mat-card class="cardWithShadow">
+    <mat-card-header class="d-flex">
+        <mat-card-title>Listado de fondos</mat-card-title>
+        <mat-card-subtitle class="mat-body-1 mb-3 m-t-7" style="margin-top: 5px;">Los fondos asignados con más de <strong>15 días, y sin
+                rendir,</strong> cambiaran a color <strong>ROJO</strong>
+                <p>
+                </p>
+                La tercera acción <strong>(descargar excel detallado) </strong>solo esta disponible en estados: <strong>EN_CIERRE Y FINALIZADO</strong>
+        </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+        <div class="table-responsive m-t-30">
+            <table mat-table [dataSource]="dataSource" class="w-100 custom-table-listar">
+
+                <!-- rendidor fondo-->
+                <ng-container matColumnDef="rendidor">
+                    <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">Rendidor</th>
+                    <td mat-cell *matCellDef="let fondo">{{ fondo.rendidor }}</td>
+                </ng-container>
+
+                <!-- rut fondo -->
+                <ng-container matColumnDef="rut">
+                    <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">Rut</th>
+                    <td mat-cell *matCellDef="let fondo">{{ fondo.rut }}</td>
+                </ng-container>
+
+                <!-- aprobadorJefatura fondo -->
+                <ng-container matColumnDef="aprobadorJefatura">
+                    <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">Jefatura</th>
+                    <td mat-cell *matCellDef="let fondo">{{ fondo.aprobadorJefatura }}</td>
+                </ng-container>
+
+                <!-- referencia fondo -->
+                <ng-container matColumnDef="referencia">
+                    <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600 text-center">Referencia</th>
+                    <td mat-cell *matCellDef="let fondo">{{ fondo.referencia }}</td>
+                </ng-container>
+
+                <!-- CentroCosto fondo -->
+                <ng-container matColumnDef="centroCosto">
+                    <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">Centro Costo</th>
+                    <td mat-cell *matCellDef="let fondo">{{ fondo.centroCosto || 'N/A'}}</td>
+                </ng-container>
+
+                <!-- MontoAsignado fondo -->
+                <ng-container matColumnDef="montoAsignado">
+                    <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">Monto Asig.</th>
+                    <td mat-cell *matCellDef="let fondo">{{ fondo.montoAsignado | monedaChilena }}</td>
+                </ng-container>
+
+                <!-- fechaAsignado fondo -->
+                <ng-container matColumnDef="fechaAsignado">
+                    <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">Fecha Asig.</th>
+                    <td mat-cell *matCellDef="let fondo">{{ fondo.fechaAsignado | date: 'dd MMM yyyy'}}</td>
+                </ng-container>
+
+                <!-- totalRendido fondo-->
+                <ng-container matColumnDef="totalRendido">
+                    <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">Rendido</th>
+                    <td mat-cell *matCellDef="let fondo">{{ fondo.totalRendido | monedaChilena}}</td>
+                </ng-container>
+
+                <!-- estado fondo-->
+                <ng-container matColumnDef="estado">
+                    <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">Estado</th>
+                    <td mat-cell *matCellDef="let fondo">{{ fondo.estado }}</td>
+                </ng-container>
+
+                <!-- asignacion fondo-->
+                <ng-container matColumnDef="asignacion">
+                    <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">Asignacion</th>
+                    <td mat-cell *matCellDef="let fondo">{{ fondo.asignacion }}</td>
+                </ng-container>
+
+                <!-- Acciones -->
+                <ng-container matColumnDef="Acción" stickyEnd>
+                    <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600 text-center">Acción</th>
+                    <td mat-cell *matCellDef="let fondo" class="action-link text-center">
+                        <!-- Botón de editar -->
+                        <a class="m-r-10 accion-editar" 
+                           [class.cursor-pointer]="fondo.estado !== 'en_cierre' && fondo.estado !== 'finalizado'" matTooltip="Editar"
+                           [class.disabled]="fondo.estado === 'en_cierre' || fondo.estado === 'finalizado'" 
+                           (click)="(fondo.estado !== 'en_cierre' && fondo.estado !== 'finalizado') && openDialog('Editar', fondo)">
+                            <i-tabler name="edit" class="icon-18"></i-tabler>
+                        </a>
+                        
+                        <!-- Botón de eliminar -->
+                        <a class="m-r-10 accion-eliminar" 
+                           [class.cursor-pointer]="fondo.estado !== 'en_cierre' && fondo.estado !== 'finalizado'" matTooltip="Eliminar"
+                           [class.disabled]="fondo.estado === 'en_cierre' || fondo.estado === 'finalizado'" 
+                           (click)="(fondo.estado !== 'en_cierre' && fondo.estado !== 'finalizado') && eliminarFondo(fondo.id)">
+                            <i-tabler name="trash" class="icon-18"></i-tabler>
+                        </a>
+                    
+                        <!-- Botón de exportar Excel -->
+                        <a class="m-r-10 accion-excel cursor-pointer" 
+                           (click)="documentoExcel(fondo.id)" matTooltip="Descargar Excel"
+                           [class.disabled]="fondo.estado !== 'en_cierre' && fondo.estado !== 'finalizado'" >
+                            <i-tabler name="file-type-xls" class="icon-18"></i-tabler>
+                        </a>
+
+                        <!-- Botón de notificar -->
+                        <a class="m-r-10 accion-notificar cursor-pointer"
+                            *ngIf="isAlertConditionMet(fondo)"
+                            (click)="notificarRendidor(fondo)"
+                            matTooltip="Notificar Rendidor">
+                            <i-tabler name="message-2-exclamation" class="icon-18"></i-tabler>
+                        </a>
+                    </td>
+                </ng-container>
+
+
+                <!-- Filas de la tabla -->
+                <tr mat-header-row *matHeaderRowDef="displayedColumns" class="custom-header-row"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns" class="custom-row"
+                    [ngClass]="{'alert-row': isAlertConditionMet(row)}"></tr>
+            </table>
+        </div>
+        <!-- Paginador fijo al final -->
+        <div class="paginator-container">
+            <mat-paginator #paginator1 [pageSizeOptions]="[10, 20, 30, 50, 100]" showFirstLastButtons></mat-paginator>
+        </div>
+    </mat-card-content>
+</mat-card>

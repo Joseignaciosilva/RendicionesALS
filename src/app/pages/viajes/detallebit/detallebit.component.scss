@@ -1,0 +1,56 @@
+.bg-en-curso{
+    padding: 12px !important;
+    color: #fff;
+    background-color: #26c6da;
+    .mat-card-title {
+        display: flex;
+        align-items: center;
+        font-size: 16px;
+        .course-duration {
+          margin-left: auto;
+          display: flex;
+          align-items: center;
+        }
+      }
+
+}
+.bg-pendiente{
+    padding: 12px !important;
+    color: #fff;
+    background-color: #1e88e5;
+    .mat-card-title {
+        display: flex;
+        align-items: center;
+        font-size: 16px;
+    }
+}
+.bg-finalizado{
+    padding: 12px !important;
+    color: #fff;
+    background-color: rgb(52, 177, 94);
+    .mat-card-title {
+        display: flex;
+        align-items: center;
+        font-size: 16px;
+    }
+}
+.bg-error{
+  padding: 12px !important;
+  color: #ff0000;
+  background-color: rgb(255, 255, 255);
+  .mat-card-title {
+      display: flex;
+      align-items: center;
+      font-size: 16px;
+  }
+}
+.icon-fix {
+
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+}
+.mat-card-actions {
+    border-top: 1px solid rgba(120, 130, 140, 0.13);
+    padding: 8px 0 !important;
+}

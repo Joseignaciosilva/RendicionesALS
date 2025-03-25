@@ -1,0 +1,86 @@
+<!--  -->
+<div class="col-md-12">
+  <div class="row">
+    <div class="col text-center">
+      <h6>Actividad Finalizada</h6>
+      <button
+      mat-fab
+      style="background-color: #34C759;"
+      (click)="filtrarFinalizados()"
+    >
+      <i-tabler name="clipboard-check"></i-tabler>
+    </button>
+    </div>
+    <div class="col text-center">
+      <h6>Actividad en curso</h6>
+      <button
+      mat-fab
+      style="background-color: #5d87ff;"
+      (click)="filtrarEnCurso()"
+    >
+      <i-tabler name="clipboard-list"></i-tabler>
+    </button>
+    </div>
+    <div class="col text-center">
+      <h6>Proxima Actividad</h6>
+      <button
+      mat-fab
+      style="background-color: #FFDE59;"
+      (click)="filtrarPendientes()"
+    >
+      <i-tabler name="clipboard"></i-tabler>
+    </button>
+    </div>
+    <div class="col text-center">
+      <h6>Todas las actividades</h6>
+      <button
+      mat-fab
+      style="background-color: #3170e5;"
+      (click)="getTodos()"
+    >
+      <i-tabler name="clipboard-text"></i-tabler>
+    </button>
+    </div>
+  </div>
+  <br>
+</div>
+
+<mat-card class="cardWithShadow overflow-hidden">
+  <mat-toolbar color="primary" class="no-shadow">
+    <mat-toolbar-row>
+      <div class="d-flex align-items-center w-100">
+        <span style="text-transform:capitalize;">{{ viewDate | calendarDate : view + "ViewTitle" : "es" }}</span>
+        <div class="m-l-auto d-flex align-items-center">
+          <button mat-icon-button mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate">
+            <mat-icon>chevron_left</mat-icon>
+          </button>
+          <button mat-icon-button mwlCalendarToday [(viewDate)]="viewDate">
+            <mat-icon>today</mat-icon>
+          </button>
+          <button mat-icon-button mwlCalendarNextView [view]="view" [(viewDate)]="viewDate">
+            <mat-icon>chevron_right</mat-icon>
+          </button>
+        </div>
+      </div>
+    </mat-toolbar-row>
+  </mat-toolbar>
+  <mat-card-content>
+    <!-- ============================================================== -->
+    <!-- Event Calendar -->
+    <!-- ============================================================== -->
+    <div [ngSwitch]="view">
+      <mwl-calendar-month-view *ngSwitchCase="'month'" [viewDate]="viewDate" [events]="events" [refresh]="refresh" [locale]="'Es'"
+        [activeDayIsOpen]="activeDayIsOpen" (dayClicked)="dayClicked($event.day)" (eventClicked)="eventClicked($event.event)"
+         (eventTimesChanged)="eventTimesChanged($event)" style="text-transform:capitalize;">
+      </mwl-calendar-month-view>
+<!--
+      <mwl-calendar-week-view *ngSwitchCase="'week'" [viewDate]="viewDate" [events]="events" [refresh]="refresh"
+        (eventClicked)="handleEvent('Clicked', $event.event)" (eventTimesChanged)="eventTimesChanged($event)">
+      </mwl-calendar-week-view> -->
+
+      <!-- <mwl-calendar-day-view *ngSwitchCase="'day'" [viewDate]="viewDate" [events]="events" [refresh]="refresh"
+        (eventClicked)="handleEvent('Clicked', $event.event)" (eventTimesChanged)="eventTimesChanged($event)">
+      </mwl-calendar-day-view> -->
+    </div>
+  </mat-card-content>
+</mat-card>

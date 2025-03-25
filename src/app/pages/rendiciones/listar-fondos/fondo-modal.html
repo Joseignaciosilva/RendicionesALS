@@ -1,0 +1,168 @@
+<mat-dialog-content style="max-width: 1200px; max-height: 95vh; overflow-y: auto; width: 100%;">
+    <!--Titulo del modal-->
+    <mat-card-header class="p-t-0">
+        <mat-card-title class="m-b-10 ">Editar Fondo</mat-card-title>
+    </mat-card-header>
+    <mat-divider></mat-divider>
+    <mat-card-content>
+        <form class="m-t-8" [formGroup]="fondoForm" enctype="multipart/form-data">
+
+            <div class="row">
+
+                <!-- aprobadorJefatura -->
+                <div class="col-sm-6">
+                    <div class="row">
+                        <div class="col-12 col-sm-3 d-flex align-items-center">
+                            <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Aprobador Jefatura</mat-label>
+                        </div>
+                        <div class="col-12 col-sm-9">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Aprobador Jefatura</mat-label>
+                                <mat-icon matPrefix>
+                                    <i-tabler name="mail" class="icon-20 d-flex"></i-tabler>
+                                </mat-icon>
+                                <input type="text" matInput [matAutocomplete]="autoJefes"formControlName="aprobadorJefatura"/>
+                                    <mat-autocomplete #autoJefes="matAutocomplete">
+                                        <mat-option *ngFor="let jefe of jefeFiltrados | async" [value]="jefe.usuarioJefe">
+                                          {{ jefe.usuarioJefe }}
+                                        </mat-option>
+                                    </mat-autocomplete> 
+                                
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- aprobadorAdmin -->
+                <div class="col-sm-6">
+                    <div class="row">
+                        <div class="col-12 col-sm-3 d-flex align-items-center">
+                            <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Aprobador Administrativo</mat-label>
+                        </div>
+                        <div class="col-12 col-sm-9">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Aprobador Administrativo</mat-label>
+                                <mat-icon matPrefix>
+                                    <i-tabler name="mail" class="icon-20 d-flex"></i-tabler>
+                                </mat-icon>
+                                <mat-select formControlName="aprobadorAdmin" placeholder="Seleccionar">
+                                    <mat-option *ngFor="let admin of adminFiltrados | async" [value]="admin.usuario.email" >
+                                        {{ admin.usuario.nombre }} {{ admin.usuario.apellidoPaterno }} 
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- referencia -->
+                <div class="col-sm-6">
+                    <div class="row">
+                        <div class="col-12 col-sm-3 d-flex align-items-center">
+                            <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Referencia</mat-label>
+                        </div>
+                        <div class="col-12 col-sm-9">
+                            <mat-form-field appearance="outline" class="w-100" color="primary">
+                                <mat-icon matPrefix>
+                                    <i-tabler name="writing" class="icon-20 d-flex"></i-tabler>
+                                </mat-icon>
+                                <input matInput type="text" placeholder="Ingresa el número de servicio o referencia"
+                                    formControlName="referencia" />
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- montoAsignado -->
+                <div class="col-sm-6">
+                    <div class="row">
+                        <div class="col-12 col-sm-3 d-flex align-items-center">
+                            <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Monto Asignado</mat-label>
+                        </div>
+                        <div class="col-12 col-sm-9">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <input matInput type="number" formControlName="montoAsignado"
+                                    placeholder="Ingresa el valor del gasto" />
+                                <mat-icon matPrefix>
+                                    <i-tabler name="cash" class="icon-20 d-flex"></i-tabler>
+                                </mat-icon>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- centroCosto -->
+                <div class="col-sm-6">
+                    <div class="row">
+                        <div class="col-12 col-sm-3 d-flex align-items-center">
+                            <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Centro Costo</mat-label>
+                        </div>
+                        <div class="col-12 col-sm-9">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Centro de Costo</mat-label>
+                                <mat-icon matPrefix>
+                                    <i-tabler name="building" class="icon-20 d-flex"></i-tabler>
+                                </mat-icon>
+
+                                <input matInput [matAutocomplete]="autoCentro" formControlName="centroCosto">
+                                <mat-autocomplete autoActiveFirstOption #autoCentro="matAutocomplete">
+                                    <mat-option *ngFor="let centro of centroFiltrados | async; trackBy: trackCentroById" [value]="centro.nombre"
+                                >
+                                        {{ centro.nombre }}
+                                    </mat-option>
+                                </mat-autocomplete>
+
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- fechaAsignado -->
+                <div class="col-sm-6">
+                    <div class="row">
+                        <div class="col-12 col-sm-3 d-flex align-items-center">
+                            <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Fecha Asignado</mat-label>
+                        </div>
+                        <div class="col-12 col-sm-9">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <input matInput [matDatepicker]="picker" placeholder="DD/MM/YYYY"
+                                    formControlName="fechaAsignado" 
+                                    [readonly]="true" 
+                                    (focus)="picker.open()"
+                                    (click)="picker.open()"/>
+                                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- asignacion -->
+                <div class="col-sm-6">
+                    <div class="row">
+                        <div class="col-12 col-sm-3 d-flex align-items-center">
+                            <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Asignación</mat-label>
+                        </div>
+                        <div class="col-12 col-sm-9">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-icon matPrefix>
+                                    <i-tabler name="clipboard" class="icon-20 d-flex"></i-tabler>
+                                </mat-icon>
+                                <mat-select value="male" formControlName="asignacion" placeholder="Seleccionar">
+                                    <mat-option value="asignado">ASIGNADO</mat-option>
+                                    <mat-option value="reembolso">REEMBOLSO</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-right">
+                <button mat-flat-button color="primary" (click)="doAction()">{{action}}</button>
+                <button mat-flat-button color="warn" class="m-l-8" (click)="closeDialog()">Cerrar</button>
+            </div>
+        </form>
+    </mat-card-content>
+</mat-dialog-content>

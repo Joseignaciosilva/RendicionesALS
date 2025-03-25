@@ -1,0 +1,156 @@
+<div class="row">
+    <!-- Mostrar mensaje si no hay solicitudes  -->
+    <div *ngIf="solicitudes.length === 0" class="col-12">
+        <mat-card class="cardWithShadow">
+            <mat-card-content class="p-y-24">
+                <h6 class="mat-body-2 text-center f-w-600">Por ahora no hay solicitudes por aprobar.</h6>
+            </mat-card-content>
+        </mat-card>
+    </div>
+
+    <div class="col-12 col-sm-12 col-md-6 col-lg-6" *ngFor="let solicitud of solicitudes">
+        <mat-card class="cardWithShadow">
+            <mat-card-content class="p-y-14">
+                <div class="text-center">
+                    <h6 class="mat-body-2 f-w-600">{{ solicitud.correlativo }}</h6>
+                    <mat-divider></mat-divider>
+                </div>
+
+                <div class="row text-center m-t-24">
+                    <!-- Fecha Generado -->
+                    <div class="col-6">
+                        <div class="d-flex align-items-center">
+                            <img src="assets/images/svgs/calendarioF.svg" alt="icon"
+                                class="iconn bg-light-primary rounded">
+                            <div class="ms-3" style="flex-grow: 1;">
+                                <div class="d-flex flex-column align-items-center">
+                                    <h6 class="mat-body-2 f-w-600">{{ solicitud.fechaGenerado | date: 'dd MMM yyyy' }}</h6>
+                                    <span>Fecha Gen.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Fecha Vencimiento -->
+                    <div class="col-6">
+                        <div class="d-flex align-items-center">
+                            <img src="assets/images/svgs/calendarioEXP.svg" alt="icon"
+                                class="iconn bg-light-error rounded">
+                            <div class="ms-3" style="flex-grow: 1;">
+                                <div class="d-flex flex-column align-items-center">
+                                    <h6 class="mat-body-2 f-w-600">{{ solicitud.fechaVencimiento | date: 'dd MMM yyyy'
+                                        }}</h6>
+                                    <span>Fecha Venc.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row text-center m-t-24">
+                    <!-- Monto -->
+                    <div class="col-6">
+                        <div class="d-flex align-items-center">
+                            <img src="assets/images/svgs/pagar.svg" alt="icon" class="iconn bg-light-warning rounded">
+                            <div class="ms-3" style="flex-grow: 1;">
+                                <div class="d-flex flex-column align-items-center">
+                                    <h6 class="mat-body-2 f-w-600">{{ solicitud.monto | monedaChilena }}</h6>
+                                    <span>Monto pagar</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Factura -->
+                    <div class="col-6">
+                        <div class="d-flex align-items-center">
+                            <img src="assets/images/svgs/factura.svg" alt="icon"
+                                class="iconn bg-light-success rounded ">
+
+                            <div class="ms-3" style="flex-grow: 1;">
+                                <div class="d-flex flex-column align-items-center" class="link-primary">
+                                    <a (click)="abrirFacturaModal(solicitud.factura)" >
+                                        <div class="linkMore mt-3">
+                                          Ver factura
+                                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 19" height="19" width="18">
+                                            <path stroke="#000000" fill="#000000"
+                                              d="M3 9.09985C3 9.23792 2.88807 9.34985 2.75 9.34985C2.61193 9.34985 2.5 9.23792 2.5 9.09985C2.5 8.96178 2.61193 8.84985 2.75 8.84985C2.88807 8.84985 3 8.96178 3 9.09985Z">
+                                            </path>
+                                            <path stroke="#000000" fill="#000000"
+                                              d="M9.25 2.84985C9.25 2.98792 9.13807 3.09985 9 3.09985C8.86193 3.09985 8.75 2.98792 8.75 2.84985C8.75 2.71178 8.86193 2.59985 9 2.59985C9.13807 2.59985 9.25 2.71178 9.25 2.84985Z">
+                                            </path>
+                                            <path fill="#000000"
+                                              d="M2.75 3.59985C3.16421 3.59985 3.5 3.26407 3.5 2.84985C3.5 2.43564 3.16421 2.09985 2.75 2.09985C2.33579 2.09985 2 2.43564 2 2.84985C2 3.26407 2.33579 3.59985 2.75 3.59985Z">
+                                            </path>
+                                            <path fill="#000000"
+                                              d="M2.75 6.72485C3.16421 6.72485 3.5 6.38907 3.5 5.97485C3.5 5.56064 3.16421 5.22485 2.75 5.22485C2.33579 5.22485 2 5.56064 2 5.97485C2 6.38907 2.33579 6.72485 2.75 6.72485Z">
+                                            </path>
+                                            <path fill="#000000"
+                                              d="M2.75 12.9749C3.16421 12.9749 3.5 12.6391 3.5 12.2249C3.5 11.8106 3.16421 11.4749 2.75 11.4749C2.33579 11.4749 2 11.8106 2 12.2249C2 12.6391 2.33579 12.9749 2.75 12.9749Z">
+                                            </path>
+                                            <path fill="#000000"
+                                              d="M2.75 16.0999C3.16421 16.0999 3.5 15.7641 3.5 15.3499C3.5 14.9356 3.16421 14.5999 2.75 14.5999C2.33579 14.5999 2 14.9356 2 15.3499C2 15.7641 2.33579 16.0999 2.75 16.0999Z">
+                                            </path>
+                                            <path fill="#000000"
+                                              d="M15.25 3.59985C15.6642 3.59985 16 3.26407 16 2.84985C16 2.43564 15.6642 2.09985 15.25 2.09985C14.8358 2.09985 14.5 2.43564 14.5 2.84985C14.5 3.26407 14.8358 3.59985 15.25 3.59985Z">
+                                            </path>
+                                            <path fill="#000000"
+                                              d="M15.25 6.72485C15.6642 6.72485 16 6.38907 16 5.97485C16 5.56064 15.6642 5.22485 15.25 5.22485C14.8358 5.22485 14.5 5.56064 14.5 5.97485C14.5 6.38907 14.8358 6.72485 15.25 6.72485Z">
+                                            </path>
+                                            <path fill="#000000"
+                                              d="M12.125 3.59985C12.5392 3.59985 12.875 3.26407 12.875 2.84985C12.875 2.43564 12.5392 2.09985 12.125 2.09985C11.7108 2.09985 11.375 2.43564 11.375 2.84985C11.375 3.26407 11.7108 3.59985 12.125 3.59985Z">
+                                            </path>
+                                            <path fill="#000000"
+                                              d="M5.875 3.59985C6.28921 3.59985 6.625 3.26407 6.625 2.84985C6.625 2.43564 6.28921 2.09985 5.875 2.09985C5.46079 2.09985 5.125 2.43564 5.125 2.84985C5.125 3.26407 5.46079 3.59985 5.875 3.59985Z">
+                                            </path>
+                                            <path fill="#000000"
+                                              d="M5.875 16.0999C6.28921 16.0999 6.625 15.7641 6.625 15.3499C6.625 14.9356 6.28921 14.5999 5.875 14.5999C5.46079 14.5999 5.125 14.9356 5.125 15.3499C5.125 15.7641 5.46079 16.0999 5.875 16.0999Z">
+                                            </path>
+                                            <path stroke-linejoin="round" stroke-linecap="round" stroke-width="1.5" stroke="#000000"
+                                              d="M9.25 15.3499V9.34985H15.25"></path>
+                                            <path stroke-linejoin="round" stroke-linecap="round" stroke-width="1.5" stroke="#000000"
+                                              d="M9.25 9.34985L15.25 15.3499"></path>
+                                          </svg>
+                                        </div>
+                                    </a>
+                                    <span>Factura</span>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+
+                <mat-divider class="divider2"></mat-divider>
+
+                <!-- Glosa -->
+                <div class="m-t-14">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h6 class="mat-body-2 f-w-600">Glosa</h6>
+                        <div class="mat-caption">{{ solicitud.glosa?.length || 0 }}/300</div>
+                    </div>
+                    <textarea
+                        matInput
+                        placeholder="Añade una glosa a esta aprobación... (opcional en caso de Aprobar)"
+                        rows="5"
+                        class="w-100"
+                        [(ngModel)]="solicitud.glosa"
+                    >
+                    </textarea>
+                </div>
+
+
+                <!-- RECHAZAR, APROBAR -->
+                <div class="d-flex justify-content-center gap-30 m-t-16">
+                    <button mat-raised-button color="warn" class="btn-rechazar" (click)="rechazarSolicitud(solicitud, solicitud.glosa)" >
+                        RECHAZAR
+                    </button>
+                    <button mat-raised-button color="accent" class="btn-aprobar" (click)="aprobarSolicitud(solicitud)">
+                        APROBAR
+                    </button>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>

@@ -1,0 +1,29 @@
+.mat-body-1 {
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 400;
+  }
+  
+  .mat-body-2 {
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 500;
+  }
+  
+  .f-w-600 {
+    font-weight: 600;
+    margin-top: 8px;
+  }
+  
+  .f-s-14 {
+    font-size: 16px !important;
+  }
+
+  mat-divider {
+    margin-top: 1px; /* Añade margen superior al divisor */
+  }
+
+  .btn-rendir:hover {
+    background-color: #3b8cd1;
+    transform: scale(1.05);
+  }

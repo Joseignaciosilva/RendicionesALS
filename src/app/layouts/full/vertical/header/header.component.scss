@@ -1,0 +1,141 @@
+.icon-container {
+    background-color: #004cab; // Cambia a azul el fondo del icono
+    border-radius: 50%; // Mantén el fondo redondeado
+    width: 40px; // Asegúrate que el tamaño del fondo coincida con el icono
+    height: 40px; // Ajusta el tamaño del fondo
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-container i-tabler {
+    color: white; // Cambia el color del icono a blanco
+}
+
+.quick-links-container {
+    background-color: #004cab; // Cambia el fondo a azul
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+
+}
+.centrado {
+    display: flex; // Usar flexbox para centrar
+    justify-content: center; // Centrar horizontalmente
+    align-items: center; // Centrar verticalmente
+    height: 100%; // Asegúrate de que ocupe todo el alto del contenedor
+}
+
+.logo {
+    max-width: 100%; // Ajustar el ancho al 100% del contenedor
+    height: auto; // Mantener la relación de aspecto
+}
+
+
+.notifications-container {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto; /* Activa el desplazamiento */
+  max-height: 300px; /* Limita la altura */
+  padding: 0; /* Elimina el espacio interior */
+  margin: 0; /* Elimina márgenes */
+  // scrollbar-width: none; 
+}
+  
+.notification-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 15px;
+  margin: 0;
+  background-color: #fff;
+  border-bottom: none; /* Elimina cualquier línea separadora */
+  position: relative; /* Permite extender el hover al área de los botones */
+  cursor: pointer; /* Indica que el área es interactiva */
+  transition: background-color 0.3s ease; /* Efecto suave para el hover */
+
+  &:hover {
+    background-color: #f5f5f5; /* Fondo gris claro al hacer hover */
+  }
+
+}
+  .notification-item a[mat-menu-item] {
+    background-color: transparent !important; /* Sin fondo por defecto ni al hover */
+    color: inherit !important; /* Mantén el color del texto */
+    padding: 8px 15px !important; /* Ajusta el padding si es necesario */
+    text-decoration: none !important; /* Evita subrayados */
+    box-shadow: none !important; /* Sin sombras */
+    transition: none !important; /* Sin efectos de transición */
+  
+    &:hover {
+      background-color: transparent !important; /* Sin fondo al hover */
+    }
+  }
+
+  .notification-actions {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-left: 10px; /* Espaciado entre acciones y contenido */
+    z-index: 1; /* Asegura que los íconos estén sobre el fondo hover */
+  }
+  
+  .notification-actions i-tabler {
+    margin-top: 8px;
+    cursor: pointer;
+  
+    &:hover {
+      transform: scale(1.3);
+    }
+  }
+
+  
+  /* Clase para los efectos de hover y focus */
+  .icon-hover-focus {
+  transition: transform 0.3s ease, outline 0.3s ease;
+  stroke-width: 1px;
+  width: 18px;
+  height: 18px;
+  }
+  
+  /* Efecto cuando el mouse pasa por encima (hover) */
+  .icon-hover-focus:hover {
+  transform: scale(1.3);  /* Aumenta el tamaño */
+  }
+  
+  /* Efecto cuando el ícono recibe el enfoque (focus) */
+  .icon-hover-focus:focus {
+  outline: 2px solid #4b9fff; /* Contorno visible al recibir el enfoque */
+  outline-offset: 2px;  /* Distancia del contorno respecto al ícono */
+  }
+  
+  .card-no-leido {
+  box-shadow: inset 5px 0 0 0 #004cab; /* Línea azul */
+  margin-left: 0; 
+  }
+
+  .notificacionesicon {
+    color: rgb(250, 62, 62);
+  }
+
+  .notificacionesicondos {
+    color: rgb(42, 113, 245);
+  }
+
+  .mat-badge-content {
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+  }
+  
+
+  .mat-badge-content {
+    font-size: 10px !important;
+  }
+  
+  
+
+
+
+
+  

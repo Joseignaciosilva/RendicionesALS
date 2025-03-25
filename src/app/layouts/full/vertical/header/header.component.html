@@ -1,0 +1,229 @@
+<mat-toolbar class="topbar">
+
+  <!-- --------------------------------------------------------------- -->
+  <!-- Desktop Menu -->
+  @if(showToggle) {
+  <button mat-icon-button (click)="toggleCollapsed.emit()" class="d-flex justify-content-center">
+    <i-tabler name="menu-2" class="icon-20 d-flex"></i-tabler>
+  </button>
+  }
+
+  <!-- Mobile Menu -->
+  @if(!showToggle) {
+  <button mat-icon-button (click)="toggleMobileNav.emit()" class="d-flex justify-content-center">
+    <i-tabler name="menu-2" class="icon-20 d-flex"></i-tabler>
+  </button>
+  }
+  <!-- --------------------------------------------------------------- -->
+
+  <!-- --------------------------------------------------------------- -->
+  <!--  Search -->
+  <!-- --------------------------------------------------------------- -->
+  <!-- <button mat-icon-button (click)="openDialog()" class="d-flex justify-content-center">
+    <i-tabler name="search" class="icon-20 d-flex"></i-tabler>
+  </button> -->
+
+  <div class="d-lg-flex">
+    <!-- --------------------------------------------------------------- -->
+    <!--  Links -->
+    <!-- --------------------------------------------------------------- -->
+    <button mat-button [matMenuTriggerFor]="appsmenu" aria-label="Notifications">
+      <div class="d-flex align-items-center">
+        Apps <i-tabler name="chevron-down" class="icon-16 m-l-4"></i-tabler>
+      </div>
+    </button>
+    <mat-menu #appsmenu="matMenu" class="apps-dd cardWithShadow">
+      <div class="row">
+        <div class="col-lg-9 col-sm-12 b-r-1 p-r-0">
+          <div class="p-32 p-b-0">
+            <div class="row">
+              @for(appdd of apps; track appdd.titulo) {
+              <div class="col-lg-6 col-sm-12 text-hover-primary">
+                <a [href]="appdd.link" target="_blank" class="d-flex align-items-center text-decoration-none m-b-24">
+                  <span
+                    class="text-primary bg-light-primary rounded icon-40 d-flex align-items-center justify-content-center">
+                    <i-tabler [name]="appdd.icon" class="d-flex "></i-tabler>
+                  </span>
+
+                  <div class="m-l-16">
+                    <h5 class="f-s-14 f-w-600 m-0 textprimary mat-subtitle-1 hover-text">
+                      {{ appdd.titulo }}
+                    </h5>
+                    <span class="mat-body-1 f-s-12">{{ appdd.subtitulo }}</span>
+                  </div>
+                </a>
+              </div>
+              }
+            </div>
+          </div>
+          <div class="b-t-1 p-x-12 p-y-8 d-lg-flex align-items-center">
+            <span class="d-flex align-items-center mat-subtitle-1 f-s-14 f-w-500 m-r-2">
+              ¿Tienes alguna duda?
+              <button mat-icon-button class="m-l-1">
+                <i-tabler name="help" class="d-flex"></i-tabler>
+              </button>
+            </span>
+          </div>          
+        </div>
+        <div class="col-lg-3  quick-links-container d-none d-lg-flex">
+          <div class="centrado">
+            <img src="./assets/images/logos/als_logo_1.png" alt="" class="logo">
+          </div>
+        </div>
+      </div>
+    </mat-menu>
+    <!-- <a mat-button [routerLink]="['/apps/chat']">Chat</a>
+    <a mat-button [routerLink]="['/apps/calendar']">Calendar</a>
+    <a mat-button [routerLink]="['/apps/email/inbox']">Email</a> -->
+  </div>
+
+  <span class="flex-1-auto"></span>
+
+  <!-- Mobile Menu -->
+  <!-- <button mat-icon-button (click)="toggleMobileFilterNav.emit()" class="d-flex d-lg-none justify-content-center">
+    <i-tabler name="grid-dots" class="icon-20 d-flex"></i-tabler>
+  </button> -->
+
+  <!-- --------------------------------------------------------------- -->
+  <!-- langugage Dropdown -->
+  <!-- --------------------------------------------------------------- -->
+  <!-- <button [matMenuTriggerFor]="flags" mat-icon-button class="m-r-5">
+    <img [src]="selectedLanguage.icon" class="rounded-circle object-cover icon-20" />
+  </button> -->
+  <mat-menu #flags="matMenu" class="cardWithShadow">
+    @for(lang of languages; track lang.icon) {
+    <button mat-menu-item (click)="changeLanguage(lang)">
+      <div class="d-flex align-items-center">
+        <img [src]="lang.icon" class="rounded-circle object-cover m-r-8 icon-20" />
+        <span class="mat-subtitle-1 f-s-14">{{ lang.language }}</span>
+      </div>
+    </button>
+    }
+  </mat-menu>
+
+  
+  <!-- --------------------------------------------------------------- -->
+  <!-- Modo Oscuro -->
+  <!-- --------------------------------------------------------------- -->
+  <button mat-icon-button (click)="toggleTheme()">
+    <ng-container *ngIf="options.theme === 'light'; else darkTheme">
+      <i-tabler name="moon" class="d-flex "></i-tabler>
+    </ng-container>
+    <ng-template #darkTheme>
+      <i-tabler name="sun-high" class="d-flex "></i-tabler>
+    </ng-template>
+  </button>
+
+  <!-- --------------------------------------------------------------- -->
+  <!-- Notification Dropdown -->
+  <!-- --------------------------------------------------------------- -->
+  <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Notifications" #menuTrigger="matMenuTrigger">
+    <i-tabler class="d-flex" name="bell" matBadge="{{ totalPendiente > 99 ? '99+' : totalPendiente }}" matBadgeColor="primary"></i-tabler>
+  </button>
+  
+  <mat-menu #menu="matMenu" [hasBackdrop]="true" class="topbar-dd cardWithShadow"> 
+    <div (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()"> 
+
+      <div class="d-flex align-items-center p-x-32 p-y-16">
+        <h6 class="f-s-16 f-w-600 m-0 mat-subtitle-1">Notificaciones</h6>
+        <span class="m-l-auto">
+          <span class="bg-primary text-white p-x-8 p-y-4 f-w-500 rounded f-s-12">{{ totalPendiente }}</span>
+        </span>
+      </div>
+
+      <!-- Contenedor de notificaciones con CSS para centrar el contenido -->
+      <div class="notifications-container">
+        <div *ngIf="!notisRecientes || notisRecientes.length === 0" class="text-center text-muted">
+          ¡Por ahora no tienes más notificaciones!
+        </div>
+        
+        @for(noti of notisRecientes; track noti.id) {
+          <div class="notification-item" [ngClass]="{
+            'card-no-leido': !noti.visualizado }">
+            <a (click)="visualizarNotiClick(noti.id.toString(), noti.link); $event.preventDefault()" mat-menu-item class="p-x-15 p-y-10 text-decoration-none">
+              <div class="d-flex align-items-center justify-content-between">
+                <div class="d-flex align-items-center">
+                  <span class="text-primary bg-light-primary rounded icon-40 d-flex align-items-center justify-content-center p-x-20">
+                    <i-tabler class="d-flex" [name]="noti.icon"></i-tabler>
+                  </span>
+                  <div class="m-l-16 m-r-20">
+                    <h5 class="f-s-14 f-w-600 m-0 mat-subtitle-1">{{ noti.titulo }}</h5>
+                    <span>{{ noti.subtitulo }}</span>
+                  </div>
+                </div>
+              </div>
+            </a>
+        
+            <!-- Iconos de acción -->
+            <div class="notification-actions">
+              <i-tabler class="notificacionesicon icon-hover-focus d-flex m-0" name="trash" (click)="eliminarNoti( noti.id )" ></i-tabler>
+              @if(!noti.visualizado){
+              <i-tabler class="notificacionesicondos icon-hover-focus d-flex" name="eye-check" (click)="visualizarNoti( noti.id )" ></i-tabler>
+              }
+            </div>
+          </div>
+          
+        }
+      </div>
+
+      <div class="p-y-12 p-x-32">
+        <button mat-stroked-button color="primary" class="w-100" (click)="todasMisNotis(); menuTrigger.closeMenu()">
+          Ver todas mis notificaciones
+        </button>
+      </div>
+    </div>
+  </mat-menu>
+
+  <!-- --------------------------------------------------------------- -->
+  <!-- profile Dropdown -->
+  <!-- --------------------------------------------------------------- -->
+  <button mat-icon-button [matMenuTriggerFor]="profilemenu" aria-label="Notifications">
+    <div class="rounded-circle object-cover icon-35 profile-dd initials-background">
+      {{ getInitials() }}
+    </div>
+  </button>
+  <mat-menu #profilemenu="matMenu" class="topbar-dd cardWithShadow">
+    <ng-scrollbar class="position-relative" style="height: 647px">
+      <div class="p-x-32 p-y-16">
+        <h6 class="f-s-16 f-w-600 m-0 mat-subtitle-1">Perfil de Usuario</h6>
+
+        <div class="d-flex align-items-center p-b-24 b-b-1 m-t-16">
+          <div class="rounded-circle object-cover icon-35 profile-dd initials-background">
+            {{ getInitials() }}
+          </div>
+          <div class="m-l-16">
+            <h6 class="f-s-14 f-w-600 m-0 mat-subtitle-1">{{ nombreUsuario }} {{ apellidoUsuario }}</h6>
+            <span class="f-s-14 d-block m-b-4">{{ nombreCargo }}</span>
+            <span class="d-flex align-items-center">
+              <i-tabler name="mail" class="icon-15 m-r-4"></i-tabler>
+              {{ emailUsuario }}
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="p-x-32">
+        @for(profile of profiledd; track profile.title) {
+        <a class="p-y-16 text-decoration-none d-block text-hover-primary" [routerLink]="[profile.link]">
+          <div class="d-flex align-items-center">
+            <button mat-mini-fab class="text-primary bg-light-primary shadow-none rounded">
+              <img [src]="profile.img" width="20" />
+            </button>
+
+            <div class="m-l-16">
+              <h5 class="f-s-14 f-w-600 m-0 textprimary mat-subtitle-1 hover-text">
+                {{ profile.title }}
+              </h5>
+              <span class="mat-body-1">{{ profile.subtitle }}</span>
+            </div>
+          </div>
+        </a>
+        }
+      </div>
+
+      <div class="p-y-12 p-x-32">
+        <a (click)="logout()" [routerLink]="['authentication/login']" mat-stroked-button color="primary"
+          class="w-100">Logout</a>
+      </div>
+    </ng-scrollbar>
+  </mat-menu>
+</mat-toolbar>

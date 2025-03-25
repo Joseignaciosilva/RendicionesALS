@@ -1,0 +1,318 @@
+<mat-card *ngIf="!esGer" class="cardWithShadow">
+  <mat-card-content class="p-24">
+      <mat-card-title>Historial de solicitudes</mat-card-title>
+      <div class="m-t-30 table-responsive-sm">
+        <table mat-table [dataSource]="dataPaginator1" multiTemplateDataRows>
+          
+          @for(column of columnsToDisplay; track column) {
+          <ng-container matColumnDef="{{ column }}">
+            
+            <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-15">
+              {{tituloColumns[cargarColumna()]}}
+            </th>
+            <td mat-cell *matCellDef="let element" class="p-x-24 f-s-14 p-l-0">
+              <ng-container *ngIf="element[column] == 'Aprobado'">
+                <span class="bg-light-success mat-body-2 f-w-500 p-x-8 p-y-4 f-s-12 rounded-pill">Aprobado</span>
+              </ng-container>
+              <ng-container *ngIf="element[column] == 'Pendiente'">
+                <span class="bg-light-primary mat-body-2 f-w-500 p-x-8 p-y-4 f-s-12 rounded-pill">Pendiente</span>
+              </ng-container>
+              <ng-container *ngIf="element[column] == 'Rechazado'">
+                <span class="bg-light-error mat-body-2 f-w-500 p-x-8 p-y-4 f-s-12 rounded-pill">Rechazado</span>
+              </ng-container>
+              <ng-container *ngIf="element[column] == 'Pre Aprobado'">
+                <span class="bg-light-success mat-body-2 f-w-500 p-x-8 p-y-4 f-s-12 rounded-pill">Pre Aprobado</span>
+              </ng-container>
+              <ng-container *ngIf="element[column] == 'Finalizado'">
+                <span class="bg-light-accent mat-body-2 f-w-500 p-x-8 p-y-4 f-s-12 rounded-pill">Finalizado</span>
+              </ng-container>
+              <ng-container *ngIf="element[column] == 'Bitacora'">
+                <span class="bg-light-warning mat-body-2 f-w-500 p-x-8 p-y-4 f-s-12 rounded-pill">Pendiente Bitacora</span>
+              </ng-container>
+              <ng-container *ngIf="element[column] !== true && element[column] !== false && element[column] !== 'Aprobado' && element[column] !== 'Pendiente' && element[column] !== 'Rechazado' && element[column] !== 'Pre Aprobado' && element[column] !== 'Finalizado' && element[column] !== 'Bitacora'">
+                {{ element[column] }}
+              </ng-container>
+            </td>
+          </ng-container>
+          }
+          <ng-container matColumnDef="expand">
+            <th mat-header-cell *matHeaderCellDef aria-label="row actions">
+              &nbsp;
+            </th>
+            <td mat-cell *matCellDef="let element">
+              <button
+                mat-icon-button
+                aria-label="expand row"
+                (click)="
+                  expandedElement = expandedElement === element ? null : element;
+                  $event.stopPropagation()
+                "
+              >
+                @if(expandedElement !== element) {
+                <mat-icon>keyboard_arrow_down</mat-icon>
+                } @if(expandedElement === element) {
+                <mat-icon>keyboard_arrow_up</mat-icon>
+                }
+              </button>
+            </td>
+          </ng-container>
+          
+          <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+          <ng-container matColumnDef="expandedDetail">
+            <td
+              mat-cell
+              *matCellDef="let element"
+              [attr.colspan]="columnsToDisplay.length"
+            >
+              <div
+                [@detailExpand]="
+                  element === expandedElement ? 'expanded' : 'collapsed'
+                "
+              >
+                <div class="p-15 rounded b-1 m-b-16 m-x-18">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="d-flex align-items-center gap-12">
+                        <div>
+                          <div class="f-s-14 f-w-600 mat-subtitle-1">
+                            Nombre Solicitante: {{ element.nombreUsuario }}
+                          </div>
+                          <div class="f-s-14">
+                            Fecha Solicitud: {{ element.fechaSolicitud }}
+                          </div>
+                          <div class="f-s-14">
+                            Departamento: {{ element.departamento }}
+                          </div>
+                          <div class="f-s-14">
+                            Contacto: {{ element.contacto }}
+                          </div>
+                          <div class="f-s-14 f-w-600 mat-subtitle-1">
+                            Estado segun Jefatura: {{ element.aprobadoJefatura }}
+                          </div>
+                          <div class="f-s-14 f-w-600 mat-subtitle-1">
+                            Estado segun Gerencia: {{ element.aprobadoGerencia }}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="f-s-14 m-t-8">
+                        <div class="f-s-14 f-w-600 mat-subtitle-1 d-flex justify-content-end">
+                          Fecha Departo: {{ element.fechaDeparto }}
+                        </div>
+                        <div class="f-s-14 f-w-600 mat-subtitle-1 d-flex justify-content-end">
+                          Fecha Retorno: {{ element.fechaRetorno }}
+                        </div>
+                        <div class="f-s-14 f-w-600 mat-subtitle-1 d-flex justify-content-end">
+                          Costo Total: ${{ element.costoTotal }}
+                        </div>
+                        <div class="f-s-14 f-w-600 mat-subtitle-1 d-flex justify-content-end">
+                          Estado: {{ element.estadoActual }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Para abajo solo sera visible si es que el usuario es admin / tiene permisos para aprobar -->
+                </div>
+              </div>
+            </td>
+          </ng-container>
+  
+          <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpand"></tr>
+          <tr
+            mat-row
+            *matRowDef="let element; columns: columnsToDisplayWithExpand"
+            class="example-element-row"
+            [class.example-expanded-row]="expandedElement === element"
+            (click)="
+              expandedElement = expandedElement === element ? null : element
+            "
+          ></tr>
+          <tr
+            mat-row
+            *matRowDef="let row; columns: ['expandedDetail']"
+            class="example-detail-row"
+          ></tr>
+        </table>
+        <div class="row" *ngIf="!tieneHistorial">
+          <h4 class="text-center">No tiene solicitudes registradas</h4>
+        </div>
+        <mat-paginator
+        #paginator1
+        [pageSizeOptions]="[5, 10, 20]"
+        showFirstLastButtons
+      ></mat-paginator>
+      </div>
+    </mat-card-content>
+    
+</mat-card>
+<br>
+<mat-card *ngIf="!esUsr" class="cardWithShadow">
+  <mat-card-content class="p-24">
+      <mat-card-title>Lista de solicitudes por aprobar</mat-card-title>
+      <div class="m-t-30 table-responsive-sm">
+        <table mat-table [dataSource]="dataPaginator2" multiTemplateDataRows>
+          
+          @for(column of columnsToDisplay; track column) {
+          <ng-container matColumnDef="{{ column }}">
+            
+            <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-15">
+              {{tituloColumns[cargarColumna()]}}
+            </th>
+            <td mat-cell *matCellDef="let element" class="p-x-24 f-s-14 p-l-0">
+              <ng-container *ngIf="element[column] == 'Aprobado'">
+                <span class="bg-light-success mat-body-2 f-w-500 p-x-8 p-y-4 f-s-12 rounded-pill">Aprobado</span>
+              </ng-container>
+              <ng-container *ngIf="element[column] == 'Pendiente'">
+                <span class="bg-light-primary mat-body-2 f-w-500 p-x-8 p-y-4 f-s-12 rounded-pill">Pendiente</span>
+              </ng-container>
+              <ng-container *ngIf="element[column] == 'Rechazado'">
+                <span class="bg-light-error mat-body-2 f-w-500 p-x-8 p-y-4 f-s-12 rounded-pill">Rechazado</span>
+              </ng-container>
+              <ng-container *ngIf="element[column] == 'Pre Aprobado'">
+                <span class="bg-light-success mat-body-2 f-w-500 p-x-8 p-y-4 f-s-12 rounded-pill">Pre Aprobado</span>
+              </ng-container>
+              <ng-container *ngIf="element[column] == 'Finalizado'">
+                <span class="bg-light-accent mat-body-2 f-w-500 p-x-8 p-y-4 f-s-12 rounded-pill">Finalizado</span>
+              </ng-container>
+              <ng-container *ngIf="element[column] == 'Bitacora'">
+                <span class="bg-light-accent mat-body-2 f-w-500 p-x-8 p-y-4 f-s-12 rounded-pill">Bitácora Pendiente</span>
+              </ng-container>
+              <ng-container *ngIf="element[column] !== true && element[column] !== false && element[column] !== 'Aprobado' && element[column] !== 'Pendiente' && element[column] !== 'Rechazado' && element[column] !== 'Pre Aprobado' && element[column] !== 'Finalizado'">
+                {{ element[column] }}
+              </ng-container>
+            </td>
+          </ng-container>
+          }
+          <ng-container matColumnDef="expand">
+            <th mat-header-cell *matHeaderCellDef aria-label="row actions">
+              &nbsp;
+            </th>
+            <td mat-cell *matCellDef="let element">
+              <button
+                mat-icon-button
+                aria-label="expand row"
+                (click)="
+                  expandedElement = expandedElement === element ? null : element;
+                  $event.stopPropagation()
+                "
+              >
+                @if(expandedElement !== element) {
+                <mat-icon>keyboard_arrow_down</mat-icon>
+                } @if(expandedElement === element) {
+                <mat-icon>keyboard_arrow_up</mat-icon>
+                }
+              </button>
+            </td>
+          </ng-container>
+          
+          <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+          <ng-container matColumnDef="expandedDetail">
+            <td
+              mat-cell
+              *matCellDef="let element"
+              [attr.colspan]="columnsToDisplay.length"
+            >
+              <div
+                [@detailExpand]="
+                  element === expandedElement ? 'expanded' : 'collapsed'
+                "
+              >
+                <div class="p-15 rounded b-1 m-b-16 m-x-18">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="d-flex align-items-center gap-12">
+                        <div>
+                          <div class="f-s-14 f-w-600 mat-subtitle-1">
+                            Nombre Solicitante: {{ element.nombreUsuario }}
+                          </div>
+                          <div class="f-s-14">
+                            Fecha Solicitud: {{ element.fechaSolicitud }}
+                          </div>
+                          <div class="f-s-14">
+                            Departamento: {{ element.departamento }}
+                          </div>
+                          <div class="f-s-14">
+                            Contacto: {{ element.contacto }}
+                          </div>
+                          <div class="f-s-14 f-w-600 mat-subtitle-1">
+                            Estado segun Jefatura: {{ element.aprobadoJefatura }}
+                          </div>
+                          <div class="f-s-14 f-w-600 mat-subtitle-1">
+                            Estado segun Gerencia: {{ element.aprobadoGerencia }}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="f-s-14 m-t-8">
+                        <div class="f-s-14 f-w-600 mat-subtitle-1 d-flex justify-content-end">
+                          Fecha Departo: {{ element.fechaDeparto }}
+                        </div>
+                        <div class="f-s-14 f-w-600 mat-subtitle-1 d-flex justify-content-end">
+                          Fecha Retorno: {{ element.fechaRetorno }}
+                        </div>
+                        <div class="f-s-14 f-w-600 mat-subtitle-1 d-flex justify-content-end">
+                          Costo Total: ${{ element.costoTotal }}
+                        </div>
+                        <div class="f-s-14 f-w-600 mat-subtitle-1 d-flex justify-content-end">
+                          Estado: {{ element.estadoActual }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Para abajo solo sera visible si es que el usuario es admin / tiene permisos para aprobar -->
+                  <div class="row" *ngIf = '!esUsr'>
+                    <div class="col-md-12">
+                      <div class="f-s-14 f-w-600 mat-subtitle-1 d-flex justify-content-end">
+                        <button mat-button *ngIf="esJef || esAdm" color="primary" class="btn btn-primary" (click)="editar(element)" >
+                          Editar
+                        </button>
+                        <button mat-button *ngIf="esJef || esAdm" color="accent" class="btn btn-primary" (click)="aprobarJefe(element)">
+                          Aprobar
+                        </button>
+                        <button mat-button *ngIf="esGer || esAdm" color="accent" class="btn btn-primary" (click)="aprobarGerente(element)">
+                          Aprobar
+                        </button>
+                        <button mat-button *ngIf="esJef || esAdm" color="warn" class="btn btn-primary" (click)="rechazarJefe(element)">
+                          No Aprobar
+                        </button>
+                        <button mat-button *ngIf="esGer || esAdm" color="warn" class="btn btn-primary" (click)="rechazarGerente(element)">
+                          No Aprobar
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </ng-container>
+  
+          <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpand"></tr>
+          <tr
+            mat-row
+            *matRowDef="let element; columns: columnsToDisplayWithExpand"
+            class="example-element-row"
+            [class.example-expanded-row]="expandedElement === element"
+            (click)="
+              expandedElement = expandedElement === element ? null : element
+            "
+          ></tr>
+          <tr
+            mat-row
+            *matRowDef="let row; columns: ['expandedDetail']"
+            class="example-detail-row"
+          ></tr>
+        </table>
+        <div class="row m-t-4" *ngIf="!tienePendientes">
+          <h4 class="text-center">No tiene solicitudes pendientes</h4>
+        </div>
+        <mat-paginator
+        #paginator2
+        [pageSizeOptions]="[5, 10, 20]"
+        showFirstLastButtons
+      ></mat-paginator>
+      </div>
+    </mat-card-content>
+    
+</mat-card>

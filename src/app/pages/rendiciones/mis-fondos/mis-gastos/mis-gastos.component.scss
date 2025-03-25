@@ -1,0 +1,63 @@
+/* Estilos para la tabla */
+.custom-table-misgastos {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+/* Estilos para el encabezado de la tabla */
+.custom-table-misgastos th {
+    background-color: #5caafd; /* Fondo azul */
+    color: white; /* Texto blanco */
+    padding: 12px;
+    text-align: left;
+}
+
+/* Redondear las esquinas del primer y último encabezado */
+.custom-table-misgastos th:first-child {
+    border-top-left-radius: 10px;
+}
+
+.custom-table-misgastos th:last-child {
+    border-top-right-radius: 10px;
+}
+
+/* Estilos para las celdas */
+.custom-table-misgastos td {
+    padding: 8px;
+    border: none; /* Sin bordes */
+}
+
+/* Efecto de cebrado para filas pares e impares */
+.custom-table-misgastos tr.custom-row:nth-child(odd) {
+    background-color: #f9f9f9; /* Color para filas impares */
+}
+
+.custom-table-misgastos tr.custom-row:nth-child(even) {
+    background-color: #ffffff; /* Color para filas pares */
+}
+
+/* Opcional: resaltar fila al pasar el mouse */
+.custom-table-misgastos tr.custom-row:hover {
+    background-color: #e0e0e0;  
+    cursor: pointer;  
+}
+
+/* Fila activa */
+.custom-table-misgastos tr.custom-row.active {
+    background-color: #52a6ff; /* Fondo azul para la fila activa */
+    color: white; /* Texto en blanco */
+}
+
+
+// truncar proveedor
+  // Otros estilos
+  .truncate-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 400px;
+  }
+  
+  .text-end {
+    text-align: right;
+  }

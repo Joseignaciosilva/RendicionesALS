@@ -1,0 +1,124 @@
+<div class="row">
+    <div class="col-lg-8">
+        <mat-card class="cardWithShadow">
+            <mat-card-header class="d-flex">
+                <div class="m-r-auto">
+                    <mat-card-title>Facturas por pagar</mat-card-title>
+                    <mat-card-subtitle class="mat-body-1 m-t-8">Haz click sobre una para pagar, o continuar con el proceso de pago</mat-card-subtitle>
+                </div>
+            </mat-card-header>
+            <mat-card-content>
+                <div class="table-responsive m-t-30">
+
+                    <table mat-table [dataSource]="dataSource" class="w-100">
+
+                        <!-- Correlativo  -->
+                        <ng-container matColumnDef="correlativo">
+                            <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1 p-l-0">
+                                Correlativo
+                            </th>
+                            <td mat-cell *matCellDef="let solicitud" class="p-l-0">
+                                <div class="d-flex align-items-center">
+                                    <div class="m-l-16">
+                                        <h6 class="f-s-14 mat-subtitle-1 f-w-600 truncate-text" matTooltip="{{ solicitud.correlativo }}">
+                                            {{ solicitud.correlativo }}
+                                        </h6>
+                                    </div>
+                                </div>
+                            </td>
+                        </ng-container>
+
+                        <!-- fechaGenerado -->
+                        <ng-container matColumnDef="fechaGenerado">
+                            <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1 text-end">
+                                Fecha Generado
+                            </th>
+                            <td mat-cell *matCellDef="let solicitud" class="text-end">
+                                <span class="fecha-badge bg-light-success text-success">
+                                    {{ solicitud.fechaGenerado| date  }}
+                                </span>
+                            </td>
+                        </ng-container>
+
+                        <!-- fechaVencimiento -->
+                        <ng-container matColumnDef="fechaVencimiento">
+                            <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1 text-end">
+                                Fecha Vencimiento
+                            </th>
+                            <td mat-cell *matCellDef="let solicitud" class="text-end">
+                                <span class="fecha-badge bg-light-warning text-warning">
+                                    {{ solicitud.fechaVencimiento | date }}
+                                </span>
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns" 
+                            (click)="seleccionarSolicitud(row)"
+                            class="clickable-row"
+                            [ngClass]="{ 'selected-row': row === solicitudSeleccionada }"
+                        ></tr>
+
+                    </table>
+                </div>
+                <!-- Paginador fijo al final -->
+                <div class="paginator-container">
+                    <mat-paginator #paginator [pageSizeOptions]="[5,10, 20, 30]" showFirstLastButtons></mat-paginator>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <div class="col-lg-4">
+        <mat-card class="cardWithShadow">
+            <mat-card-header class="d-flex">
+                <div class="m-r-auto">
+                    <mat-card-title>Gestión de pagos</mat-card-title>
+                </div>
+            </mat-card-header>
+            <mat-card-content *ngIf="!isMobile; else abrirEnModal">
+                <div *ngIf="solicitudSeleccionada; else noSeleccion">
+                    <div class="montos">
+                        <p><strong>Correlativo: </strong>{{ solicitudSeleccionada.correlativo }}</p>
+                        <p><strong>Monto Total: </strong>{{ solicitudSeleccionada.monto | monedaChilena }}</p>
+                        <mat-divider></mat-divider>
+                        <p><strong>Pendiente: </strong>{{ solicitudSeleccionada.pendiente | monedaChilena }}</p>
+                        <p><strong>Pagado: </strong>{{ solicitudSeleccionada.pagado | monedaChilena }}</p>
+                    </div>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Monto a Pagar</mat-label>
+                        <mat-icon matSuffix>
+                            <i-tabler name="cash" class="icon-20 d-flex"></i-tabler>
+                        </mat-icon>
+                        <input matInput type="number" [(ngModel)]="monto" />
+                    </mat-form-field>
+
+                    <div>
+                        <mat-progress-bar
+                          mode="determinate"
+                          [value]="(solicitudSeleccionada.pagado / solicitudSeleccionada.monto) * 100"
+                          style="margin-bottom: 15px;">
+                        </mat-progress-bar>
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between">
+                        <button mat-raised-button color="primary" (click)="procesarPago()"
+                            [disabled]="solicitudSeleccionada.pendiente === 0">
+                            Registrar Pago
+                        </button>
+                        <button mat-raised-button color="accent" [disabled]="solicitudSeleccionada.pendiente > 0"
+                            (click)="cerrarSolicitud()">
+                            Cerrar Solicitud
+                        </button>
+                    </div>
+                    
+                </div>
+                <ng-template #noSeleccion>
+                    <p>Haz clic en una solicitud para administrarla.</p>
+                </ng-template>
+            </mat-card-content>
+            <ng-template #abrirEnModal>
+                <p>Selecciona una solicitud para administrarla en el modal.</p>
+            </ng-template>
+        </mat-card>
+    </div>
+</div>

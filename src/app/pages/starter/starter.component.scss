@@ -1,0 +1,265 @@
+//esconder imagen en responsive
+@media (max-width: 768px) {
+  .welcome-rendiciones {
+    display: none;
+  }
+}
+@media (min-width: 769px) {
+  .welcome-rendiciones {
+    display: block;
+  }
+}
+.card2 {
+  margin-bottom: 20px; /* Espaciado entre las tarjetas */
+}
+.icon-circle2 svg {
+  max-width: 32px;
+  max-height: 32px;
+}
+
+  
+//ALS
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 28px;
+    max-width: 600px;
+    margin-left: 10px;
+    border-radius: 30px;
+    background: #F4EDC0;
+    box-shadow: 0px 0px 14px 0px rgba(192, 192, 192, 0.2);
+    transition: 1s all;
+    overflow: hidden;
+  }
+  .card::after {
+    content: "";
+    position: absolute;
+    bottom: -30%;
+    right: -30%;
+    width: 120px;
+    height: 120px;
+    background: #F2D230;
+    filter: blur(70px);
+    border-radius: 50%;
+    transition: width 1s, height 1s;
+  }
+  .card::before {
+    content: "";
+    position: absolute;
+    bottom: -160%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 0;
+    height: 0;
+    background: #F2D230;
+    filter: blur(70px);
+    border-radius: 50%;
+    transition: width 1s, height 1s;
+  }
+  .card:hover::before {
+    bottom: -230%;
+    width: 1000px;
+    height: 1000px;
+    filter: blur(1px);
+  }
+  .containers {
+    position: relative;
+  }
+  .icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 6px;
+    background: #F2D230;
+  }
+  .card:hover .icon {
+    background: #FFBC31;
+    transition: 1s all;
+  }
+  .card:hover .icon svg,
+  .card:hover .linkMore svg {
+    filter: brightness(0) invert(1);
+    transition: 1s all;
+  }
+  .title {
+    color: #171d29;
+    font-size: 26px;
+    font-style: normal;
+    font-weight: 500;
+    white-space: nowrap;
+    transition: 1s all;
+    margin: 1rem 0;
+  }
+  .subtitle {
+    color: #171d29;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 22px;
+    transition: 1s all;
+  }
+  .linkMore {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 0.8rem;
+    color: #171d29;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 22px;
+    text-decoration: none;
+    transition: 1s all;
+    margin-top: 1rem;
+  }
+  a {
+    text-decoration: none; /* Elimina el subrayado */
+    outline: none; /* Elimina el borde morado de los enlaces visitados */
+  }
+
+  a:visited {
+      color: inherit; /* Mantiene el color del enlace igual después de haber sido visitado */
+  }
+
+  .card:hover .title,
+  .card:hover .subtitle,
+  .card:hover .linkMore {
+    color: #fff;
+    transition: 1s all;
+  }
+  
+
+
+/* From Uiverse.io by rmdhnkhsn */
+/* Configuración base de la tarjetas acceso directos*/
+.card2 {
+  position: relative;
+  display: flex;
+  max-width: 375px;
+  padding: 31.5px 24px;
+  flex-direction: column;
+  align-items: flex-start;
+  border-radius: 22.5px;
+  border: 2px solid #f8f9fd;
+  background: #d3ffc5;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  text-decoration: none;
+  margin-left: auto;
+  margin-right: 70px;
+  margin-top: 10px;
+  margin: 10px auto; /* Centra la tarjeta horizontalmente */
+}
+
+/* Hover: activa la animación de fondo */
+.card2:hover {
+  animation: backgroundAnimation 2s ease-in-out forwards;
+  transform: translateY(-10px) scale(1.05) rotate(1deg);
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Definición de la animación */
+@keyframes backgroundAnimation {
+  0% {
+      background: #58Bb43; /* Color inicial */
+  }
+  50% {
+      background: #4CAF50; /* Color intermedio */
+  }
+  100% {
+      background: #3AA346; /* Color final */
+  }
+}
+
+/* Asegura que los íconos hereden el color */
+.card2:hover .icon-circle2 svg {
+  transition: fill 0.4s ease;
+}
+
+.card2:hover .btnRound2 .arrow-icon {
+  transform: translateX(15px); /* Mueve la flecha hacia la derecha */
+  transition: transform 0.4s ease, stroke 0.4s ease;
+  stroke: #3CA643; /* Cambia el color a blanco durante el hover */
+}
+
+/* Restablece la posición original cuando no está en hover */
+.btnRound2 .arrow-icon {
+  transform: translateX(0);
+  transition: transform 0.4s ease, stroke 0.4s ease;
+}
+
+/* Animación de texto */
+.card2:hover .title2,
+.card2:hover .subtitle2 {
+  color: #fff;
+  transition: color 0.4s ease;
+}
+
+
+
+  .title2 {
+    color: #072713;
+    text-align: center;
+    font-size: 16.5px; /* 75% de 22px */
+    font-style: normal;
+    font-weight: 600;
+    line-height: 26.397px; /* 75% de 35.196px */
+    transition: 0.4s all;
+  }
+  .subtitle2 {
+    color: #072713;
+    text-align: center;
+    font-size: 10.5px; /* 75% de 14px */
+    font-style: normal;
+    font-weight: 400;
+    line-height: 16.5px; /* 75% de 22px */
+    transition: 0.4s all;
+  }
+  .icon-circle2 {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 42px; /* 75% de 56px */
+    height: 42px; /* 75% de 56px */
+    border-radius: 50%;
+    background: #e5f6eb;
+  }
+  .card2:hover {
+    background: #3AA346;
+    transition: 0.4s all;
+  }
+  .card2:hover .title2,
+  .card2:hover .subtitle2 {
+    color: #fff;
+    transition: 0.4s all;
+  }
+  .btnRound2 {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    height: 22.5px; /* 75% de 30px */
+    padding: 4.5px 21px; /* 75% de 6px 28px */
+    border-radius: 75px; /* 75% de 100px */
+    border: 1px solid #3AA346;
+    background: #fff;
+    transition: all 0.2s ease;
+  }
+  .btnRound2:hover {
+    box-shadow: 0px 4.5px 7.5px 0px rgba(197, 35, 35, 0.2); /* 75% de 6px 10px */
+    transition: all 0.2s ease;
+  }
+  .btnService2 {
+    position: absolute;
+    bottom: -22.5px; /* 75% de -30px */
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+

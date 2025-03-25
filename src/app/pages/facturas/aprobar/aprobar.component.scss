@@ -1,0 +1,93 @@
+    .mat-body-2 {
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 500;
+  }
+  
+  .f-w-600 {
+    font-weight: 600;
+    margin-top: 8px;
+  }
+  
+  .f-s-14 {
+    font-size: 16px !important;
+  }
+
+  mat-divider {
+    margin-top: 3px; /* Añade margen superior al divisor */
+  }
+  .divider2 {
+    margin-top: 15px; /* Añade margen superior al divisor */
+  }
+
+
+.btn-aprobar {
+    background-color: #28a745; /* Verde */
+    color: white;
+    width: 275px;
+}
+
+.btn-aprobar:hover {
+    background-color: #218838; /* Verde más oscuro */
+    transform: scale(1.05);
+}
+
+.btn-rechazar {
+    background-color: #dc3545; /* Rojo */
+    color: white;
+    width: 275px;
+}
+
+.btn-rechazar:hover {
+    background-color: #c82333; /* Rojo más oscuro */
+    transform: scale(1.05);
+}
+
+  .iconn {
+    width: 50px; /* Cambia el ancho */
+    height: 50px; /* Cambia el alto */
+    border-radius: 50%; /* Mantiene los bordes redondeados */
+}
+
+  .link-clickable {
+    cursor: pointer;
+    text-decoration: underline; // Diferenciar como enlace
+    color:#3b8cd1;
+    &:hover {
+      color: #0774e8; // Cambiar el color del ícono al pasar el mouse
+      transform: scale(1.25);
+    }
+  }
+  
+  .border-danger {
+    border: 1px solid red !important;
+}
+.text-danger {
+    color: red !important;
+}
+
+.linkMore {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 0.8rem;
+  color: #0055ff;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 22px;
+  text-decoration: none;
+  transition: 1s all;
+  margin-top: 1rem;
+  justify-content: center;
+  cursor: pointer;
+}
+a {
+  text-decoration: none; /* Elimina el subrayado */
+  outline: none; /* Elimina el borde morado de los enlaces visitados */
+  color: #0055ff;
+}
+
+a:visited {
+    color: inherit; /* Mantiene el color del enlace igual después de haber sido visitado */
+}

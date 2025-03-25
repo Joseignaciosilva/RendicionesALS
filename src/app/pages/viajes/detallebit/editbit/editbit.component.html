@@ -1,0 +1,217 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>{{ modo }} actividad</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <br />
+    <div class="row w-100">
+      <div class="col-lg-6 w-100">
+        <mat-card class="cardWithShadow theme-card w-100">
+          <mat-card-content class="b-t-1">
+            <form #form="ngForm">
+              <div class="row">
+                <div class="col-sm-4 d-flex align-items-center">
+                  <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16"
+                    >Hora</mat-label
+                  >
+                </div>
+                <div class="col-sm-8">
+                  <mat-form-field>
+                    <mat-label>Hora de inicio</mat-label>
+                    <mat-select
+                      [disabled]="modo === 'Ver'"
+                      [(ngModel)]="horaActividadI"
+                      name="horaActividadI"
+                      required
+                    >
+                      <mat-option
+                        required
+                        *ngFor="let hora of horas"
+                        [value]="hora.value"
+                      >
+                        {{ hora.label }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <mat-form-field>
+                    <mat-label>Hora de termino</mat-label>
+                    <mat-select
+                      [disabled]="modo === 'Ver'"
+                      [(ngModel)]="horaActividadT"
+                      name="horaActividadT"
+                      required
+                    >
+                      <mat-option
+                        *ngFor="let hora of horas"
+                        [value]="hora.value"
+                      >
+                        {{ hora.label }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-4 d-flex align-items-center">
+                  <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16"
+                    >Cliente</mat-label
+                  >
+                </div>
+                <div class="col-sm-8">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <input
+                      [disabled]="modo === 'Ver'"
+                      matInput
+                      [(ngModel)]="cliente"
+                      name="cliente"
+                      placeholder="Nombre del cliente"
+                      required
+                    />
+                    <mat-icon matPrefix class="op-5">
+                      <i-tabler name="user" class="icon-20 d-flex"></i-tabler>
+                    </mat-icon>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-4 d-flex align-items-center">
+                  <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16"
+                    >Lugar</mat-label
+                  >
+                </div>
+                <div class="col-sm-8">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <input
+                      [disabled]="modo === 'Ver'"
+                      [(ngModel)]="lugar"
+                      name="lugar"
+                      matInput
+                      placeholder="Punto de reunión"
+                      required
+                    />
+                    <mat-icon matPrefix class="op-5">
+                      <i-tabler
+                        name="building-community"
+                        class="icon-20 d-flex"
+                      ></i-tabler>
+                    </mat-icon>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-4 d-flex align-items-center">
+                  <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16"
+                    >Participantes</mat-label
+                  >
+                </div>
+                <div class="col-sm-8">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <input
+                      [disabled]="modo === 'Ver'"
+                      [(ngModel)]="participantes"
+                      name="participantes"
+                      matInput
+                      placeholder="Participantes durante la actividad"
+                      type="email"
+                      required
+                    />
+                    <mat-icon matPrefix class="op-5">
+                      <i-tabler
+                        name="users-group"
+                        class="icon-20 d-flex"
+                      ></i-tabler>
+                    </mat-icon>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-4 d-flex align-items-center">
+                  <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16"
+                    >Motivo</mat-label
+                  >
+                </div>
+                <div class="col-sm-8">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <input
+                      matInput
+                      [disabled]="modo === 'Ver'"
+                      [(ngModel)]="motivo"
+                      name="motivo"
+                      placeholder="Razón de ser de la actividad"
+                    />
+                    <mat-icon matPrefix class="op-5">
+                      <i-tabler
+                        name="clipboard-list"
+                        class="icon-20 d-flex"
+                      ></i-tabler>
+                    </mat-icon>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-4 d-flex align-items-center">
+                  <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16"
+                    >Resultado Esperado
+                  </mat-label>
+                </div>
+                <div class="col-sm-8">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <textarea
+                      [disabled]="modo === 'Ver'"
+                      [(ngModel)]="resultadoEsperado"
+                      name="resultadoEsperado"
+                      rows="5"
+                      matInput
+                      required
+                      placeholder="Explicar el resultado esperado de la actividad. Ser claro y detallar los temas discutidos."
+                    ></textarea>
+                    <mat-icon matPrefix class="op-5">
+                      <i-tabler
+                        name="clipboard-check"
+                        class="icon-20 d-flex"
+                      ></i-tabler>
+                    </mat-icon>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row justify-content-end">
+                <div class="col-sm-8">
+                  <button
+                    *ngIf="modo === 'Agregar'"
+                    [disabled]="form.invalid"
+                    mat-flat-button
+                    color="primary"
+                    (click)="agregarActividad()"
+                  >
+                    <mat-icon matPrefix class="op-5">
+                      <i-tabler
+                        name="clipboard-plus"
+                        class="icon-20 d-flex"
+                      ></i-tabler>
+                    </mat-icon>
+                    Agregar actividad
+                  </button>
+                  <button
+                    *ngIf="modo === 'Editar'"
+                    [disabled]="form.invalid"
+                    mat-flat-button
+                    color="primary"
+                    (click)="actualizarActividad()"
+                  >
+                    <mat-icon matPrefix class="op-5">
+                      <i-tabler
+                        name="clipboard-plus"
+                        class="icon-20 d-flex"
+                      ></i-tabler>
+                    </mat-icon>
+                    Editar actividad
+                  </button>
+                </div>
+              </div>
+            </form>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

@@ -1,0 +1,204 @@
+<div class="row">
+    <div class="col-sm-6 col-lg-3">
+        <mat-card class="shadow-none">
+            <div class="p-30 bg-light-success text-center rounded">
+                <h3 class="f-s-24 text-success f-w-600 m-0 m-b-4">{{ findFondo?.referencia }}</h3>
+                <h6 class="text-success f-w-600 m-0 f-s-16">Referencia fondo</h6>
+            </div>
+        </mat-card>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+        <mat-card class="shadow-none">
+            <div class="p-30 bg-light-warning text-center rounded">
+                <h3 class="f-s-24 text-warning m-0 m-b-4">{{ findFondo?.fechaAsignado | date: 'dd MMM yyyy'}}</h3>
+                <h6 class="text-warning f-w-600 m-0 f-s-16">Fecha Asignado</h6>
+            </div>
+        </mat-card>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+        <mat-card class="shadow-none">
+            <div class="p-30 bg-light-accent text-center rounded">
+                <h3 class="f-s-24 text-accent m-0 m-b-4">{{ findFondo?.montoAsignado | monedaChilena }}</h3>
+                <h6 class="text-accent f-w-600 m-0 f-s-16">Monto Asignado</h6>
+            </div>
+        </mat-card>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+        <mat-card class="shadow-none">
+            <div class="p-30 bg-light-error text-center rounded">
+                <h3 class="f-s-24 text-error m-0 m-b-4">{{ findFondo?.totalRendido | monedaChilena }}</h3>
+                <h6 class="text-error f-w-600 m-0 f-s-16">Total Rendido</h6>
+            </div>
+        </mat-card>
+    </div>
+</div>
+
+<!-- Tabla de Gastos ADMIN o Jefe -->
+<mat-card class="cardWithShadow" *ngIf="rolActual === 'JEF' || rolActual === 'ADM'">
+    <mat-card-content>
+        <mat-card-header class="d-flex align-items-start" style="padding-left: 0; margin-bottom: 10px;">
+            <!-- Contenedor para flecha y texto alineados al borde izquierdo -->
+            <div class="d-flex align-items-center" style="gap: 4px; margin-left: 0; margin-top:-8px;">
+                <!-- Botón para volver -->
+                <button mat-icon-button class="btn-volver" matTooltip="Volver" matTooltipPosition="above"
+                    (click)="volver()" style="padding: 0;">
+                    <i-tabler name="arrow-back-up" class="icon-volver"></i-tabler>
+                </button>
+                <!-- Contenedor de título y subtítulo -->
+                <div>
+                    <mat-card-title style="margin: 0;">
+                        {{ rolActual === 'JEF' ? 'Gestión de Gastos por Jefe/Gerente' : 'Gestión de Gastos por Admin' }}
+                    </mat-card-title>
+                    <mat-card-subtitle class="mat-body-1" style="margin: 0; margin-top: 4px; ">
+                        Todos los gastos rechazados por el ADMIN, se descontaran del TOTAL RENDIDO
+                    </mat-card-subtitle>
+                </div>
+            </div>
+            <!-- Botones a la derecha -->
+            <div class="d-flex justify-content-end gap-10" style="margin-left: auto;">
+                <ng-container *ngIf="findFondo">
+                    <!-- Botón para devolver fondo -->
+                    <button mat-raised-button color="warn" class="btn-back" *ngIf="(rolActual === 'JEF' && findFondo?.estado === 'en_jefatura') || 
+                               (rolActual === 'ADM' && findFondo?.estado === 'en_administracion')"
+                        (click)="devolverFondo('pendiente')">
+                        Devolver Fondo
+                    </button>
+
+                    <!-- Botón para finalizar revisión -->
+                    <button mat-raised-button color="primary" class="btn-fin" *ngIf="(rolActual === 'JEF' && findFondo?.estado === 'en_jefatura') || 
+                               (rolActual === 'ADM' && findFondo?.estado === 'en_administracion')"
+                        (click)="finVisado()">
+                        Finalizar revisión
+                    </button>
+                </ng-container>
+            </div>
+        </mat-card-header>
+        <mat-divider></mat-divider>
+        <div class="table-responsive">
+            <table mat-table [dataSource]="dataSource" class="w-100 custom-table-gastos">
+                <!-- numeroServicio -->
+                <ng-container matColumnDef="numeroServicio">
+                    <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">N° Serv.</th>
+                    <td mat-cell *matCellDef="let gasto">{{ gasto?.numeroServicio || 'N/A' }}</td>
+                </ng-container>
+
+                <!-- Nombre Comprobante -->
+                <ng-container matColumnDef="nombreComprobante">
+                    <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">Comprobante</th>
+                    <td mat-cell *matCellDef="let gasto" class="icon">
+                        <a *ngIf="gasto.nombreComprobante" (click)="verComprobante(gasto)" target="_blank"
+                            rel="noopener noreferrer">
+                            <button mat-icon-button class="btn-icon" matTooltip="Ver comprobante">
+                                <i-tabler name="eye-share" class="icon-eye"></i-tabler>
+                            </button>
+                        </a>
+                    </td>
+                </ng-container>
+                
+                <!-- tipoComprobante -->
+                <ng-container matColumnDef="tipoComprobante">
+                    <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">T. Comp.</th>
+                    <td mat-cell *matCellDef="let gasto">{{ gasto?.tipoComprobante }}</td>
+                </ng-container>
+
+                <!-- numeroComprobante -->
+                <ng-container matColumnDef="numeroComprobante">
+                    <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">N° Comp.</th>
+                    <td mat-cell *matCellDef="let gasto">{{ gasto?.numeroComprobante }}</td>
+                </ng-container>
+
+                <!-- Proveedor -->
+                <ng-container matColumnDef="proveedor">
+                    <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">Proveedor</th>
+                    <td mat-cell *matCellDef="let gasto" class="truncate-text" #textElement
+                    [matTooltip]="isTextTruncated(textElement) ? gasto?.proveedor : ''"
+                    [matTooltipDisabled]="!isTextTruncated(textElement)">
+                        {{ gasto?.proveedor }}</td>
+                </ng-container>
+
+                <!-- Tipo Gasto -->
+                <ng-container matColumnDef="tipoGasto">
+                    <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">Tipo Gasto</th>
+                    <td mat-cell *matCellDef="let gasto">{{ gasto?.tipoGasto }}</td>
+                </ng-container>
+
+                <!-- Descripción -->
+                <ng-container matColumnDef="descripcion">
+                    <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">Descripción</th>
+                    <td mat-cell *matCellDef="let gasto">{{ gasto?.descripcion }}</td>
+                </ng-container>
+
+                <!-- Fecha de Gasto -->
+                <ng-container matColumnDef="fechaGasto">
+                    <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">Fecha</th>
+                    <td mat-cell *matCellDef="let gasto">{{ gasto?.fechaGasto | date: 'dd MMM yyyy' }}</td>
+                </ng-container>
+
+                <!-- Monto Gasto -->
+                <ng-container matColumnDef="montoGasto">
+                    <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">Monto</th>
+                    <td mat-cell *matCellDef="let gasto">{{ gasto?.montoGasto | monedaChilena }}</td>
+                </ng-container>
+
+                <!-- Visado Jefe -->
+                <ng-container matColumnDef="visadoJefe">
+                    <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">V. Jefe</th>
+                    <td mat-cell *matCellDef="let gasto">
+                        <span *ngIf="gasto?.visadoJefe === 'aprobado'; else rechazadoTemplate"
+                            class="bg-light-accent text-success rounded f-w-600 p-6 p-y-4 f-s-12">
+                                Aprobado
+                        </span>
+                        <ng-template #rechazadoTemplate>
+                            <span class="bg-light-error text-error rounded f-w-600 p-6 p-y-4 f-s-12">
+                                Rechazado
+                            </span>
+                        </ng-template>
+                    </td>
+                </ng-container>
+
+
+                <!-- Acciones -->
+                <ng-container matColumnDef="Acción" stickyEnd>
+                    <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">Acción</th>
+                    <td mat-cell *matCellDef="let gasto">
+                        <a class="m-r-10 cursor-pointer" *ngIf="rolActual === 'JEF'"
+                            (click)="gestionarGasto(gasto.id, 'jefe', 'aprobar')">
+                            <button mat-mini-fab color="accent">
+                                <i-tabler class="btn-action" name="check" matTooltip="Aprobar"></i-tabler>
+                            </button>
+                        </a>
+                        <a class="m-r-10 cursor-pointer" *ngIf="rolActual === 'JEF'"
+                            (click)="gestionarGasto(gasto.id, 'jefe', 'rechazar')">
+                            <button mat-mini-fab color="warn">
+                                <i-tabler class="btn-action" name="x" matTooltip="Rechazar"></i-tabler>
+                            </button>
+                        </a>
+                        <a class="m-r-10 cursor-pointer" *ngIf="rolActual === 'ADM'"
+                            (click)="gestionarGasto(gasto.id, 'admin', 'aprobar')">
+                            <button mat-mini-fab color="accent">
+                                <i-tabler class="btn-action" name="check" matTooltip="Aprobar"></i-tabler>
+                            </button>
+                        </a>
+                        <a class="m-r-10 cursor-pointer" *ngIf="rolActual === 'ADM'"
+                            (click)="gestionarGasto(gasto.id, 'admin', 'rechazar')">
+                            <button mat-mini-fab color="warn">
+                                <i-tabler class="btn-action" name="x" matTooltip="Rechazar"></i-tabler>
+                            </button>
+                        </a>
+                    </td>
+                </ng-container>
+
+                <!-- Filas de la tabla -->
+                <tr mat-header-row *matHeaderRowDef="displayedColumns" class="custom-header-row"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns" [ngClass]="{
+                        'aprobado': (rolActual === 'JEF' && row.visadoJefe === 'aprobado') || 
+                                    (rolActual === 'ADM' && row.visadoAdmin === 'aprobado'),
+                        'rechazado': (rolActual === 'JEF' && row.visadoJefe === 'rechazado') || 
+                                     (rolActual === 'ADM' && row.visadoAdmin === 'rechazado')
+                    }">
+                </tr>
+            </table>
+        </div>
+        <mat-paginator #paginator1 [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons></mat-paginator>
+    </mat-card-content>
+</mat-card>

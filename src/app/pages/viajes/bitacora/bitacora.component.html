@@ -1,0 +1,190 @@
+<div class="col">
+  <mat-card class="b-1 shadow-none">
+    <mat-card-content class="b-t-1">
+      <mat-tab-group>
+        <mat-tab label="Mi bitácora"
+        ><div class="bg-light-primary mat-body-1 p-16 rounded m-t-12">
+          <h5>Mi bitácora</h5>
+        </div>
+        <mat-card class="card-with-shadow">
+          <mat-card-content>
+            <div *ngIf="dataViajeUsuario" class="row">
+              <div *ngFor="let viaje of dataViajeUsuario" class="col-sm-6 col-lg-4">
+                <div *ngIf="viaje.estadoActual === 'Aprobado' || viaje.estadoActual === 'Bitacora'">
+                  <mat-card class="cardWithShadow overflow-hidden">
+                    <mat-card-header
+                      class="course-header {{
+                        getClaseEstadoViaje(viaje)
+                      }} d-flex justify-content-between"
+                    >
+                      <mat-card-title
+                        *ngIf="getClaseEstadoViaje(viaje) == 'bg-pendiente'"
+                        class="m-b-0 f-s-16"
+                      >
+                        Viaje Pendiente
+                      </mat-card-title>
+                      <mat-card-title
+                        *ngIf="getClaseEstadoViaje(viaje) == 'bg-en-curso'"
+                        class="m-b-0 f-s-16"
+                      >
+                        Viaje en curso
+                      </mat-card-title>
+                      <mat-card-title
+                        *ngIf="getClaseEstadoViaje(viaje) == 'bg-finalizado'"
+                        class="m-b-0 f-s-16"
+                      >
+                        Bitácora Pendiente
+                      </mat-card-title>
+                      <mat-card-title
+                        *ngIf="getClaseEstadoViaje(viaje) == 'bg-error'"
+                        class="m-b-0 f-s-16"
+                      >
+                        Error de logica
+                      </mat-card-title>
+                      <span class="d-flex align-items-center gap-4"
+                        >{{ viaje.fechaSolicitud | date : "dd/MM/yyyy" }}
+                        <i-tabler name="clock" class="icon-16 d-flex"></i-tabler
+                      ></span>
+                    </mat-card-header>
+                    <mat-card-content class="text-center p-y-24">
+                      <h4>
+                        {{ viaje.nombreUsuario }}
+                      </h4>
+                    </mat-card-content>
+                    <mat-divider></mat-divider>
+                    <div class="row text-center">
+                      <div class="col" *ngIf="!viajePendiente(viaje)">
+                        <a
+                          [disabled]="viajePendiente(viaje)"
+                          mat-button
+                          class="w-100"
+                          (click)="revisarBitacora(viaje.id, 'Editar')"
+                        >
+                          <mat-icon matPrefix class="op-5">
+                            <i-tabler name="edit" class="icon-20 d-flex"></i-tabler>
+                          </mat-icon>
+                        </a>
+                      </div>
+                      <div class="col" *ngIf="!viajePendiente(viaje)">
+                        <a
+                          [disabled]="viajePendiente(viaje)"
+                          mat-button
+                          class="w-100"
+                          (click)="cerrarBitacora(viaje)"
+                        >
+                          <mat-icon matPrefix class="op-5">
+                            <i-tabler
+                              name="clipboard-check"
+                              class="icon-20 d-flex"
+                            ></i-tabler>
+                          </mat-icon>
+                        </a>
+                      </div>
+                    </div>
+                  </mat-card>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="dataViajeUsuario.length == 0" class="row">
+              <h5 class="text-center">No tiene bitácora pendiente</h5>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </mat-tab>
+        <mat-tab *ngIf = "!esUsr" label="Bitácoras por aprobar">
+          <div class="bg-light-primary mat-body-1 p-16 rounded m-t-12">
+            <h5>Bitácoras por aprobar</h5>
+          </div>
+          <mat-card class="card-with-shadow">
+            <mat-card-content>
+              <div class="row">
+                <div *ngFor="let viaje of dataViajes" class="col-sm-6 col-lg-4">
+                  <div *ngIf="viaje.estadoActual === 'Aprobado' || viaje.estadoActual === 'Bitacora'" >
+                    <mat-card class="cardWithShadow overflow-hidden">
+                      <mat-card-header
+                        class="course-header {{
+                          getClaseEstadoViaje(viaje)
+                        }} d-flex justify-content-between"
+                      >
+                        <mat-card-title
+                          *ngIf="getClaseEstadoViaje(viaje) == 'bg-pendiente'"
+                          class="m-b-0 f-s-16"
+                        >
+                          Viaje Pendiente
+                        </mat-card-title>
+                        <mat-card-title
+                          *ngIf="getClaseEstadoViaje(viaje) == 'bg-en-curso'"
+                          class="m-b-0 f-s-16"
+                        >
+                          Viaje en curso
+                        </mat-card-title>
+                        <mat-card-title
+                          *ngIf="getClaseEstadoViaje(viaje) == 'bg-finalizado'"
+                          class="m-b-0 f-s-16"
+                        >
+                          Bitácora Pendiente
+                        </mat-card-title>
+                        <mat-card-title
+                          *ngIf="getClaseEstadoViaje(viaje) == 'bg-error'"
+                          class="m-b-0 f-s-16"
+                        >
+                          Error de logica
+                        </mat-card-title>
+                        <span class="d-flex align-items-center gap-4"
+                          >{{ viaje.fechaSolicitud | date : "dd/MM/yyyy" }}
+                          <i-tabler name="clock" class="icon-16 d-flex"></i-tabler
+                        ></span>
+                      </mat-card-header>
+                      <mat-card-content class="text-center p-y-24">
+                        <h4>
+                          {{ viaje.nombreUsuario }}
+                        </h4>
+                      </mat-card-content>
+                      <mat-divider></mat-divider>
+                      <div class="row text-center">
+                        <div class="col" *ngIf="!viajePendiente(viaje)">
+                          <a
+                            [disabled]="viajePendiente(viaje)"
+                            mat-button
+                            class="w-100"
+                            (click)="revisarBitacora(viaje.id, 'Ver')"
+                          >
+                            <mat-icon matPrefix class="op-5">
+                              <i-tabler
+                                name="clipboard-text"
+                                class="icon-20 d-flex"
+                              ></i-tabler>
+                            </mat-icon>
+                          </a>
+                        </div>
+                        <div class="col" *ngIf="getClaseEstadoViaje(viaje) != 'bg-en-curso'">
+                          <a
+                            [disabled]="viajePendiente(viaje)"
+                            mat-button
+                            class="w-100"
+                            (click)="aprobarBitacora(viaje)"
+                          >
+                            <mat-icon matPrefix class="op-5">
+                              <i-tabler
+                                name="clipboard-check"
+                                class="icon-20 d-flex"
+                              ></i-tabler>
+                            </mat-icon>
+                          </a>
+                        </div>
+                      </div>
+                    </mat-card>
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="dataViajes.length == 0" class="row">
+                <h5 class="text-center">No tiene bitácoras para aprobar</h5>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </mat-tab>
+      </mat-tab-group>
+    </mat-card-content>
+  </mat-card>
+</div>
+

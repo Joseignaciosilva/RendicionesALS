@@ -1,0 +1,257 @@
+// ------------------------------ICONS DE visado APROBO / RECHAZADO / PENDIENTE
+.estado-badge {
+  padding: 4px 8px;
+  border-radius: 5px;
+  font-weight: bold;
+  display: inline-block;
+  min-width: 90px;
+  text-align: center;
+}
+
+// ----------------------------filas de accion (EDITAR; ELIMINAR; HOVER; ESTILOS)
+
+/* Header de las filas */
+.custom-header-row th {
+  border-bottom: 2px solid #0b092e;
+}
+/* General: Transición y escala al hacer hover */
+.custom-table-listar .action-link a {
+  margin-right: 10px; /* los botones */
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+
+/* Hover genérico para asegurar la escala */
+.custom-table-listar .action-link a:hover i-tabler {
+  transform: scale(1.3); 
+}
+
+/* Hover específico para editar (azul) */
+.custom-table-listar .action-link .accion-editar:hover i-tabler {
+  color: #007bff !important; /* Azul */
+}
+
+/* Hover específico para eliminar (rojo) */
+.custom-table-listar .action-link .accion-eliminar:hover i-tabler {
+  color: #dc3545 !important; /* Rojo */
+}
+
+/* Estilo de hover para filas normales */
+.custom-table-listar tr.custom-row:hover {
+  background-color: #f1f1f1;
+}
+
+
+// ----------------------* Estilo para las filas con aprobador rechazado */
+.alert-row {
+  // background-color: #f8d7da; /* Color de fondo rojo claro */
+  color: #721c24; /* Color del texto */
+  padding: 10px; /* Espaciado para mejor legibilidad */
+  border: 2px solid rgba(255, 99, 71, 1); /* Borde rojo fuerte */
+  border-radius: 5px; /* Bordes redondeados */
+  font-weight: bold; /* Texto en negrita */
+  box-sizing: border-box; /* Asegura que el padding no afecte el tamaño total */
+}
+
+/* Hover para filas con el estado 'Rechazado' */
+.custom-table-listar tr.custom-row.alert-row:hover {
+  background-color: #f5c6cb; /* Rojo claro de hover */
+  transform: none; /* No aplicar el efecto de transformación al hacer hover sobre filas con alerta */
+}
+
+/* Estilo de hover específico para filas rechazadas sin afectar el hover general */
+.alert-row:hover {
+  background-color: #f5c6cb; /* Rojo claro de hover */
+  transform: none; /* Asegúrate de que el efecto de escala no se aplique */
+}
+
+// ---- desactivar el boton editar
+.disabled {
+  pointer-events: none; /* Desactiva el clic */
+  opacity: 0.5;        /* Reduce la opacidad */
+  cursor: not-allowed; /* Cambia el cursor */
+}
+
+//-----------------------------LIMPIAR
+
+.btn-limpiar:hover {
+  transform: scale(1.05);
+}
+
+.button {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: rgb(20, 20, 20);
+  border: none;
+  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.164);
+  cursor: pointer;
+  transition-duration: 0.3s;
+  overflow: hidden;
+  position: relative;
+  gap: 2px;
+}
+
+.svgIcon {
+  width: 12px;
+  transition-duration: 0.3s;
+}
+
+.svgIcon path {
+  fill: white;
+}
+
+.button:hover {
+  transition-duration: 0.3s;
+  background-color: #dc191b;
+  align-items: center;
+  gap: 0;
+}
+
+.bin-top {
+  transform-origin: bottom right;
+}
+.button:hover .bin-top {
+  transition-duration: 0.5s;
+  transform: rotate(160deg);
+}
+
+
+// alinear aprobadoes
+.aprobadores-container {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.aprobador-item {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+mat-icon {
+    vertical-align: middle;
+}
+
+
+//////////botones
+/* Estilos generales para los botones */
+.download-btn {
+  height: 45px;
+  width: 95px;
+  cursor: pointer;
+  background: white;
+  border: none;
+  border-radius: 30px;
+  overflow: hidden;
+}
+
+.button-content {
+  transform: translateY(-45px);
+  transition: all 250ms ease-in-out;
+}
+
+.svg-container,
+.text-container {
+  height: 45px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.text-container .text {
+  font-size: 13px;
+  color: #fff;
+  font-weight: 600;
+  opacity: 1;
+  transition: opacity ease-in-out 250ms;
+}
+
+.download-icon {
+  height: 25px;
+  width: 25px;
+  fill: #fff;
+  opacity: 0;
+  transition: opacity ease-in-out 250ms;
+}
+
+/* hover state for the button */
+.download-btn:hover .button-content {
+  transform: translateY(0px);
+}
+
+.download-btn:hover .text {
+  opacity: 0;
+}
+
+.download-btn:hover .download-icon {
+  opacity: 1;
+}
+
+.download-btn:focus .download-icon {
+  -webkit-animation: heartbeat 1.5s ease-in-out infinite both;
+  animation: heartbeat 1.5s ease-in-out infinite both;
+}
+
+@keyframes heartbeat {
+  from {
+    transform: scale(1);
+    transform-origin: center center;
+    animation-timing-function: ease-out;
+  }
+  10% {
+    transform: scale(0.91);
+    animation-timing-function: ease-in;
+  }
+  17% {
+    transform: scale(0.98);
+    animation-timing-function: ease-out;
+  }
+  33% {
+    transform: scale(0.87);
+    animation-timing-function: ease-in;
+  }
+  45% {
+    transform: scale(1);
+    animation-timing-function: ease-out;
+  }
+}
+
+/* Botón Excel */
+.excel {
+  background: #209978;
+}
+
+/* Botón PDF */
+.pdf {
+  background: #d9534f;
+}
+
+/* Botón Imprimir */
+.print {
+  background: #0275d8;
+}
+
+
+/* ----- Ajuste del correlativo para que respete el scroll ----- */
+.correlativo-cell {
+  max-width: 500px; /* Ajusta el ancho máximo */
+  min-width: 350px; /* Evita que se encoja demasiado */
+  word-break: break-word; /* Permite dividir palabras largas */
+  white-space: normal; /* Permite el salto de línea */
+  overflow-wrap: break-word; /* Asegura que no se desborde */
+}
+
+/* ----- Asegurar el scroll horizontal ----- */
+.table-responsive {
+  overflow-x: auto; /* Permite desplazamiento horizontal */
+  white-space: nowrap; /* Evita que se rompa toda la tabla */
+}
+
+

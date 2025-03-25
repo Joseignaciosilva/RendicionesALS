@@ -1,0 +1,166 @@
+<mat-dialog-content style="max-width: 1000px; max-height: 90vh; overflow-y: auto; width: 100%;">
+    <!--Titulo del modal-->
+    <mat-card-header class="p-t-0">
+        <mat-card-title class="m-b-10 ">Gasto</mat-card-title>
+    </mat-card-header>
+    <mat-divider></mat-divider>
+    <mat-card-content>
+        <form class="m-t-8" [formGroup]="formGasto" enctype="multipart/form-data">
+
+            <div class="row">
+
+                <!-- Cargar Imagen -->
+                <div class="col-12 col-sm-6">
+                    <div class="row">
+                        <div class="col-12 col-sm-3 d-flex align-items-center" style="padding-top:3%;">
+                            <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Cargar imagen</mat-label>
+                        </div>
+                        <div class="col-12 col-sm-9 mb-3" style="padding-top:2%;">
+                            <button class="container-btn-file">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="#000000" width="20"
+                                    height="20" style="margin-right: 8px;">
+                                    <g>
+                                        <path class="flatshadows_twee" fill="#E1E5E5"
+                                            d="M28,13h-1c0-3.314-2.686-6-6-6h-0.587C19.226,4.069,16.357,2,13,2c-4.418,0-8,3.582-8,8v1 c-2.209,0-4,1.791-4,4c0,2.209,1.791,4,4,4h23c1.657,0,3-1.343,3-3S29.657,13,28,13z">
+                                        </path>
+                                        <polygon class="flatshadows_drie" fill="#C4CCCC"
+                                            points="14,9 24,19 11,19 11,17 8,17"></polygon>
+                                        <polygon class="flatshadows_een" fill="#FDFFFF"
+                                            points="8,17 14,9 20,17 17,17 17,30 11,30 11,17"></polygon>
+                                    </g>
+                                </svg>
+                                Subir Imagen
+                                <input class="file" name="text" type="file" formControlName="nombreComprobante"
+                                    (change)="selectFile($event)" accept="image/*" />
+                            </button>
+                            <p id="fileName" class="file-name">{{ selectedImageName }}</p>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- N° Servicio -->
+                <div class="col-12 col-sm-6">
+                    <div class="row">
+                        <div class="col-12 col-sm-3 d-flex align-items-center">
+                            <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">N° Servicio (opcional)</mat-label>
+                        </div>
+                        <div class="col-12 col-sm-9">
+                            <mat-form-field class="w-100" appearance="outline">
+                                <mat-label>Ingrese numero de servicio </mat-label>
+                                <input matInput formControlName="numeroServicio" />
+                                <mat-error *ngIf="f.numeroServicio.hasError('maxlength')">
+                                    Máximo 50 caracteres permitidos.
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6">
+                    <mat-label class="mat-subtitle-2 f-w-600 m-b-6 d-block">Tipo de comprobante</mat-label>
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-icon matPrefix>
+                            <i-tabler name="clipboard" class="icon-20 d-flex"></i-tabler>
+                        </mat-icon>
+                        <mat-select value="male" formControlName="tipoComprobante" placeholder="Seleccionar">
+                            <mat-option value="BOLETA">BOLETA</mat-option>
+                            <mat-option value="FACTURA">FACTURA</mat-option>
+                            <mat-option value="TRANSFERENCIA">TRANSFERENCIA</mat-option>
+                            <mat-option value="OTRO">OTRO</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-sm-6">
+                    <mat-label class="mat-subtitle-2 f-w-600 m-b-6 d-block">N° Boleta / Factura /
+                        Transferencia</mat-label>
+                    <mat-form-field appearance="outline" class="w-100">
+                        <input matInput formControlName="numeroComprobante"
+                            placeholder="Ingresa el número de boleta, factura o referencia" />
+                            <mat-error *ngIf="f.numeroComprobante.hasError('maxlength')">
+                                Máximo 150 caracteres permitidos.
+                            </mat-error>
+                        <mat-icon matPrefix>
+                            <i-tabler name="number" class="icon-20 d-flex"></i-tabler>
+                        </mat-icon>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-sm-6">
+                    <mat-label class="mat-subtitle-2 f-w-600 m-b-6 d-block">Proovedor</mat-label>
+                    <mat-form-field appearance="outline" class="w-100">
+                        <input matInput formControlName="proveedor" placeholder="Proveedor" />
+                        <mat-error *ngIf="f.proveedor.hasError('maxlength')">
+                            Máximo 100 caracteres permitidos.
+                        </mat-error>
+                        <mat-icon matPrefix>
+                            <i-tabler name="shopping-bag" class="icon-20 d-flex"></i-tabler>
+                        </mat-icon>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-sm-6">
+                    <mat-label class="mat-subtitle-2 f-w-600 m-b-6 d-block">Tipo de gasto</mat-label>
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-icon matPrefix>
+                            <i-tabler name="credit-card-pay" class="icon-20 d-flex"></i-tabler>
+                        </mat-icon>
+                        <mat-select value="male" placeholder="Seleccionar" formControlName="tipoGasto">
+                            <mat-option value="ALIMENTACION">ALIMENTACION</mat-option>
+                            <mat-option value="TRASLADOS">TRASLADOS</mat-option>
+                            <mat-option value="HOSPEDAJE">HOSPEDAJE</mat-option>
+                            <mat-option value="PEAJES">PEAJES</mat-option>
+                            <mat-option value="ESTACIONAMIENTOS">ESTACIONAMIENTOS</mat-option>
+                            <mat-option value="ART. OFICINA">ART. OFICINA</mat-option>
+                            <mat-option value="ART. ASEO">ART. ASEO</mat-option>
+                            <mat-option value="ART. DE CONSUMO AGENCIA">ART. DE CONSUMO AGENCIA</mat-option>
+                            <mat-option value="OTRO">OTRO</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-sm-6">
+                    <mat-label class="mat-subtitle-2 f-w-600 m-b-6 d-block">Fecha del gasto</mat-label>
+                    <mat-form-field appearance="outline" class="w-100">
+                        <input matInput [matDatepicker]="picker" placeholder="DD/MM/YYYY"
+                            formControlName="fechaGasto" [readonly]="true" 
+                            (focus)="picker.open()"
+                            (click)="picker.open()"/>
+                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-sm-6">
+                    <mat-label class="mat-subtitle-2 f-w-600 m-b-6 d-block">Monto del gasto</mat-label>
+                    <mat-form-field appearance="outline" class="w-100">
+                        <input matInput type="number" formControlName="montoGasto"
+                            placeholder="Ingresa el valor del gasto" />
+                        <mat-icon matPrefix>
+                            <i-tabler name="cash" class="icon-20 d-flex"></i-tabler>
+                        </mat-icon>
+                    </mat-form-field>
+                </div>
+            </div>
+
+
+            <mat-label class="mat-subtitle-2 f-w-600 m-b-6 d-block">Descripción</mat-label>
+            <mat-form-field appearance="outline" class="w-100">
+                <input matInput formControlName="descripcion" placeholder="Ingresa una descripción explicativa." />
+                <mat-error *ngIf="f.descripcion.hasError('maxlength')">
+                    Máximo 300 caracteres permitidos.
+                </mat-error>
+                <mat-icon matPrefix>
+                    <i-tabler name="writing" class="icon-20 d-flex"></i-tabler>
+                </mat-icon>
+            </mat-form-field>
+
+            <div class="text-right">
+                <button mat-flat-button color="primary" (click)="doAction()"
+                    [disabled]="!formGasto.valid">{{action}}</button>
+                <button mat-flat-button color="warn" class="m-l-8" (click)="closeDialog()">Cerrar</button>
+            </div>
+        </form>
+    </mat-card-content>
+</mat-dialog-content>

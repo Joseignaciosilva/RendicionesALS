@@ -1,0 +1,22 @@
+<div class="text-center">
+  <h2 mat-dialog-title>Viaje {{ viaje.nombreUsuario }}</h2>
+  <mat-dialog-content>
+    <p>Descripción: {{ viaje.propuestaAgenda }}</p>
+    <p>Fecha de partida: {{ viaje.fechaDeparto }}</p>
+    <p>Fecha de regreso: {{ viaje.fechaRetorno }}</p>
+    <!-- Agregar más campos según sea necesario -->
+  </mat-dialog-content>
+  <mat-dialog-actions class="text-center">
+    <div class="col">
+        <button mat-flat-button color="warn" mat-dialog-close (click)="closeDialog()" >Cerrar</button>
+        <button
+          mat-flat-button
+          color="primary"
+          (click)="revisarBitacora(viaje.id, 'Ver')"
+          [disabled]="getEstadoViaje(viaje)"
+        >
+          Ver bitácora
+        </button>
+    </div>
+  </mat-dialog-actions>
+</div>

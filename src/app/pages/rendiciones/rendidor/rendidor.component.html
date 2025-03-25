@@ -1,0 +1,67 @@
+<div class="row">
+  <!-- Si no hay fondos por mostrar -->
+  <div *ngIf="fondos.length === 0" class="col-12">
+    <mat-card class="cardWithShadow">
+      <mat-card-content class="p-y-24">
+        <h6 class="mat-body-2 text-center f-w-600">No hay fondos por mostrar por ahora.</h6>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- columnas -->
+  <div class="col-12 col-sm-6 col-md-4 col-lg-4" *ngFor="let fondo of fondos">
+    <mat-card class="cardWithShadow">
+      <mat-card-content class="p-y-24">
+        <mat-card-title>{{ fondo.referencia }}</mat-card-title>
+          <mat-divider></mat-divider>
+        <!--  fondo -->
+        <div class="m-t-32">
+
+          <!-- Monto Asignado -->
+          <div class="d-flex align-items-center m-b-32">
+            <span
+              class="text-warning bg-light-success rounded icon-40 d-flex align-items-center justify-content-center">
+              <img src="assets/images/svgs/icon-office-bag.svg" alt="icon" />
+            </span>
+            <div class="m-l-16 m-r-auto">
+              <h6 class="mat-body-2 f-w-600">Monto</h6>
+              <span class="mat-body-1">asignado</span>
+            </div>
+            <span class="f-w-600 f-s-14">{{ fondo.montoAsignado | monedaChilena }}</span>
+          </div>
+
+          <!-- Fecha Asignado -->
+          <div class="d-flex align-items-center m-b-32">
+            <span
+              class="text-success bg-light-primary rounded icon-40 d-flex align-items-center justify-content-center">
+              <img src="assets/images/svgs/calendario.svg" alt="icon" class="rounded" />
+            </span>
+            <div class="m-l-16 m-r-auto">
+              <h6 class="mat-body-2 f-w-600">Fecha</h6>
+              <span class="mat-body-1">asignado</span>
+            </div>
+            <span class="f-w-600 f-s-14">{{ fondo.fechaAsignado | date: 'dd MMM yyyy' }}</span>
+          </div>
+
+          <!-- Total Rendido -->
+          <div class="d-flex align-items-center m-b-32">
+            <span class="text-primary bg-light-error rounded icon-40 d-flex align-items-center justify-content-center">
+              <img src="assets/images/svgs/icon-pie.svg" alt="icon" />
+            </span>
+            <div class="m-l-16 m-r-auto">
+              <h6 class="mat-body-2 f-w-600">Total</h6>
+              <span class="mat-body-1">rendido</span>
+            </div>
+            <span class="f-w-600 f-s-14">+ {{ fondo.totalRendido | monedaChilena }}</span>
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-between mt-40">
+          <button mat-flat-button color="primary" class="btn-rendir w-100 m-t-8" (click)="rendirGasto(fondo.id.toString())">
+            Rendir Gastos
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

@@ -1,0 +1,118 @@
+.cardWithShadow mat-card-header .d-flex.justify-content-end {
+  margin-bottom: 16px; 
+  gap: 8px;
+}
+
+.btn-fin, .btn-back {
+  border-radius: 8px;
+  text-align: center;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+.btn-fin:hover {
+  background-color: primary;
+  transform: scale(1.05);
+}
+
+.btn-back:hover {
+  background-color: warn;
+  transform: scale(1.05);
+}  
+
+
+///////////////////Tabla/////////////
+/* Header de las filas */
+.custom-header-row th {
+  border-bottom: 2px solid #0b092e;
+}
+/* Asegura que la celda tenga suficiente altura */
+.icon {
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+  height: 100%; 
+} 
+/* espacio entre filas */
+.custom-table-gastos td {
+  padding-top: 7px;
+  padding-bottom: 7px;
+}
+/* Hover sobre las filas del cuerpo de la tabla, no sobre el encabezado */
+.custom-table-gastos tbody tr:hover {
+  background-color: #f1f1f1;  
+  cursor: pointer;  
+}
+
+////////ACCIONES//////////////
+/* Estilo para hacer el botón más pequeño */
+.custom-table .action-link a button[mat-mini-fab] {
+  width: 38px; 
+  height: 38px; 
+  padding: 0; /* padding interno */
+  border-radius: 50%; 
+}
+/* Estilo para el icono dentro del botón */
+.custom-table .action-link a button[mat-mini-fab] i-tabler {
+  font-size: 10px; /* Ajusta el tamaño del ícono */
+}
+.custom-table .action-link a {
+  margin-right: 10px; /* Espaciado entre los botones */
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+.custom-table .action-link a button[mat-stroked-button][color="accent"] i-tabler[name="check"] {
+  color: #28a745; 
+}
+.custom-table .action-link a button[mat-stroked-button][color="warn"] i-tabler[name="x"] {
+  color: red;
+}
+
+
+/////// Background por estado de visadoJefe /////////
+.aprobado {
+  background-color: #d4edda !important;
+}
+.rechazado {
+  background-color: #f8d7da !important;
+}
+
+
+.f-w-bold {
+  font-weight: bold;
+}
+
+.f-w-bolder {
+  font-weight: bolder;
+}
+
+.f-w-light {
+  font-weight: lighter;
+}
+
+
+/* Apilar botones en pantallas pequeñas */
+@media (max-width: 768px) {
+  .btn-group {
+    display: flex;
+    flex-direction: column; /* Apilar botones verticalmente */
+    gap: 8px;               /* Espacio entre botones */
+    align-items: stretch;   /* Hacer que los botones ocupen todo el ancho */
+  }
+
+  .btn-group button {
+    width: 100%; /* Asegurarse de que los botones sean anchos */
+  }
+}
+
+
+// truncar proveedor
+  // Otros estilos
+  .truncate-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 400px;
+  }
+  
+  .text-end {
+    text-align: right;
+  }

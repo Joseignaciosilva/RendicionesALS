@@ -1,0 +1,36 @@
+<h1 mat-dialog-title>Gestión de pagos</h1>
+
+<div mat-dialog-content>
+    <div class="montos">
+        <p><strong>Correlativo: </strong>{{ solicitudSeleccionada.correlativo }}</p>
+        <p><strong>Monto Total: </strong>{{ solicitudSeleccionada.monto | monedaChilena }}</p>
+        <mat-divider></mat-divider>
+        <p><strong>Pendiente: </strong>{{ solicitudSeleccionada.pendiente | monedaChilena }}</p>
+        <p><strong>Pagado: </strong>{{ solicitudSeleccionada.pagado | monedaChilena }}</p>
+    </div>
+
+    <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Monto a Pagar</mat-label>
+        <mat-icon matSuffix>
+            <i-tabler name="cash" class="icon-20 d-flex"></i-tabler>
+        </mat-icon>
+        <input matInput type="number" [(ngModel)]="monto" min="0"/>
+    </mat-form-field>
+
+    <mat-progress-bar class="progress-bar" mode="determinate" 
+        [value]="(solicitudSeleccionada.pagado / solicitudSeleccionada.monto) * 100">
+    </mat-progress-bar>
+</div>
+
+<div mat-dialog-actions class="actions-container">
+    <button mat-raised-button color="primary" 
+        (click)="procesarPago()" 
+        [disabled]="solicitudSeleccionada.pendiente === 0">
+        Registrar Pago
+    </button>
+    <button mat-raised-button color="accent" 
+        [disabled]="solicitudSeleccionada.pendiente > 0"
+        (click)="cerrarSolicitud()">
+        Cerrar Solicitud
+    </button>
+</div>

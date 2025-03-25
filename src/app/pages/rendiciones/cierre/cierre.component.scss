@@ -1,0 +1,74 @@
+/* Asegura que todos los botones tengan el mismo tamaño */
+.btn-download, .btn-netear, .btn-cerrar {
+    width: 60%;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+/* Botón Netear */
+.btn-netear {
+    background-color: #FFBB00;
+    color: black;
+}
+
+.btn-netear:hover {
+    background-color: #FFBB00;
+    transform: scale(1.05);
+}
+
+.btn-cerrar {
+    background-color: #004CAB;
+}
+.btn-cerrar:hover {
+    transform: scale(1.05);
+}
+
+.btn-download:hover {
+  transform: scale(1.05);
+}
+
+/* Estilo general para botones desactivados */
+.btn-netear:disabled, .btn-cerrar:disabled {
+    background-color: #d6d6d6; /* Gris claro */
+    color: #9e9e9e; /* Texto gris oscuro */
+    cursor: not-allowed;
+    transform: none; /* Sin escala */
+    opacity: 0.6; /* Efecto visual de desactivado */
+    box-shadow: none; /* Elimina sombras si aplica */
+}
+
+/*  botones desactivados*/
+[disabled] {
+    pointer-events: none; 
+    opacity: 0.6;
+}
+
+.sinfondos{
+  font-size: 15px;
+  font-weight: 600;
+  text-align: center;
+  padding: 0px 0; 
+}
+
+
+@keyframes slideOutAndFade {
+    0% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+  }
+  
+  .cardWithShadow {
+    transition: all 0.4s ease;
+  
+    &.removing {
+      animation: slideOutAndFade 0.5s forwards;
+    }
+  }
+  

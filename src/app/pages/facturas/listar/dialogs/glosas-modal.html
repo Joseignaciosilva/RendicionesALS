@@ -1,0 +1,36 @@
+<h2 mat-dialog-title>Glosas de la Solicitud</h2>
+<mat-dialog-content>
+  <div *ngFor="let glosa of glosas" class="glosa-container">
+    <p class="nombre"><strong>{{ glosa.nombre }}</strong></p>
+    <p class="texto">{{ glosa.texto || 'N/A' }}</p>
+    <mat-divider></mat-divider>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button color="primary" (click)="closeDialog()">Cerrar</button>
+</mat-dialog-actions>
+
+<style>
+    .glosa-container {
+        display: flex;
+        flex-direction: column;
+        padding: 5px 0;
+      }
+      
+      .nombre {
+        font-size: 16px;
+        font-weight: bold;
+        color: black;
+        margin-bottom: 2px;
+        text-align: center;
+      }
+      
+      .texto {
+        font-size: 14px;
+        color: black;
+        margin-top: 5px; /* Ajusta según la alineación deseada */
+        text-align: center;
+        margin-bottom: 15x;
+      }
+      
+</style>

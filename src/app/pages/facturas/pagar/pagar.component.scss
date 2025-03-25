@@ -1,0 +1,67 @@
+.clickable-row {
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  
+    &:hover,
+    &.selected-row {
+      background-color: var(--hover-background, #f0f0f0); // Mismo color para hover y selección
+    }
+  }
+  
+  // Estilo para el tema claro
+  body.theme-light {
+    --hover-background: #f0f0f0; // Gris claro para hover y selección
+  }
+  
+  // Estilo para el tema oscuro
+  body.theme-dark {
+    --hover-background: #2c2c2c; // Gris oscuro para hover y selección
+  }
+  
+
+
+
+  // Otros estilos
+  .truncate-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 300px;
+  }
+  
+  .text-end {
+    text-align: right;
+  }
+  
+  .fecha-badge {
+    display: inline-block;
+    padding: 8px 12px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 4px;
+  }
+
+.montos {
+  font-size: 16px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.progress-bar {
+  margin: 15px 0;
+}
+
+.actions-container {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+/* Contenedor del paginador */
+.paginator-container {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 10px;
+}

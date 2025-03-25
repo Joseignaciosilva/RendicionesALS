@@ -1,0 +1,588 @@
+<mat-card class="cardWithShadow">
+  <mat-card-content>
+    <mat-card-title>Formulario de Solicitud de Viaje</mat-card-title>
+    <mat-card-subtitle class="mat-body-1">Complete el siguiente formulario para enviar su
+      solicitud</mat-card-subtitle>
+  </mat-card-content>
+</mat-card>
+
+<mat-card-content class="b-t-1">
+  <mat-stepper #stepper>
+    <div class="row">
+      <!-- Informacion personal -->
+      <mat-step [stepControl]="solFormGroup">
+        <form class="m-t-24" [formGroup]="solFormGroup">
+          <ng-template matStepLabel>Info Personal</ng-template>
+          <div>
+            <!-- input -->
+            <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Nombre solicitante
+            </mat-label>
+            <mat-form-field appearance="outline" class="w-100">
+              <input matInput formControlName="nombreUsuario" required placeholder="Nombre completo" />
+              <mat-error *ngIf="solFormGroup.get('nombreUsuario')">
+                El campo es obligatorio
+              </mat-error>
+            </mat-form-field>
+            <!-- input -->
+            <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Contacto
+            </mat-label>
+            <mat-form-field appearance="outline" class="w-100">
+              <input matInput formControlName="contacto" required
+                placeholder="Ingrese su correo / Numero de teléfono" />
+                <mat-error *ngIf="solFormGroup.get('contacto')">
+                  El campo es obligatorio
+                </mat-error>
+            </mat-form-field>
+            <!-- input -->
+            <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Oficina
+            </mat-label>
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Regiones</mat-label>
+              <mat-select [(value)]="valorSeleccionado" formControlName="oficina">
+                <mat-option *ngFor="let item of datos1" [value]="item.region">
+                  {{ item.region }}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="solFormGroup.get('oficina')">
+                El campo es obligatorio
+              </mat-error>
+            </mat-form-field>
+            <!-- input -->
+            <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Departamento
+            </mat-label>
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Departamentos</mat-label>
+              <mat-select [(value)]="departamentoSeleccionado" formControlName="departamento">
+                <mat-option *ngFor="let departamento of datos2" [value]="departamento.nombreDepartamento">
+                  {{ departamento.nombreDepartamento }}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="solFormGroup.get('departamento')">
+                El campo es obligatorio
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="d-flex align-items-center justify-content-between">
+            <button mat-flat-button color="warn" matStepperPrevious>
+              Back
+            </button>
+            <button mat-flat-button color="primary" matStepperNext>Next</button>
+          </div>
+        </form>
+      </mat-step>
+      <!-- Detalle del viaje -->
+      <mat-step [stepControl]="solFormGroup">
+        <form class="m-t-24" [formGroup]="solFormGroup">
+          <ng-template matStepLabel>Detalles del viaje</ng-template>
+          <div>
+            <!-- input -->
+            <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Dirección de salida
+            </mat-label>
+            <mat-form-field appearance="outline" class="w-100">
+              <input matInput formControlName="dirSalida" required />
+              <mat-error *ngIf="solFormGroup.get('dirSalida')">
+                El campo es obligatorio
+              </mat-error>
+            </mat-form-field>
+            <!-- input -->
+            <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Dirección de destino
+            </mat-label>
+            <mat-form-field appearance="outline" class="w-100">
+              <input matInput formControlName="dirDestino" required />
+              <mat-error *ngIf="solFormGroup.get('dirDestino')">
+                El campo es obligatorio
+              </mat-error>
+            </mat-form-field>
+            <div class="row">
+              <div class="col">
+                <!-- input -->
+                <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Fecha ida
+                </mat-label>
+                <mat-form-field class="w-50" appearance="outline">
+                  <mat-label>Fecha de ida</mat-label>
+                  <input matInput [matDatepicker]="fechaDeparto" formControlName="fechaDeparto" />
+                  <mat-hint>MM/DD/YYYY</mat-hint>
+                  <mat-datepicker-toggle matIconSuffix [for]="fechaDeparto"></mat-datepicker-toggle>
+                  <mat-datepicker matDatepickerFormat="dd/MM/yyyy HH:mm" touchUi #fechaDeparto></mat-datepicker>
+                </mat-form-field>
+              </div>
+              <div class="col">
+                <!-- input -->
+                <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Fecha regreso
+                </mat-label>
+                <mat-form-field class="w-50" appearance="outline">
+                  <mat-label>Fecha de regreso</mat-label>
+                  <input matInput [matDatepicker]="fechaRetorno" formControlName="fechaRetorno" />
+                  <mat-hint>MM/DD/YYYY</mat-hint>
+                  <mat-datepicker-toggle matIconSuffix [for]="fechaRetorno"></mat-datepicker-toggle>
+                  <mat-datepicker touchUi #fechaRetorno></mat-datepicker>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <!-- input -->
+                <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Hora ida
+                </mat-label>
+                <mat-form-field>
+                  <mat-label>Seleccione una hora</mat-label>
+                  <mat-select [(value)]="horaIda" formControlName="horaIda">
+                    <mat-option *ngFor="let horaIda of horas" [value]="horaIda.value">
+                      {{ horaIda.label }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col">
+                <!-- input -->
+                <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Hora de regreso
+                </mat-label>
+                <mat-form-field>
+                  <mat-label>Seleccione una hora</mat-label>
+                  <mat-select [(value)]="horaVuelta" formControlName="horaVuelta">
+                    <mat-option *ngFor="let hora of horas" [value]="hora.value">
+                      {{ hora.label }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <div class="d-flex align-items-center justify-content-between">
+            <button mat-flat-button color="warn" matStepperPrevious>
+              Back
+            </button>
+            <button mat-flat-button color="primary" matStepperNext>Next</button>
+          </div>
+        </form>
+      </mat-step>
+      <!-- Costos del viaje -->
+      <mat-step [stepControl]="solFormGroup">
+        <form class="m-t-24" [formGroup]="solFormGroup">
+          <ng-template matStepLabel>Costos</ng-template>
+          <div>
+            <!-- input -->
+            <h2>Transportes</h2>
+            <mat-divider [inset]="false"></mat-divider>
+            <br>
+            <h4 class="mat-subtitle-2 f-w-600">
+              Seleccione los transportes a utilizar:
+            </h4>
+            <div [formGroup]="transporte">
+              <div class="row">
+                <div class="col">
+                  <mat-checkbox formControlName="avion" [(ngModel)]="avionCheck" color="primary">Avión</mat-checkbox>
+                </div>
+                <div class="col" *ngIf="avionCheck">
+                  <mat-form-field appearance="outline" class="w-50">
+                    <input [disabled]="isDisabled('avion')" matInput formControlName="avionmonto" required
+                      placeholder="Monto destinado" />
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <mat-checkbox formControlName="vehiculo" [(ngModel)]="vehiculoCheck" color="primary">Vehículo
+                    ALS</mat-checkbox>
+                </div>
+                <div class="col" *ngIf="vehiculoCheck">
+                  <mat-form-field appearance="outline" class="w-50">
+                    <input [disabled]="!vehiculoCheck" matInput formControlName="vehiculomonto" required
+                      placeholder="Monto destinado" />
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <mat-checkbox formControlName="ferry" [(ngModel)]="ferryCheck" color="primary">Ferry</mat-checkbox>
+                </div>
+                <div class="col" *ngIf="ferryCheck">
+                  <mat-form-field appearance="outline" class="w-50">
+                    <input [disabled]="!ferryCheck" matInput formControlName="ferrymonto" required
+                      placeholder="Monto destinado" />
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <mat-checkbox formControlName="tren" [(ngModel)]="trenCheck" color="primary">Tren</mat-checkbox>
+                </div>
+                <div class="col" *ngIf="trenCheck">
+                  <mat-form-field appearance="outline" class="w-50">
+                    <input [disabled]="!trenCheck" matInput formControlName="trenmonto" required
+                      placeholder="Monto destinado" />
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <mat-checkbox formControlName="taxi" [(ngModel)]="taxiCheck" color="primary">Taxi</mat-checkbox>
+                </div>
+                <div class="col" *ngIf="taxiCheck">
+                  <mat-form-field appearance="outline" class="w-50">
+                    <input [disabled]="!taxiCheck" matInput formControlName="taximonto" required
+                      placeholder="Monto destinado" />
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <mat-checkbox formControlName="otro" [(ngModel)]="otroCheck" color="primary">Otro</mat-checkbox>
+                </div>
+                <div class="col" *ngIf="otroCheck">
+                  <mat-form-field appearance="outline" class="w-50">
+                    <input [disabled]="!otroCheck" matInput formControlName="otromonto" required
+                      placeholder="Monto destinado" />
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+            <mat-divider [inset]="false"></mat-divider>
+            <h3>Hospedaje</h3>
+            <mat-divider [inset]="false"></mat-divider>
+            <div [formGroup]="hospedaje">
+              <br>
+              <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Nombre del hotel
+              </mat-label>
+              <mat-form-field appearance="outline" class="w-100">
+                <input [disabled]="hospedajeCheck" matInput formControlName="hotelnombre"
+                  placeholder="Nombre del hotel" />
+              </mat-form-field>
+
+              <div class="row">
+                <div class="col">
+                  <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Noches a hospedarse
+                  </mat-label>
+                  <mat-form-field appearance="outline" class="w-50">
+                    <input required matInput formControlName="cantnoches" placeholder="Noches a hospedarse"
+                      type="number" min="0" />
+                  </mat-form-field>
+                </div>
+                <div class="col">
+                  <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Costo por noche
+                  </mat-label>
+                  <mat-form-field appearance="outline" class="w-50">
+                    <input required matInput formControlName="costonoche" placeholder="Costo por noche" type="number"
+                      min="0" />
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+            <mat-divider [inset]="false"></mat-divider>
+            <br>
+            <h3 class="mat-subtitle-2 f-w-600 d-block m-b-16">
+              Total de alimentación
+            </h3>
+            <mat-form-field appearance="outline" class="w-100">
+              <input type="number" matInput formControlName="costoAlimento" placeholder="Ingrese el total para alimento"
+                required min="0" />
+            </mat-form-field>
+            <mat-divider [inset]="false"></mat-divider>
+            <br>
+            <h3 class="mat-subtitle-2 f-w-600 d-block m-b-16">
+              Calcular total
+            </h3>
+            <button mat-flat-button color="primary" (click)="calcuarCosteTotal()">
+              Calcular
+            </button>
+            <div class="row">
+              <br>   
+            </div>
+            <div class="row">
+              <div class="col">
+                <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">
+                  Total de Transportes
+                </mat-label>
+                <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">
+                  {{ solFormGroup.get("costoTransporte")?.value }}
+                </mat-label>
+              </div>
+              <mat-divider [inset]="false" [vertical]="true"></mat-divider>
+              <div class="col">
+                <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">
+                  Total de Hospedaje
+                </mat-label>
+                <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">
+                  {{ solFormGroup.get("costoHospedaje")?.value }}
+                </mat-label>
+                <mat-divider [inset]="true" [vertical]="true"></mat-divider>
+              </div>
+              <mat-divider [inset]="false" [vertical]="true"></mat-divider>
+              <div class="col">
+                <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">
+                  Total de Alimentación
+                </mat-label>
+                <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">
+                  {{solFormGroup.get('costoAlimento')?.value}}
+                </mat-label>
+              </div>
+              <mat-divider [inset]="false" [vertical]="true"></mat-divider>
+              <div class="col">
+                <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">
+                  Total a Solicitar
+                </mat-label>
+                <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">
+                  {{solFormGroup.get('costoTotal')?.value}}
+                </mat-label>
+              </div>
+            </div>
+          </div>
+          <mat-divider [inset]="false"></mat-divider>
+          <div class="d-flex align-items-center justify-content-between">
+            <button mat-flat-button color="warn" matStepperPrevious>
+              Back
+            </button>
+            <button mat-flat-button color="primary" matStepperNext>Next</button>
+          </div>
+        </form>
+      </mat-step>
+      <!-- Cierre -->
+      <mat-step [stepControl]="solFormGroup">
+        <form [formGroup]="solFormGroup">
+          <ng-template matStepLabel>Confirmar</ng-template>
+          <div>
+            <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Propuesta de agenda para el viaje
+            </mat-label>
+            <mat-form-field appearance="outline" class="w-100">
+              <textarea formControlName="propuestaAgenda" rows="5" matInput required
+                placeholder="Exponga su agenda propuesta incluyendo información como: Actividades a realizar, reuniones agendadas, N° de trabajo, eventos a asistir."></textarea>
+            </mat-form-field>
+            <div class="row">
+              <div class="col">
+                <!-- input -->
+                <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">P.O. Nos
+                </mat-label>
+                <mat-form-field appearance="outline" class="w-50">
+                  <input formControlName="ponos" matInput placeholder="Opcional" />
+                </mat-form-field>
+              </div>
+              <div class="col">
+                <!-- input -->
+                <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">N° proyecto
+                </mat-label>
+                <mat-form-field appearance="outline" class="w-50">
+                  <input formControlName="nproyecto" matInput placeholder="Opcional" />
+                </mat-form-field>
+              </div>
+            </div>
+            <!-- input -->
+            <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">¿El costo fue reajustado?
+            </mat-label>
+            <mat-radio-group aria-label="Select an option">
+              <mat-radio-button value="1" color="primary" (change)="radioValue = 1">Si</mat-radio-button>
+              <mat-radio-button value="2" color="primary" (change)="radioValue = 2">No</mat-radio-button>
+            </mat-radio-group>
+
+            <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16" *ngIf="radioValue === 1">
+              Si el monto fue reajustado, indicar:
+            </mat-label>
+            <mat-form-field appearance="outline" class="w-100" *ngIf="radioValue === 1">
+              <input matInput formControlName="clienteIntercompannia" required
+                placeholder="Ingrese si fue reajustado por cliente o intercompannia" />
+            </mat-form-field>
+
+            <!-- input -->
+            <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Otros detalles a tomar en cuenta
+            </mat-label>
+            <mat-form-field appearance="outline" class="w-100">
+              <textarea matInput formControlName="notasExtras" rows="5"></textarea>
+            </mat-form-field>
+
+            <h4 class="mat-headline-6 m-t-24">Terminos y condiciones</h4>
+            <p class="m-t-8 f-s-14">
+              Recordatorio: ALS Inspection no ha establecido requisitos de
+              viáticos para los viajes de negocios; sin embargo, esperamos que se
+              utilice el juicio adecuado al tomar decisiones sobre los gastos de
+              viaje. Por ejemplo, las comidas diurnas no deben superar las £10
+              cada una, la cena no debe exceder las £20, seleccionar hoteles que
+              incluyan desayuno gratuito, internet y/o uso de la oficina, y elegir
+              aerolíneas que ofrezcan las mejores tarifas con descuento para tu
+              destino. Si tienes dudas o necesitas aclaraciones, por favor, hable
+              con su Jefe de Línea. Tenga en cuenta que si el viaje no está
+              correctamente autorizado y reservado a través del Organizador de
+              Viajes, el viajero podría tener que asumir los costos. Siempre se
+              debe usar el sentido común.
+            </p>
+            <mat-checkbox checked color="primary">¿Está de acuerdo?</mat-checkbox>
+            <div class="d-flex justify-content-between m-t-16">
+              <button mat-flat-button color="warn" matStepperPrevious>
+                Back
+              </button>
+              <button mat-flat-button color="primary" matStepperNext>Next</button>
+            </div>
+          </div>
+        </form>
+      </mat-step>
+      <!-- Resumen -->
+      <mat-step [stepControl]="solFormGroup">
+        <ng-template matStepLabel>Resumen</ng-template>
+        <div>
+          <h2>Resumen de la solicitud</h2>
+          <mat-card class="b-1 shadow-none">
+            <mat-card-header>
+              <mat-card-title>Solicitud</mat-card-title>
+            </mat-card-header>
+            <mat-card-content class="b-t-1">
+              <mat-list>
+                <mat-list-item>
+                  <span matListItemTitle class="f-s-16 f-w-600">Nombre Solicitante</span>
+                  <span matListItemLine class="mat-body-1">
+                    {{ solFormGroup.get("nombreUsuario")?.value }}
+                  </span>
+                </mat-list-item>
+                <mat-list-item>
+                  <span matListItemTitle class="f-s-16 f-w-600">Contacto</span>
+                  <span matListItemLine class="mat-body-1">
+                    {{ solFormGroup.get("contacto")?.value }}
+                  </span>
+                </mat-list-item>
+                <mat-list-item>
+                  <span matListItemTitle class="f-s-16 f-w-600">Oficina</span>
+                  <span matListItemLine class="mat-body-1">
+                    {{ solFormGroup.get("oficina")?.value }}
+                  </span>
+                </mat-list-item>
+                <mat-list-item>
+                  <span matListItemTitle class="f-s-16 f-w-600">Departamento</span>
+                  <span matListItemLine class="mat-body-1">
+                    {{ solFormGroup.get("departamento")?.value }}
+                  </span>
+                </mat-list-item>
+                <mat-list-item>
+                  <span matListItemTitle class="f-s-16 f-w-600">Dirección de salida</span>
+                  <span matListItemLine class="mat-body-1">
+                    {{ solFormGroup.get("dirSalida")?.value }}
+                  </span>
+                </mat-list-item>
+                <mat-list-item>
+                  <span matListItemTitle class="f-s-16 f-w-600">Dirección de destino</span>
+                  <span matListItemLine class="mat-body-1">
+                    {{ solFormGroup.get("dirDestino")?.value }}
+                  </span>
+                </mat-list-item>
+                <mat-list-item>
+                  <span matListItemTitle class="f-s-16 f-w-600">Fecha de ida</span>
+                  <span matListItemLine class="mat-body-1">
+                    {{
+                    solFormGroup.get("fechaDeparto")?.value
+                    | date : "dd/MM/yyyy"
+                    }}
+                  </span>
+                </mat-list-item>
+                <mat-list-item>
+                  <span matListItemTitle class="f-s-16 f-w-600">Hora de salida</span>
+                  <span matListItemLine class="mat-body-1">
+                    {{ solFormGroup.get("horaIda")?.value }}
+                  </span>
+                </mat-list-item>
+                <mat-list-item>
+                  <span matListItemTitle class="f-s-16 f-w-600">Fecha de regreso</span>
+                  <span matListItemLine class="mat-body-1">
+                    {{
+                    solFormGroup.get("fechaRetorno")?.value
+                    | date : "dd/MM/yyyy"
+                    }}
+                  </span>
+                </mat-list-item>
+                <mat-list-item>
+                  <span matListItemTitle class="f-s-16 f-w-600">Hora de regreso</span>
+                  <span matListItemLine class="mat-body-1">
+                    {{ solFormGroup.get("horaVuelta")?.value }}
+                  </span>
+                </mat-list-item>
+                <mat-list-item>
+                  <span matListItemTitle class="f-s-16 f-w-600">Transportes a utilizar</span>
+                  <span matListItemLine class="mat-body-1">
+                    {{ solFormGroup.get("transportes")?.value }}
+                  </span>
+                </mat-list-item>
+                <mat-list-item>
+                  <span matListItemTitle class="f-s-16 f-w-600">Costo transportes</span>
+                  <span matListItemLine class="mat-body-1">
+                    {{ solFormGroup.get("costoTransporte")?.value }}
+                  </span>
+                </mat-list-item>
+                <mat-list-item>
+                  <span matListItemTitle class="f-s-16 f-w-600">Hotel</span>
+                  <span matListItemLine class="mat-body-1">
+                    {{ solFormGroup.get("hotel")?.value }}
+                  </span>
+                </mat-list-item>
+                <mat-list-item>
+                  <span matListItemTitle class="f-s-16 f-w-600">Noches a hospedarse</span>
+                  <span matListItemLine class="mat-body-1">
+                    {{ solFormGroup.get("cantnoches")?.value }}
+                  </span>
+                </mat-list-item>
+                <mat-list-item>
+                  <span matListItemTitle class="f-s-16 f-w-600">Costo por noche</span>
+                  <span matListItemLine class="mat-body-1">
+                    {{ solFormGroup.get("costonoche")?.value }}
+                  </span>
+                </mat-list-item>
+                <mat-list-item>
+                  <span matListItemTitle class="f-s-16 f-w-600">Total hospedaje</span>
+                  <span matListItemLine class="mat-body-1">
+                    {{ solFormGroup.get("costoHospedaje")?.value }}
+                  </span>
+                </mat-list-item>
+                <mat-list-item>
+                  <span matListItemTitle class="f-s-16 f-w-600">Total de alimento</span>
+                  <span matListItemLine class="mat-body-1">
+                    {{ solFormGroup.get("costoAlimento")?.value }}
+                  </span>
+                </mat-list-item>
+                <mat-list-item>
+                  <span matListItemTitle class="f-s-16 f-w-600">Costo Total</span>
+                  <span matListItemLine class="mat-body-1">
+                    {{ solFormGroup.get("costoTotal")?.value }}
+                  </span>
+                </mat-list-item>
+                <mat-list-item>
+                  <span matListItemTitle class="f-s-16 f-w-600">Propuesta de agenda</span>
+                  <span matListItemLine class="mat-body-1">
+                    {{ solFormGroup.get("propuestaAgenda")?.value }}
+                  </span>
+                </mat-list-item>
+                <mat-list-item>
+                  <span matListItemTitle class="f-s-16 f-w-600">P.O. Nos</span>
+                  <span matListItemLine class="mat-body-1">
+                    {{ solFormGroup.get("ponos")?.value }}
+                  </span>
+                </mat-list-item>
+                <mat-list-item>
+                  <span matListItemTitle class="f-s-16 f-w-600">N° proyecto</span>
+                  <span matListItemLine class="mat-body-1">
+                    {{ solFormGroup.get("nproyecto")?.value }}
+                  </span>
+                </mat-list-item>
+                <mat-list-item>
+                  <span matListItemTitle class="f-s-16 f-w-600">Costo reajustado</span>
+                  <span matListItemLine class="mat-body-1">
+                    {{ solFormGroup.get("clienteIntercompannia")?.value }}
+                  </span>
+                </mat-list-item>
+                <mat-list-item>
+                  <span matListItemTitle class="f-s-16 f-w-600">Otros detalles</span>
+                  <span matListItemLine class="mat-body-1">
+                    {{ solFormGroup.get("notasExtras")?.value }}
+                  </span>
+                </mat-list-item>
+              </mat-list>
+            </mat-card-content>
+          </mat-card>
+
+          <!-- Botones finish y back -->
+          <div class="d-flex justify-content-between m-t-16">
+            <button mat-flat-button color="warn" matStepperPrevious>
+              Back
+            </button>
+            <button mat-flat-button color="primary" (click)="checkData()">
+              Finish
+            </button>
+          </div>
+        </div>
+      </mat-step>
+    </div>
+  </mat-stepper>
+</mat-card-content>

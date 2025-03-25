@@ -1,0 +1,100 @@
+<mat-card class="cardWithShadow">
+  <mat-card-content class="p-0">
+    <mat-tab-group mat-stretch-tabs="false" animationDuration="0ms">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <div class="d-flex align-items-center">
+            <mat-icon>
+              <i-tabler name="user-circle" class="icon-20 m-r-8"></i-tabler>
+            </mat-icon>
+          </div>
+          Cuenta
+        </ng-template>
+        <mat-card-content class="p-y-24 b-t-1">
+          <div class="row">
+            <div class="col-sm-6">
+              <mat-card class="cardWithShadow">
+                <mat-card-content class="p-y-24">
+                  <mat-card-title>Datos de Usuario</mat-card-title>
+                  <mat-card-subtitle class="mat-body-1">Tus datos de usuario se encuentran aquí</mat-card-subtitle>
+                  <mat-card-content id="profile-card" class="text-center p-24 ">
+
+                    <span class=" rounded-circle object-cover icon-35 profile-dd initials-background "
+                      style="margin: 0 auto;">
+                      {{ getInitials() }}
+                    </span>
+
+                    <h4 mat-card-title class="card-title m-t-16 m-b-0">
+                      {{ nombre }} {{ apellidoPaterno}}
+                    </h4>
+                    <span class="f-s-12"> {{ email }}</span>
+                    
+                    <mat-divider></mat-divider>
+                    <div mat-card-title class="m-t-20">
+                      <span class="f-s-14">
+                        {{ cargo }}</span>
+                    </div>
+                  </mat-card-content>
+
+                </mat-card-content>
+              </mat-card>
+            </div>
+            <div class="col-sm-6">
+              <mat-card class="cardWithShadow">
+                <form class="m-t-24" (ngSubmit)="enviar()" [formGroup]="form">
+                  <mat-card-content class="p-y-24">
+                    <mat-card-title>Cambio de Contraseña</mat-card-title>
+                
+                    <!-- Contraseña Actual -->
+                    <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">Contraseña Actual</mat-label>
+                    <mat-form-field appearance="outline" class="w-100" color="primary">
+                      <input matInput [type]="hide1 ? 'password' : 'text'" formControlName="actual_password" />
+                      <button mat-icon-button matSuffix (click)="toggleShowPassword1()" type="button">
+                        <mat-icon>{{hide1 ? 'visibility' : 'visibility_off'}}</mat-icon>
+                      </button>
+                      <mat-error *ngIf="f['actual_password'].touched && f['actual_password'].errors?.['required']">
+                        La actual contraseña es obligatoria.
+                      </mat-error>
+                    </mat-form-field>
+                
+                    <!-- Nueva Contraseña -->
+                    <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">Nueva Contraseña</mat-label>
+                    <mat-form-field appearance="outline" class="w-100" color="primary">
+                      <input matInput [type]="hide2 ? 'password' : 'text'" formControlName="new_password_1" />
+                      <button mat-icon-button matSuffix (click)="toggleShowPassword2()" type="button">
+                        <mat-icon>{{hide2 ? 'visibility' : 'visibility_off'}}</mat-icon>
+                      </button>
+                      <mat-error *ngIf="f['new_password_1'].touched && f['new_password_1'].errors?.['required']">
+                        La nueva contraseña es obligatoria.
+                      </mat-error>
+                    </mat-form-field>
+                
+                    <!-- Confirmar Contraseña -->
+                    <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">Confirmar Contraseña</mat-label>
+                    <mat-form-field appearance="outline" class="w-100" color="primary">
+                      <input matInput [type]="hide3 ? 'password' : 'text'" formControlName="new_password" />
+                      <button mat-icon-button matSuffix (click)="toggleShowPassword3()" type="button">
+                        <mat-icon>{{hide3 ? 'visibility' : 'visibility_off'}}</mat-icon>
+                      </button>
+                      <mat-error *ngIf="f['new_password'].touched ">
+                        <span *ngIf="!form.errors?.['passwordMismatch'&& f['new_password'].errors?.['required'] ]">
+                          Confirmar la nueva contraseña es obligatorio.
+                        </span>
+                      </mat-error>
+                    </mat-form-field>
+                    <mat-error *ngIf="form.errors?.['passwordMismatch']">
+                     <small>Las contraseñas no coinciden.</small> 
+                    </mat-error>
+                  </mat-card-content>
+                  <div class="text-right p-24 p-t-0">
+                    <button mat-flat-button color="primary" class="m-r-8" [disabled]="!form.valid">Confirmar</button>
+                  </div>
+                </form>
+              </mat-card>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-card-content>
+</mat-card>
